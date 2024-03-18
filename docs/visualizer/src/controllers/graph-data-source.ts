@@ -14,6 +14,7 @@ import { fetchJsonAsync } from "../utilities/index.js";
 
 import {
   GraphModel,
+  GraphNode,
   GraphState,
   ValuePathSplitter,
   ValuesListSplitter,
@@ -22,7 +23,7 @@ import { saltData } from "./salt-data.js";
 
 export type NewGraphStateCallbackFn = (
   state: GraphState,
-  listOfComponents: string[],
+  listOfComponents: string[]
 ) => void;
 
 export type NewDictionaryCallbackFn = (dictionary: string[]) => void;
@@ -70,6 +71,31 @@ function mapToItemFormat(input: Record<string, unknown>) {
   }, {});
 }
 
+function isColorTokenWithOpacity(item: any) {
+  if (typeof item.$value === "object") {
+    return (
+      item.$type === "color" &&
+      "color" in item.$value &&
+      "opacity" in item.$value
+    );
+  }
+  return false;
+}
+
+function prefixOfSaltCategory(cat: string) {
+  return cat.substring(0, cat.lastIndexOf("."));
+}
+
+const catMap: Record<string, GraphNode["type"]> = {
+  foundations: "foundation",
+  palette: "palette",
+  characteristics: "characteristic",
+};
+
+function typeOfCat(cat: string): GraphNode["type"] {
+  const catShort = cat.substring(0, cat.indexOf("."));
+  return catMap[catShort] || "orphan-category";
+}
 export class GraphDataSource {
   listOfComponents: string[] = [];
 
@@ -122,18 +148,25 @@ export class GraphDataSource {
         }
         for (const [tokenKey, tokenItem] of Object.entries(groupValue)) {
           const $value = (tokenItem as any)["$value"];
+          const isColorOpacity = isColorTokenWithOpacity(tokenItem);
           const data = {
             [`${layerKey}.${groupKey}.${tokenKey}`]: {
-              value: typeof $value === "string" ? $value : undefined,
+              value:
+                typeof $value === "string"
+                  ? $value
+                  : isColorOpacity
+                    ? // Temporarily link to color, ignore opacity
+                      $value.color
+                    : undefined,
               layer: layerKey,
               group: groupKey,
               // no component data yet
               sets:
-                typeof $value === "object"
-                  ? mapToItemFormat($value)
+                !isColorOpacity && typeof $value === "object"
+                  ? (mapToItemFormat($value) as RawJsonSets)
                   : undefined,
             },
-          }; // satisfies RawSpectrumTokenJson;
+          } satisfies RawSpectrumTokenJson;
           Object.assign(results, data);
         }
       }
@@ -276,7 +309,7 @@ export class GraphDataSource {
         ) {
           const referencedNodeId = foundValue.substring(
             1,
-            foundValue.length - 1,
+            foundValue.length - 1
           );
           // add the adjacency
           // DOES this adjacency ALREADY exist?  If so, merge the valuePath arrays so that
@@ -294,7 +327,7 @@ export class GraphDataSource {
           results.createAdjacency(
             nodeId,
             referencedNodeId,
-            newUniqeValues.join(","),
+            newUniqeValues.join(",")
           );
           // ELSE, it is an actual value...
         } else {
@@ -314,7 +347,7 @@ export class GraphDataSource {
 
     let orphanNodes = results.orphanNodes();
     orphanNodes = orphanNodes.filter(
-      (nodeId) => results._state.nodes[nodeId].type !== "component",
+      (nodeId) => results._state.nodes[nodeId].type !== "component"
     );
     const orphanCategories: string[] = [];
 
@@ -323,9 +356,10 @@ export class GraphDataSource {
       const orphanCategory = parts[0];
       if (!orphanCategories.includes(orphanCategory)) {
         orphanCategories.push(orphanCategory);
+        console.log(typeOfCat(orphanCategory));
         results.createNode({
-          type: "orphan-category",
-          id: `${orphanCategory}-*`,
+          type: typeOfCat(orphanCategory),
+          id: `${prefixOfSaltCategory(orphanCategory)}-*`,
           x: 0,
           y: 0,
         });
@@ -339,7 +373,10 @@ export class GraphDataSource {
       nodeIds.forEach((nodeId) => {
         if (nodeId.indexOf(prefix) === 0) {
           // THIS NODE IS IN THIS CATEGORY
-          results.createAdjacency(`${orphanCategory}-*`, nodeId);
+          results.createAdjacency(
+            `${prefixOfSaltCategory(orphanCategory)}-*`,
+            nodeId
+          );
         }
       });
     });

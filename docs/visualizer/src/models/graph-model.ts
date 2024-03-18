@@ -18,7 +18,13 @@ export const ValuePathSplitter = ":^;";
 export const ValuesListSplitter = ":*;";
 
 export interface GraphNode {
-  type: "token" | "component" | "orphan-category" | "layer";
+  type:
+    | "token"
+    | "component"
+    | "orphan-category"
+    | "foundation"
+    | "palette"
+    | "characteristic";
   id: GraphNodeId;
   x: number;
   y: number;
@@ -115,7 +121,7 @@ export class GraphModel {
     // update the results object with a filtered array
     adjacencies.forEach(
       (adjacencyList) =>
-        (result = result.filter((x) => !adjacencyList.includes(x))),
+        (result = result.filter((x) => !adjacencyList.includes(x)))
     );
     return result;
   }
