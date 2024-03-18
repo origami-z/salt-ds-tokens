@@ -18,6 +18,7 @@ import {
   ValuePathSplitter,
   ValuesListSplitter,
 } from "../models/graph-model";
+import { saltData } from "./salt-data.js";
 
 export type NewGraphStateCallbackFn = (
   state: GraphState,
@@ -42,6 +43,8 @@ type FoundValuesItem = {
 
 interface RawJsonItem {
   component?: string;
+  layer?: string;
+  group?: string;
   value?: string;
   sets?: RawJsonSets;
 }
@@ -55,8 +58,22 @@ const SOURCE_PATH =
 
 const MANIFEST_JSON = "manifest.json";
 
+function mapToItemFormat(input: Record<string, unknown>) {
+  return Object.keys(input).reduce<Record<string, unknown>>((prev, current) => {
+    if (current.startsWith("$")) {
+      prev[current.substring(1)] = { value: input[current] };
+      return prev;
+    } else {
+      prev[current] = { value: input[current] };
+      return prev;
+    }
+  }, {});
+}
+
 export class GraphDataSource {
   listOfComponents: string[] = [];
+
+  listOfPaletteTokens: string[] = [];
 
   listOfOrphanTokens: string[] = [];
 
@@ -72,16 +89,58 @@ export class GraphDataSource {
       return this._completeSpectrumTokenJson;
     }
 
-    const listOfSourceFiles = await fetchJsonAsync(SOURCE_PATH + MANIFEST_JSON);
+    // const listOfSourceFiles = await fetchJsonAsync(SOURCE_PATH + MANIFEST_JSON);
+
+    // const results: RawSpectrumTokenJson = {};
+
+    // for (let index = 0; index < listOfSourceFiles.length; index++) {
+    //   const data = (await fetchJsonAsync(
+    //     SOURCE_PATH + listOfSourceFiles[index],
+    //   )) as RawSpectrumTokenJson;
+    //   Object.assign(results, data);
+    // }
+
+    // return results;
 
     const results: RawSpectrumTokenJson = {};
 
-    for (let index = 0; index < listOfSourceFiles.length; index++) {
-      const data = (await fetchJsonAsync(
-        SOURCE_PATH + listOfSourceFiles[index],
-      )) as RawSpectrumTokenJson;
-      Object.assign(results, data);
+    // Turn Salt data into a flat key-value pairs
+    const data = saltData;
+
+    for (const [layerKey, layerValue] of Object.entries(data)) {
+      if (Array.isArray(layerValue)) {
+        // skip for non-token definitions
+      }
+      if (typeof layerValue !== "object") {
+        console.warn(`${layerKey}, ${layerValue} is not object`);
+        continue;
+      }
+      for (const [groupKey, groupValue] of Object.entries(layerValue)) {
+        if (typeof groupValue !== "object") {
+          console.warn(`${groupKey}, ${groupValue} is not object`);
+          continue;
+        }
+        for (const [tokenKey, tokenItem] of Object.entries(groupValue)) {
+          const $value = (tokenItem as any)["$value"];
+          const data = {
+            [`${layerKey}.${groupKey}.${tokenKey}`]: {
+              value: typeof $value === "string" ? $value : undefined,
+              layer: layerKey,
+              group: groupKey,
+              // no component data yet
+              sets:
+                typeof $value === "object"
+                  ? mapToItemFormat($value)
+                  : undefined,
+            },
+          }; // satisfies RawSpectrumTokenJson;
+          Object.assign(results, data);
+        }
+      }
     }
+    console.log({ results });
+
+    this._completeSpectrumTokenJson = results;
 
     return results;
   }

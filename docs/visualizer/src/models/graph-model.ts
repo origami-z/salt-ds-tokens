@@ -18,7 +18,7 @@ export const ValuePathSplitter = ":^;";
 export const ValuesListSplitter = ":*;";
 
 export interface GraphNode {
-  type: "token" | "component" | "orphan-category";
+  type: "token" | "component" | "orphan-category" | "layer";
   id: GraphNodeId;
   x: number;
   y: number;
