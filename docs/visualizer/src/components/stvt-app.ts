@@ -205,7 +205,7 @@ export class StvtApp extends LitElement {
     // this allows us to persist the 'no filters' state via
     // a url like this... http://stvt.adobe.com/?filter=
     if (!this.urlParams.has("filter")) {
-      initialFilters.push("spectrum", "light", "desktop");
+      initialFilters.push("light", "medium");
     }
 
     this.appController = new AppController({
@@ -217,10 +217,10 @@ export class StvtApp extends LitElement {
 
     this.graphController.onDictionaryAvailable(
       (newDictionary: StringMatchDictionaryItem[]) =>
-        (this.dictionary = newDictionary),
+        (this.dictionary = newDictionary)
     );
     this.graphController.onNewGraphState(
-      (newGraphState: GraphState) => (this.graphState = newGraphState),
+      (newGraphState: GraphState) => (this.graphState = newGraphState)
     );
     this.appController.onNewAppState((newAppState: AppState) => {
       this.appState = newAppState;
@@ -253,7 +253,7 @@ export class StvtApp extends LitElement {
         this.appController.appModel.setSetFilters(newFilters);
         this.appController.emitNewAppState();
       },
-      false,
+      false
     );
 
     window.addEventListener("keydown", (e: KeyboardEvent) => {
@@ -292,16 +292,16 @@ export class StvtApp extends LitElement {
             e.preventDefault();
             try {
               const sidebarEl = this.shadowRoot?.getElementById(
-                "stvt-sidebar",
+                "stvt-sidebar"
               ) as HTMLElement;
               const searchEl = sidebarEl.shadowRoot?.getElementById(
-                "stvt-search",
+                "stvt-search"
               ) as HTMLElement;
               const inputEl = searchEl.shadowRoot?.getElementById("search");
               inputEl?.focus();
             } catch (e) {
               console.info(
-                "failed to traverse shadow dom looking for search input to focus",
+                "failed to traverse shadow dom looking for search input to focus"
               );
             }
           }
@@ -354,7 +354,7 @@ export class StvtApp extends LitElement {
         window.history.pushState(
           {},
           "",
-          `${location.pathname}?${this.urlParams}`,
+          `${location.pathname}?${this.urlParams}`
         );
       }
     }
@@ -387,7 +387,7 @@ export class StvtApp extends LitElement {
           @set-spectrum-color-theme=${(e: CustomEvent) =>
             this.appController.handleEvent(
               "set-spectrum-color-theme",
-              e.detail,
+              e.detail
             )}
           @filters-selected=${(e: CustomEvent) =>
             this.appController.handleEvent("filters-selected", e.detail)}
@@ -440,7 +440,7 @@ export class StvtApp extends LitElement {
           @set-zoom-centered-on-canvas=${(e: CustomEvent) =>
             this.appController.handleEvent(
               "set-zoom-centered-on-canvas",
-              e.detail,
+              e.detail
             )}
           @set-fullscreen-mode=${(e: CustomEvent) =>
             this.appController.handleEvent("set-fullscreen-mode", e.detail)}
