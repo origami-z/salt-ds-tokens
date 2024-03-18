@@ -3,13 +3,6 @@ name: Deploy Docs
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: [main]
-
-  # Runs after successful release
-  workflow_run:
-    workflows: ["Release"]
-    types:
-      - completed
     branches:
       - main
 
@@ -30,8 +23,6 @@ concurrency:
 
 jobs:
   deploy:
-    # Only run if triggered manually, by push, or if the release workflow succeeded
-    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
