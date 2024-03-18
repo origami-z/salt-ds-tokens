@@ -25,11 +25,11 @@ import { StringMatchDictionaryItem } from "../workers/string-match";
 
 export type NewGraphStateCallbackFn = (
   state: GraphState,
-  listOfComponents: string[],
+  listOfComponents: string[]
 ) => void;
 
 export type NewDictionaryCallbackFn = (
-  dictionary: StringMatchDictionaryItem[],
+  dictionary: StringMatchDictionaryItem[]
 ) => void;
 
 // type GraphTraversalNodeTuple = [id:GraphNodeId,distance:number];
@@ -132,7 +132,7 @@ export class GraphController {
 
   getUpstreamGraphFrom(
     nodes: GraphNodeId[],
-    sourceGraph: GraphModel = this.completeGraphModel,
+    sourceGraph: GraphModel = this.completeGraphModel
   ): GraphModel {
     const results = new GraphModel();
     const nodesToAdd: string[] = [...nodes];
@@ -177,13 +177,13 @@ export class GraphController {
 
   getDescendentIntersectNodes(...nodeIds: string[]): string[] {
     const arrayOfArraysOfNodeids = nodeIds.map((id) =>
-      Object.keys(this.getDownstreamGraphFrom(id)._state.nodes),
+      Object.keys(this.getDownstreamGraphFrom(id)._state.nodes)
     );
     if (arrayOfArraysOfNodeids.length <= 1) {
       return [];
     }
     const result = arrayOfArraysOfNodeids.reduce((a, b) =>
-      a.filter((c) => b.includes(c)),
+      a.filter((c) => b.includes(c))
     );
     return result;
   }
@@ -208,7 +208,7 @@ export class GraphController {
               ...new Set([...targetAdjacencies, ...sourceAdjacencies]),
             ];
           }
-        },
+        }
       );
     });
 
@@ -232,7 +232,13 @@ export class GraphController {
     this.baseDisplayGraphModel = this.completeGraphModel.filter((node) => {
       const isComponent = node.type === "component";
       const isOrphanCategory = node.type === "orphan-category";
-      return isComponent || isOrphanCategory;
+      return (
+        isComponent ||
+        isOrphanCategory ||
+        node.type === "characteristic" ||
+        node.type === "foundation" ||
+        node.type === "palette"
+      );
     });
 
     this.updateDisplayGraph();
@@ -243,7 +249,7 @@ export class GraphController {
   emitNewGraphState() {
     const newState = this.displayGraphModel.state;
     this.newGraphStateCallbacks.forEach((cb) =>
-      cb(newState, [...this.listOfComponents]),
+      cb(newState, [...this.listOfComponents])
     );
   }
 
@@ -292,7 +298,7 @@ export class GraphController {
       componentsDescendents,
       tokenAncestors,
       tokenDescendents,
-      this.baseDisplayGraphModel,
+      this.baseDisplayGraphModel
     );
   }
 
