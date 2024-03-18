@@ -180,9 +180,9 @@ export class StvtSidebar extends LitElement {
     return html`
       <section class="top">
         <div class="branding">
-          <img width="30" height="26" src="./adobe.svg" />
+          <img width="30" height="26" src="./salt-ks-logo.svg" />
           <div>
-            <h1>Spectrum (S1 Legacy)</h1>
+            <h1>Salt</h1>
             <h2>Token Visualization Tool</h2>
           </div>
         </div>
