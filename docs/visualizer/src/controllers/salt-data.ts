@@ -632,31 +632,31 @@ export const saltData = {
     },
     opacity: {
       "palette-opacity-backdrop": {
-        $value: "{foundations.color.opacity-70}",
+        $value: "{foundations.opacity.opacity-70}",
         $type: "number",
       },
       "palette-opacity-disabled": {
-        $value: "{foundations.color.opacity-40}",
+        $value: "{foundations.opacity.opacity-40}",
         $type: "number",
       },
       "palette-opacity-background-readonly": {
-        $value: "{foundations.color.opacity-0}",
+        $value: "{foundations.opacity.opacity-0}",
         $type: "number",
       },
       "palette-opacity-border-readonly": {
-        $value: "{foundations.color.opacity-15}",
+        $value: "{foundations.opacity.opacity-15}",
         $type: "number",
       },
       "palette-opacity-primary-border": {
-        $value: "{foundations.color.opacity-40}",
+        $value: "{foundations.opacity.opacity-40}",
         $type: "number",
       },
       "palette-opacity-secondary-border": {
-        $value: "{foundations.color.opacity-25}",
+        $value: "{foundations.opacity.opacity-25}",
         $type: "number",
       },
       "palette-opacity-tertiary-border": {
-        $value: "{foundations.color.opacity-15}",
+        $value: "{foundations.opacity.opacity-15}",
         $type: "number",
       },
     },
