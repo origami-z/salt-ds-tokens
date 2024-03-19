@@ -39,14 +39,14 @@ type FoundSetsTraversalItem = {
 
 type FoundValuesItem = {
   path: string[];
-  value: string;
+  value: string | Record<string, string>;
 };
 
 interface RawJsonItem {
   component?: string;
   layer?: string;
   group?: string;
-  value?: string;
+  value?: string | Record<string, string>;
   sets?: RawJsonSets;
 }
 
@@ -83,7 +83,7 @@ function isColorTokenWithOpacity(item: any) {
 }
 
 function prefixOfSaltCategory(cat: string) {
-  return cat.substring(0, cat.lastIndexOf("."));
+  return cat.substring(0, cat.lastIndexOf(".") + 1);
 }
 
 const catMap: Record<string, GraphNode["type"]> = {
@@ -155,8 +155,7 @@ export class GraphDataSource {
                 typeof $value === "string"
                   ? $value
                   : isColorOpacity
-                    ? // Temporarily link to color, ignore opacity
-                      $value.color
+                    ? $value
                     : undefined,
               layer: layerKey,
               group: groupKey,
@@ -277,11 +276,11 @@ export class GraphDataSource {
       }
 
       if (foundValues.length === 0) {
-        // console.warn('FAILED TO FIND VALUE FOR', nodeId, nodeData);
+        // console.warn("FAILED TO FIND VALUE FOR", nodeId, nodeData);
       }
 
       // First, we add this BARE NODE to the graph
-      // with no value or downstream adjaciencies...
+      // with no value or downstream adjacencies...
       //
       // This means the graph will ALWAYS have ALL NODES
       //
@@ -298,43 +297,57 @@ export class GraphDataSource {
       // so here we add all appropriate nodes
       // and adjacencies to the graph...
       const rawValues: string[] = [];
+      // console.log("foundValues", JSON.stringify(foundValues));
       foundValues.forEach((foundValueItem) => {
         const valuePath = foundValueItem.path;
         let foundValue = foundValueItem.value.toString();
         // is this found value a downstream adjacency?
         // if so, add it to the graph...
-        if (
-          foundValue.charAt(0) + foundValue.charAt(foundValue.length - 1) ===
-          "{}"
-        ) {
-          const referencedNodeId = foundValue.substring(
-            1,
-            foundValue.length - 1
-          );
-          // add the adjacency
-          // DOES this adjacency ALREADY exist?  If so, merge the valuePath arrays so that
-          // we can display the full list of unique values...
-          const currentSourceNode = results._state.nodes[nodeId];
-          const adjacencyLabels = currentSourceNode.adjacencyLabels
-            ? currentSourceNode.adjacencyLabels
-            : {};
-          const currentLabel = adjacencyLabels[referencedNodeId] || "";
-          const currentLabelValues =
-            currentLabel.length > 0 ? currentLabel.split(",") : [];
-          const newUniqeValues = [
-            ...new Set([...currentLabelValues, ...valuePath]),
-          ];
-          results.createAdjacency(
-            nodeId,
-            referencedNodeId,
-            newUniqeValues.join(",")
-          );
-          // ELSE, it is an actual value...
-        } else {
-          if (valuePath.length > 0) {
-            foundValue += `${ValuePathSplitter}${valuePath.join(",")}`;
+        function addValueToGraph(foundValue: string, path: string[]) {
+          if (
+            foundValue.charAt(0) + foundValue.charAt(foundValue.length - 1) ===
+            "{}"
+          ) {
+            const referencedNodeId = foundValue.substring(
+              1,
+              foundValue.length - 1
+            );
+            // add the adjacency
+            // DOES this adjacency ALREADY exist?  If so, merge the valuePath arrays so that
+            // we can display the full list of unique values...
+            const currentSourceNode = results._state.nodes[nodeId];
+            const adjacencyLabels = currentSourceNode.adjacencyLabels
+              ? currentSourceNode.adjacencyLabels
+              : {};
+            const currentLabel = adjacencyLabels[referencedNodeId] || "";
+            const currentLabelValues =
+              currentLabel.length > 0 ? currentLabel.split(",") : [];
+            const newUniqueValues = [
+              ...new Set([...currentLabelValues, ...path]),
+            ];
+            results.createAdjacency(
+              nodeId,
+              referencedNodeId,
+              newUniqueValues.join(",")
+            );
+            // ELSE, it is an actual value...
+          } else {
+            if (path.length > 0) {
+              foundValue += `${ValuePathSplitter}${path.join(",")}`;
+            }
+            rawValues.push(foundValue);
           }
-          rawValues.push(foundValue);
+        }
+
+        if (typeof foundValue === "string") {
+          addValueToGraph(foundValue, valuePath);
+        } else {
+          for (const [key, value] of Object.entries(foundValue)) {
+            // Slight hack, mark key as path, so they will show up between parent and value nodes
+            // This may create confusion between other real paths, like light/dark modes
+            // Maybe add a toggle to UI to show this? or make the color of link different?
+            addValueToGraph(value, [...valuePath, key]);
+          }
         }
       });
 
@@ -354,9 +367,9 @@ export class GraphDataSource {
     orphanNodes.forEach((id) => {
       const parts = id.split("-");
       const orphanCategory = parts[0];
+      // Create an orphan category node when not existed
       if (!orphanCategories.includes(orphanCategory)) {
         orphanCategories.push(orphanCategory);
-        console.log(typeOfCat(orphanCategory));
         results.createNode({
           type: typeOfCat(orphanCategory),
           id: `${prefixOfSaltCategory(orphanCategory)}-*`,
@@ -369,7 +382,7 @@ export class GraphDataSource {
     // THIS IS NOT EFFICIENT...
     // CONSIDER PUSHING THIS ENTIRE METHOD TO A WORKER
     orphanCategories.forEach((orphanCategory) => {
-      const prefix = `${orphanCategory}-`;
+      const prefix = `${prefixOfSaltCategory(orphanCategory)}`;
       nodeIds.forEach((nodeId) => {
         if (nodeId.indexOf(prefix) === 0) {
           // THIS NODE IS IN THIS CATEGORY

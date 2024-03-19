@@ -31,7 +31,7 @@ export interface AppState {
   isDragging: boolean;
   fullscreenMode: boolean;
   hoverNodeId: string;
-  setFilters: string[];
+  setFilters: string[]; // Filters set on the left panel, e.g. light/dark
   listOfComponents: string[]; // what are the spectrum component names?
   selectedTokens: string[]; // which tokens in the graph are 'selected'?
   selectionAncestorNodes: string[]; // what nodes are ancestors of 'selected' nodes?
