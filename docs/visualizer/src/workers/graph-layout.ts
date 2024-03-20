@@ -103,13 +103,17 @@ function graphLayout(graphState: GraphState) {
     const [id, depth] = nodesToLayout.shift() as GraphTraversalNodeTuple;
 
     const node = graphModel._state.nodes[id];
+    if (node === undefined) {
+      // TODO: shouldn't happen
+      continue;
+    }
     const nodeValue = node.value || "";
     const nodeRowCount = nodeValue.split(ValuesListSplitter).length;
     const adjacencies = graphModel._state.adjacencyList[id] || [];
     adjacencies.sort(); // ensure downstream adjacencies are alpha sorted...
     const nextDepth = depth + 1;
     const adjacencyTuples: GraphTraversalNodeTuple[] = adjacencies.map(
-      (nextId) => [nextId, nextDepth],
+      (nextId) => [nextId, nextDepth]
     );
 
     nodesToLayout.push(...adjacencyTuples);
@@ -157,7 +161,7 @@ function graphLayout(graphState: GraphState) {
   }
 
   for (const [nodeId, listOfInsertionPoints] of Object.entries(
-    mapOfValidInsertionPoints,
+    mapOfValidInsertionPoints
   )) {
     if (listOfInsertionPoints.length > 2) {
       const middleIndex = Math.floor(listOfInsertionPoints.length / 2);

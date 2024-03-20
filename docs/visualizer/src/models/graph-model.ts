@@ -22,9 +22,9 @@ export interface GraphNode {
     | "token"
     | "component"
     | "orphan-category"
-    | "foundation"
-    | "palette"
-    | "characteristic";
+    // additional types
+    | "layer"
+    | "group";
   id: GraphNodeId;
   x: number;
   y: number;
