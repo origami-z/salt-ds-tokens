@@ -109,21 +109,18 @@ export class GraphDataSource {
       return this._completeSpectrumTokenJson;
     }
 
-    if (remoteJsonUrl) {
-      console.log("Loading from remoteJsonUrl", remoteJsonUrl);
-      const data = await fetchJsonAsync(remoteJsonUrl);
-      console.log("Loaded data:", data);
-      return data;
-    }
-
     const results: RawSpectrumTokenJson = {};
 
+    if (remoteJsonUrl) {
+      console.log("Loading from remoteJsonUrl", remoteJsonUrl);
+    }
     // Turn Salt data into a flat key-value pairs
-    const data = saltData;
+    const data = remoteJsonUrl ? await fetchJsonAsync(remoteJsonUrl) : saltData;
 
     for (const [layerKey, layerValue] of Object.entries(data)) {
-      if (Array.isArray(layerValue)) {
+      if (!layerValue || Array.isArray(layerValue)) {
         // skip for non-token definitions
+        continue;
       }
       if (typeof layerValue !== "object") {
         console.warn(`${layerKey}, ${layerValue} is not object`);
