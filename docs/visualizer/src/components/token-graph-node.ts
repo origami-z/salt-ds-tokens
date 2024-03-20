@@ -229,16 +229,13 @@ export class TokenGraphNode extends LitElement {
           fillValue = 300;
         }
         // orphan category colors...
-      } else if (
-        this.type === "orphan-category" ||
-        this.type === "foundation"
-      ) {
+      } else if (this.type === "orphan-category" || this.type === "group") {
         hue = "cyan";
         // highlighted if has downstream graph
         if (this.hasDownstream) {
           fillValue = 300;
         }
-      } else if (this.type === "palette") {
+      } else if (this.type === "layer") {
         hue = "indigo";
         // highlighted if has downstream graph
         if (this.hasDownstream) {
@@ -248,6 +245,7 @@ export class TokenGraphNode extends LitElement {
       // DARKEN the values if the node
       // is 'faded' relative to the
       // currently configured value...
+      // e.g. selected a specific token from the graph
       if (this.isFaded) {
         fillValue -= 100;
         textValue -= 400;

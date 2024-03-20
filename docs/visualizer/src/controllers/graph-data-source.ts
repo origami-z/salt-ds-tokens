@@ -44,7 +44,9 @@ type FoundValuesItem = {
 
 interface RawJsonItem {
   component?: string;
+  /** e.g., Characteristics, Palette, Foundation */
   layer?: string;
+  /** e.g., actionable, accent, info */
   group?: string;
   value?: string | Record<string, string>;
   sets?: RawJsonSets;
@@ -203,6 +205,8 @@ export class GraphDataSource {
     const allTokens = await this.getCompleteSpectrumTokenJson();
     const nodeIds = Object.keys(allTokens);
 
+    // console.log({ nodeIds });
+
     for (let index = 0; index < nodeIds.length; index++) {
       const nodeId = nodeIds[index];
       const nodeData = allTokens[nodeId];
@@ -241,6 +245,34 @@ export class GraphDataSource {
 
         // add the adjacency between the component and this node
         results.createAdjacency(nodeData.component, nodeId);
+      }
+
+      if (nodeData.layer && nodeData.group) {
+        // add the layer node only if it does not yet exist
+
+        // Create an orphan category node when not existed
+        if (results.hasNode(nodeData.layer) === false) {
+          results.createNode({
+            type: "layer",
+            id: nodeData.layer,
+            x: 0,
+            y: 0,
+          });
+        }
+
+        if (results.hasNode(nodeData.group) === false) {
+          results.createNode({
+            type: "group",
+            id: nodeData.group,
+            x: 0,
+            y: 0,
+          });
+
+          results.createAdjacency(nodeData.layer, nodeData.group);
+        }
+
+        // add the adjacency between the group and this node
+        results.createAdjacency(nodeData.group, nodeId);
       }
 
       // use a data structure here to keep track
