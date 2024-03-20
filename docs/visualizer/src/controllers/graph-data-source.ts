@@ -381,7 +381,9 @@ export class GraphDataSource {
 
     let orphanNodes = results.orphanNodes();
     orphanNodes = orphanNodes.filter(
-      (nodeId) => results._state.nodes[nodeId].type !== "component"
+      (nodeId) =>
+        results._state.nodes[nodeId].type !== "component" &&
+        results._state.nodes[nodeId].type !== "layer"
     );
     const orphanCategories: string[] = [];
 
