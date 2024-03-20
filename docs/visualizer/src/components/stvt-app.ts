@@ -112,6 +112,7 @@ export class StvtApp extends LitElement {
   urlParamComponent = "";
   urlParamToken = "";
   urlParamFilter = "";
+  urlParamRemoteJsonUrl = "";
   urlParams: URLSearchParams;
 
   static styles = css`
@@ -185,11 +186,14 @@ export class StvtApp extends LitElement {
     this.urlParamComponent = this.urlParams.get("component") || "";
     this.urlParamToken = this.urlParams.get("token") || "";
     this.urlParamFilter = this.urlParams.get("filter") || "";
+    this.urlParamRemoteJsonUrl = this.urlParams.get("remoteJsonUrl") || "";
+
     // this.urlParamExpand = this.urlParams.get('expand') || '';
     this.graphController = new GraphController();
     const initialTokens = this.urlParamToken.split(",");
     const initialComponents = this.urlParamComponent.split(",");
     const initialFilters = this.urlParamFilter.split(",");
+    const initialRemoteJsonUrl = decodeURIComponent(this.urlParamRemoteJsonUrl);
 
     if (initialTokens.length === 1 && initialTokens[0] === "") {
       initialTokens.pop();
@@ -213,6 +217,7 @@ export class StvtApp extends LitElement {
       selectedComponents: initialComponents,
       selectedTokens: initialTokens,
       setFilters: initialFilters,
+      remoteJsonUrl: initialRemoteJsonUrl,
     });
 
     this.graphController.onDictionaryAvailable(
@@ -236,6 +241,7 @@ export class StvtApp extends LitElement {
         this.urlParamComponent = this.urlParams.get("component") || "";
         this.urlParamToken = this.urlParams.get("token") || "";
         this.urlParamFilter = this.urlParams.get("filter") || "";
+        // TODO: need urlParamRemoteJsonUrl here?
         const newTokens = this.urlParamToken.split(",");
         const newComponents = this.urlParamComponent.split(",");
         const newFilters = this.urlParamFilter.split(",");
@@ -317,6 +323,9 @@ export class StvtApp extends LitElement {
       const encodedComponents = this.appState.selectedComponents.join(",");
       const encodedTokens = this.appState.selectedTokens.join(",");
       const encodedFilters = this.appState.setFilters.join(",");
+      const encodedRemoteJsonUrl = encodeURIComponent(
+        this.appState.remoteJsonUrl
+      );
 
       if (encodedComponents !== this.urlParamComponent) {
         this.urlParamComponent = encodedComponents;
@@ -345,6 +354,17 @@ export class StvtApp extends LitElement {
           this.urlParams.set("filter", encodedFilters);
         } else {
           this.urlParams.set("filter", encodedFilters);
+        }
+        didUrlParamsChange = true;
+      }
+
+      if (encodedRemoteJsonUrl !== this.urlParamRemoteJsonUrl) {
+        this.urlParamRemoteJsonUrl = encodedRemoteJsonUrl;
+        if (encodedRemoteJsonUrl === "") {
+          // this.urlParams.delete('filter');
+          this.urlParams.set("remoteJsonUrl", encodedRemoteJsonUrl);
+        } else {
+          this.urlParams.set("remoteJsonUrl", encodedRemoteJsonUrl);
         }
         didUrlParamsChange = true;
       }
