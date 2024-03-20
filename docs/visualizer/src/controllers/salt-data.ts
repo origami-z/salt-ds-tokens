@@ -5,58 +5,88 @@ export const saltData = {
     shadow: {
       "shadow-100-color": {
         $value: {
-          $dark: "rgba(0, 0, 0, 0.5)",
-          $light: "rgba(0, 0, 0, 0.1)",
+          $dark: "#00000000",
+          $light: "#00000000",
         },
         $type: "color",
       },
       "shadow-200-color": {
         $value: {
-          $dark: "rgba(0, 0, 0, 0.5)",
-          $light: "rgba(0, 0, 0, 0.1)",
+          $dark: "#00000000",
+          $light: "#00000000",
         },
         $type: "color",
       },
       "shadow-300-color": {
         $value: {
-          $dark: "rgba(0, 0, 0, 0.55)",
-          $light: "rgba(0, 0, 0, 0.15)",
+          $dark: "#00000000",
+          $light: "#00000000",
         },
         $type: "color",
       },
       "shadow-400-color": {
         $value: {
-          $dark: "rgba(0, 0, 0, 0.55)",
-          $light: "rgba(0, 0, 0, 0.2)",
+          $dark: "#00000000",
+          $light: "#00000000",
         },
         $type: "color",
       },
       "shadow-500-color": {
         $value: {
-          $dark: "rgba(0, 0, 0, 0.65)",
-          $light: "rgba(0, 0, 0, 0.3)",
+          $dark: "#00000000",
+          $light: "#00000000",
         },
         $type: "color",
       },
       "shadow-100": {
-        $value: "0 1px 3px 0 var(--salt-shadow-100-color)",
-        $type: "color",
+        $value: {
+          offsetX: "0",
+          offsetY: "1px",
+          blur: "3px",
+          spread: "0",
+          color: "{foundations.shadow.shadow-100-color}",
+        },
+        $type: "shadow",
       },
       "shadow-200": {
-        $value: "0 2px 4px 0 var(--salt-shadow-200-color)",
-        $type: "color",
+        $value: {
+          offsetX: "0",
+          offsetY: "2px",
+          blur: "4px",
+          spread: "0",
+          color: "{foundations.shadow.shadow-200-color}",
+        },
+        $type: "shadow",
       },
       "shadow-300": {
-        $value: "0 4px 8px 0 var(--salt-shadow-300-color)",
-        $type: "color",
+        $value: {
+          offsetX: "0",
+          offsetY: "4px",
+          blur: "8px",
+          spread: "0",
+          color: "{foundations.shadow.shadow-300-color}",
+        },
+        $type: "shadow",
       },
       "shadow-400": {
-        $value: "0 6px 10px 0 var(--salt-shadow-400-color)",
-        $type: "color",
+        $value: {
+          offsetX: "0",
+          offsetY: "6px",
+          blur: "10px",
+          spread: "0",
+          color: "{foundations.shadow.shadow-400-color}",
+        },
+        $type: "shadow",
       },
       "shadow-500": {
-        $value: "0 12px 40px 0 var(--salt-shadow-500-color)",
-        $type: "color",
+        $value: {
+          offsetX: "0",
+          offsetY: "12px",
+          blur: "40px",
+          spread: "0",
+          color: "{foundations.shadow.shadow-500-color}",
+        },
+        $type: "shadow",
       },
     },
     curve: {
@@ -67,7 +97,7 @@ export const saltData = {
           $medium: "0",
           $high: "0",
         },
-        $type: "color",
+        $type: "dimension",
       },
       "curve-50": {
         $value: {
@@ -76,7 +106,7 @@ export const saltData = {
           $medium: "2px",
           $high: "1px",
         },
-        $type: "color",
+        $type: "dimension",
       },
       "curve-100": {
         $value: {
@@ -85,7 +115,7 @@ export const saltData = {
           $medium: "4px",
           $high: "2px",
         },
-        $type: "color",
+        $type: "dimension",
       },
       "curve-150": {
         $value: {
@@ -94,7 +124,7 @@ export const saltData = {
           $medium: "6px",
           $high: "3px",
         },
-        $type: "color",
+        $type: "dimension",
       },
       "curve-999": {
         $value: {
@@ -103,7 +133,7 @@ export const saltData = {
           $medium: "999px",
           $high: "999px",
         },
-        $type: "color",
+        $type: "dimension",
       },
     },
     size: {
@@ -114,7 +144,7 @@ export const saltData = {
           $medium: "8px",
           $high: "6px",
         },
-        $type: "color",
+        $type: "dimension",
       },
       "size-bar": {
         $value: {
@@ -123,7 +153,7 @@ export const saltData = {
           $medium: "4px",
           $high: "2px",
         },
-        $type: "color",
+        $type: "dimension",
       },
       "size-base": {
         $value: {
@@ -132,7 +162,7 @@ export const saltData = {
           $medium: "28px",
           $high: "20px",
         },
-        $type: "color",
+        $type: "dimension",
       },
       "size-border": {
         $value: {
@@ -141,7 +171,7 @@ export const saltData = {
           $medium: "1px",
           $high: "1px",
         },
-        $type: "color",
+        $type: "dimension",
       },
       "size-icon": {
         $value: {
@@ -150,7 +180,7 @@ export const saltData = {
           $medium: "12px",
           $high: "10px",
         },
-        $type: "color",
+        $type: "dimension",
       },
       "size-indicator": {
         $value: {
@@ -159,7 +189,7 @@ export const saltData = {
           $medium: "2px",
           $high: "1px",
         },
-        $type: "color",
+        $type: "dimension",
       },
       "size-selectable": {
         $value: {
@@ -168,7 +198,7 @@ export const saltData = {
           $medium: "14px",
           $high: "12px",
         },
-        $type: "color",
+        $type: "dimension",
       },
       "size-bar-strong": {
         $value: {
@@ -177,7 +207,7 @@ export const saltData = {
           $medium: "8px",
           $high: "4px",
         },
-        $type: "color",
+        $type: "dimension",
       },
       "size-bar-small": {
         $value: {
@@ -186,7 +216,7 @@ export const saltData = {
           $medium: "2px",
           $high: "2px",
         },
-        $type: "color",
+        $type: "dimension",
       },
       "size-border-strong": {
         $value: {
@@ -195,7 +225,7 @@ export const saltData = {
           $medium: "2px",
           $high: "2px",
         },
-        $type: "color",
+        $type: "dimension",
       },
     },
     spacing: {
@@ -206,7 +236,7 @@ export const saltData = {
           $medium: "8px",
           $high: "4px",
         },
-        $type: "color",
+        $type: "dimension",
       },
     },
     zIndex: {
@@ -217,7 +247,7 @@ export const saltData = {
           $medium: "1",
           $high: "1",
         },
-        $type: "color",
+        $type: "number",
       },
       "zIndex-popout": {
         $value: {
@@ -226,7 +256,7 @@ export const saltData = {
           $medium: "1000",
           $high: "1000",
         },
-        $type: "color",
+        $type: "number",
       },
       "zIndex-appHeader": {
         $value: {
@@ -235,7 +265,7 @@ export const saltData = {
           $medium: "1100",
           $high: "1100",
         },
-        $type: "color",
+        $type: "number",
       },
       "zIndex-drawer": {
         $value: {
@@ -244,7 +274,7 @@ export const saltData = {
           $medium: "1200",
           $high: "1200",
         },
-        $type: "color",
+        $type: "number",
       },
       "zIndex-modal": {
         $value: {
@@ -253,7 +283,7 @@ export const saltData = {
           $medium: "1300",
           $high: "1300",
         },
-        $type: "color",
+        $type: "number",
       },
       "zIndex-notification": {
         $value: {
@@ -262,7 +292,7 @@ export const saltData = {
           $medium: "1400",
           $high: "1400",
         },
-        $type: "color",
+        $type: "number",
       },
       "zIndex-dragObject": {
         $value: {
@@ -271,7 +301,7 @@ export const saltData = {
           $medium: "1420",
           $high: "1420",
         },
-        $type: "color",
+        $type: "number",
       },
       "zIndex-contextMenu": {
         $value: {
@@ -280,7 +310,7 @@ export const saltData = {
           $medium: "1450",
           $high: "1450",
         },
-        $type: "color",
+        $type: "number",
       },
       "zIndex-flyover": {
         $value: {
@@ -289,684 +319,849 @@ export const saltData = {
           $medium: "1500",
           $high: "1500",
         },
-        $type: "color",
+        $type: "number",
       },
     },
     color: {
       "color-white": {
-        $value: "rgb(255, 255, 255)",
+        $value: "#ffffff",
         $type: "color",
       },
       "color-black": {
-        $value: "rgb(0, 0, 0)",
+        $value: "#000000",
         $type: "color",
       },
       "color-red-10": {
-        $value: "rgb(255, 227, 224)",
+        $value: "#ffe3e0",
         $type: "color",
       },
       "color-red-20": {
-        $value: "rgb(255, 207, 201)",
+        $value: "#ffcfc9",
         $type: "color",
       },
       "color-red-30": {
-        $value: "rgb(255, 187, 178)",
+        $value: "#ffbbb2",
         $type: "color",
       },
       "color-red-40": {
-        $value: "rgb(255, 167, 156)",
+        $value: "#ffa79c",
         $type: "color",
       },
       "color-red-50": {
-        $value: "rgb(255, 148, 133)",
+        $value: "#ff9485",
         $type: "color",
       },
       "color-red-100": {
-        $value: "rgb(255, 128, 111)",
+        $value: "#ff806f",
         $type: "color",
       },
       "color-red-200": {
-        $value: "rgb(255, 108, 88)",
+        $value: "#ff6c58",
         $type: "color",
       },
       "color-red-300": {
-        $value: "rgb(255, 89, 66)",
+        $value: "#ff5942",
         $type: "color",
       },
       "color-red-400": {
-        $value: "rgb(237, 65, 42)",
+        $value: "#ed412a",
         $type: "color",
       },
       "color-red-500": {
-        $value: "rgb(227, 43, 22)",
+        $value: "#e32b16",
         $type: "color",
       },
       "color-red-600": {
-        $value: "rgb(196, 32, 16)",
+        $value: "#c42010",
         $type: "color",
       },
       "color-red-700": {
-        $value: "rgb(166, 21, 11)",
+        $value: "#a6150b",
         $type: "color",
       },
       "color-red-800": {
-        $value: "rgb(136, 10, 5)",
+        $value: "#880a05",
         $type: "color",
       },
       "color-red-900": {
-        $value: "rgb(65, 37, 34)",
+        $value: "#412522",
         $type: "color",
       },
       "color-orange-10": {
-        $value: "rgb(255, 232, 191)",
+        $value: "#ffe8bf",
         $type: "color",
       },
       "color-orange-20": {
-        $value: "rgb(254, 223, 166)",
+        $value: "#fedfa6",
         $type: "color",
       },
       "color-orange-30": {
-        $value: "rgb(254, 214, 142)",
+        $value: "#fed68e",
         $type: "color",
       },
       "color-orange-40": {
-        $value: "rgb(254, 205, 118)",
+        $value: "#fecd76",
         $type: "color",
       },
       "color-orange-50": {
-        $value: "rgb(254, 197, 94)",
+        $value: "#fec55e",
         $type: "color",
       },
       "color-orange-100": {
-        $value: "rgb(250, 181, 81)",
+        $value: "#fab551",
         $type: "color",
       },
       "color-orange-200": {
-        $value: "rgb(246, 165, 68)",
+        $value: "#f6a544",
         $type: "color",
       },
       "color-orange-300": {
-        $value: "rgb(242, 149, 56)",
+        $value: "#f29538",
         $type: "color",
       },
       "color-orange-400": {
-        $value: "rgb(238, 133, 43)",
+        $value: "#ee852b",
         $type: "color",
       },
       "color-orange-500": {
-        $value: "rgb(234, 115, 25)",
+        $value: "#ea7319",
         $type: "color",
       },
       "color-orange-600": {
-        $value: "rgb(224, 101, 25)",
+        $value: "#e06519",
         $type: "color",
       },
       "color-orange-700": {
-        $value: "rgb(214, 85, 19)",
+        $value: "#d65513",
         $type: "color",
       },
       "color-orange-800": {
-        $value: "rgb(204, 68, 13)",
+        $value: "#cc440d",
         $type: "color",
       },
       "color-orange-900": {
-        $value: "rgb(54, 44, 36)",
+        $value: "#362c24",
         $type: "color",
       },
       "color-green-10": {
-        $value: "rgb(209, 244, 201)",
+        $value: "#d1f4c9",
         $type: "color",
       },
       "color-green-20": {
-        $value: "rgb(184, 232, 182)",
+        $value: "#b8e8b6",
         $type: "color",
       },
       "color-green-30": {
-        $value: "rgb(160, 221, 164)",
+        $value: "#a0dda4",
         $type: "color",
       },
       "color-green-40": {
-        $value: "rgb(136, 210, 145)",
+        $value: "#88d291",
         $type: "color",
       },
       "color-green-50": {
-        $value: "rgb(112, 199, 127)",
+        $value: "#70c77f",
         $type: "color",
       },
       "color-green-100": {
-        $value: "rgb(93, 189, 116)",
+        $value: "#5dbd74",
         $type: "color",
       },
       "color-green-200": {
-        $value: "rgb(77, 180, 105)",
+        $value: "#4db469",
         $type: "color",
       },
       "color-green-300": {
-        $value: "rgb(60, 171, 96)",
+        $value: "#3cab60",
         $type: "color",
       },
       "color-green-400": {
-        $value: "rgb(48, 156, 90)",
+        $value: "#309c5a",
         $type: "color",
       },
       "color-green-500": {
-        $value: "rgb(36, 135, 75)",
+        $value: "#24874b",
         $type: "color",
       },
       "color-green-600": {
-        $value: "rgb(24, 114, 61)",
+        $value: "#18723d",
         $type: "color",
       },
       "color-green-700": {
-        $value: "rgb(12, 93, 46)",
+        $value: "#0c5d2e",
         $type: "color",
       },
       "color-green-800": {
-        $value: "rgb(1, 73, 32)",
+        $value: "#014920",
         $type: "color",
       },
       "color-green-900": {
-        $value: "rgb(35, 52, 43)",
+        $value: "#23342b",
         $type: "color",
       },
       "color-teal-10": {
-        $value: "rgb(218, 240, 240)",
+        $value: "#daf0f0",
         $type: "color",
       },
       "color-teal-20": {
-        $value: "rgb(199, 232, 232)",
+        $value: "#c7e8e8",
         $type: "color",
       },
       "color-teal-30": {
-        $value: "rgb(180, 224, 225)",
+        $value: "#b4e0e1",
         $type: "color",
       },
       "color-teal-40": {
-        $value: "rgb(162, 217, 218)",
+        $value: "#a2d9da",
         $type: "color",
       },
       "color-teal-50": {
-        $value: "rgb(141, 205, 209)",
+        $value: "#8dcdd1",
         $type: "color",
       },
       "color-teal-100": {
-        $value: "rgb(123, 193, 200)",
+        $value: "#7bc1c8",
         $type: "color",
       },
       "color-teal-200": {
-        $value: "rgb(99, 181, 192)",
+        $value: "#63b5c0",
         $type: "color",
       },
       "color-teal-300": {
-        $value: "rgb(73, 160, 172)",
+        $value: "#49a0ac",
         $type: "color",
       },
       "color-teal-400": {
-        $value: "rgb(48, 149, 166)",
+        $value: "#3095a6",
         $type: "color",
       },
       "color-teal-500": {
-        $value: "rgb(0, 130, 151)",
+        $value: "#008297",
         $type: "color",
       },
       "color-teal-600": {
-        $value: "rgb(27, 107, 133)",
+        $value: "#1b6b85",
         $type: "color",
       },
       "color-teal-700": {
-        $value: "rgb(0, 85, 113)",
+        $value: "#005571",
         $type: "color",
       },
       "color-teal-800": {
-        $value: "rgb(1, 65, 86)",
+        $value: "#014156",
         $type: "color",
       },
       "color-teal-900": {
-        $value: "rgb(0, 49, 76)",
+        $value: "#00314c",
         $type: "color",
       },
       "color-blue-10": {
-        $value: "rgb(203, 231, 249)",
+        $value: "#cbe7f9",
         $type: "color",
       },
       "color-blue-20": {
-        $value: "rgb(183, 222, 246)",
+        $value: "#b7def6",
         $type: "color",
       },
       "color-blue-30": {
-        $value: "rgb(164, 213, 244)",
+        $value: "#a4d5f4",
         $type: "color",
       },
       "color-blue-40": {
-        $value: "rgb(144, 204, 242)",
+        $value: "#90ccf2",
         $type: "color",
       },
       "color-blue-50": {
-        $value: "rgb(125, 195, 240)",
+        $value: "#7dc3f0",
         $type: "color",
       },
       "color-blue-100": {
-        $value: "rgb(100, 177, 228)",
+        $value: "#64b1e4",
         $type: "color",
       },
       "color-blue-200": {
-        $value: "rgb(75, 159, 216)",
+        $value: "#4b9fd8",
         $type: "color",
       },
       "color-blue-300": {
-        $value: "rgb(51, 141, 205)",
+        $value: "#338dcd",
         $type: "color",
       },
       "color-blue-400": {
-        $value: "rgb(46, 132, 198)",
+        $value: "#2e84c6",
         $type: "color",
       },
       "color-blue-500": {
-        $value: "rgb(38, 112, 169)",
+        $value: "#2670a9",
         $type: "color",
       },
       "color-blue-600": {
-        $value: "rgb(21, 92, 147)",
+        $value: "#155c93",
         $type: "color",
       },
       "color-blue-700": {
-        $value: "rgb(0, 71, 123)",
+        $value: "#00477b",
         $type: "color",
       },
       "color-blue-800": {
-        $value: "rgb(39, 60, 77)",
+        $value: "#273c4d",
         $type: "color",
       },
       "color-blue-900": {
-        $value: "rgb(35, 47, 56)",
+        $value: "#232f38",
         $type: "color",
       },
       "color-purple-10": {
-        $value: "rgb(249, 224, 247)",
+        $value: "#f9e0f7",
         $type: "color",
       },
       "color-purple-20": {
-        $value: "rgb(247, 212, 244)",
+        $value: "#f7d4f4",
         $type: "color",
       },
       "color-purple-30": {
-        $value: "rgb(245, 201, 241)",
+        $value: "#f5c9f1",
         $type: "color",
       },
       "color-purple-40": {
-        $value: "rgb(243, 189, 238)",
+        $value: "#f3bdee",
         $type: "color",
       },
       "color-purple-50": {
-        $value: "rgb(241, 178, 235)",
+        $value: "#f1b2eb",
         $type: "color",
       },
       "color-purple-100": {
-        $value: "rgb(223, 156, 225)",
+        $value: "#df9ce1",
         $type: "color",
       },
       "color-purple-200": {
-        $value: "rgb(205, 135, 215)",
+        $value: "#cd87d7",
         $type: "color",
       },
       "color-purple-300": {
-        $value: "rgb(192, 116, 203)",
+        $value: "#c074cb",
         $type: "color",
       },
       "color-purple-400": {
-        $value: "rgb(169, 97, 181)",
+        $value: "#a961b5",
         $type: "color",
       },
       "color-purple-500": {
-        $value: "rgb(150, 78, 162)",
+        $value: "#964ea2",
         $type: "color",
       },
       "color-purple-600": {
-        $value: "rgb(129, 60, 141)",
+        $value: "#813c8d",
         $type: "color",
       },
       "color-purple-700": {
-        $value: "rgb(103, 46, 122)",
+        $value: "#672e7a",
         $type: "color",
       },
       "color-purple-800": {
-        $value: "rgb(83, 37, 109)",
+        $value: "#53256d",
         $type: "color",
       },
       "color-purple-900": {
-        $value: "rgb(59, 16, 84)",
+        $value: "#3b1054",
         $type: "color",
       },
       "color-gray-10": {
-        $value: "rgb(242, 244, 246)",
+        $value: "#f2f4f6",
         $type: "color",
       },
       "color-gray-20": {
-        $value: "rgb(234, 237, 239)",
+        $value: "#eaedef",
         $type: "color",
       },
       "color-gray-30": {
-        $value: "rgb(224, 228, 233)",
+        $value: "#e0e4e9",
         $type: "color",
       },
       "color-gray-40": {
-        $value: "rgb(217, 221, 227)",
+        $value: "#d9dde3",
         $type: "color",
       },
       "color-gray-50": {
-        $value: "rgb(206, 210, 217)",
+        $value: "#ced2d9",
         $type: "color",
       },
       "color-gray-60": {
-        $value: "rgb(197, 201, 208)",
+        $value: "#c5c9d0",
         $type: "color",
       },
       "color-gray-70": {
-        $value: "rgb(180, 183, 190)",
+        $value: "#b4b7be",
         $type: "color",
       },
       "color-gray-80": {
-        $value: "rgb(159, 163, 170)",
+        $value: "#9fa3aa",
         $type: "color",
       },
       "color-gray-90": {
-        $value: "rgb(132, 135, 142)",
+        $value: "#84878e",
         $type: "color",
       },
       "color-gray-100": {
-        $value: "rgb(116, 119, 127)",
+        $value: "#74777f",
         $type: "color",
       },
       "color-gray-200": {
-        $value: "rgb(97, 101, 110)",
+        $value: "#61656e",
         $type: "color",
       },
       "color-gray-300": {
-        $value: "rgb(76, 80, 91)",
+        $value: "#4c505b",
         $type: "color",
       },
       "color-gray-400": {
-        $value: "rgb(68, 72, 79)",
+        $value: "#44484f",
         $type: "color",
       },
       "color-gray-500": {
-        $value: "rgb(59, 63, 70)",
+        $value: "#3b3f46",
         $type: "color",
       },
       "color-gray-600": {
-        $value: "rgb(47, 49, 54)",
+        $value: "#2f3136",
         $type: "color",
       },
       "color-gray-700": {
-        $value: "rgb(42, 44, 47)",
+        $value: "#2a2c2f",
         $type: "color",
       },
       "color-gray-800": {
-        $value: "rgb(36, 37, 38)",
+        $value: "#242526",
         $type: "color",
       },
       "color-gray-900": {
-        $value: "rgb(22, 22, 22)",
+        $value: "#161616",
         $type: "color",
       },
       "color-blue-100-fade-foreground": {
-        $value: "rgba(100, 177, 228, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-blue-100}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-blue-500-fade-foreground": {
-        $value: "rgba(38, 112, 169, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-blue-500}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-blue-600-fade-foreground": {
-        $value: "rgba(21, 92, 147, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-blue-600}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-gray-200-fade-foreground": {
-        $value: "rgba(97, 101, 110, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-gray-200}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-gray-70-fade-foreground": {
-        $value: "rgba(180, 183, 190, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-gray-70}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-gray-90-fade-foreground": {
-        $value: "rgba(132, 135, 142, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-gray-90}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-gray-900-fade-foreground": {
-        $value: "rgba(22, 22, 22, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-gray-900}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-green-300-fade-foreground": {
-        $value: "rgba(60, 171, 96, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-green-300}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-green-400-fade-foreground": {
-        $value: "rgba(48, 156, 90, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-green-400}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-green-500-fade-foreground": {
-        $value: "rgba(36, 135, 75, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-green-500}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-green-700-fade-foreground": {
-        $value: "rgba(12, 93, 46, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-green-700}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-red-300-fade-foreground": {
-        $value: "rgba(255, 89, 66, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-red-300}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-red-500-fade-foreground": {
-        $value: "rgba(227, 43, 22, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-red-500}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-red-700-fade-foreground": {
-        $value: "rgba(166, 21, 11, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-red-700}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-white-fade-foreground": {
-        $value: "rgba(255, 255, 255, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-white}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-blue-500-fade-border": {
-        $value: "rgba(38, 112, 169, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-blue-500}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-gray-50-fade-border": {
-        $value: "rgba(206, 210, 217, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-gray-50}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-gray-60-fade-border": {
-        $value: "rgba(197, 201, 208, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-gray-60}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-gray-90-fade-border": {
-        $value: "rgba(132, 135, 142, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-gray-90}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-gray-200-fade-border": {
-        $value: "rgba(97, 101, 110, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-gray-200}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-gray-300-fade-border": {
-        $value: "rgba(76, 80, 91, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-gray-300}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-green-400-fade-border": {
-        $value: "rgba(48, 156, 90, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-green-400}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-green-500-fade-border": {
-        $value: "rgba(36, 135, 75, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-green-500}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-orange-400-fade-border": {
-        $value: "rgba(238, 133, 43, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-orange-400}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-orange-500-fade-border": {
-        $value: "rgba(234, 115, 25, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-orange-500}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-orange-600-fade-border": {
-        $value: "rgba(224, 101, 25, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-orange-600}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-orange-700-fade-border": {
-        $value: "rgba(214, 85, 19, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-orange-700}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-red-500-fade-border": {
-        $value: "rgba(227, 43, 22, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-red-500}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-gray-90-fade-border-readonly": {
-        $value:
-          "rgba(132, 135, 142, var(--salt-palette-opacity-border-readonly))",
+        $value: {
+          color: "{foundations.color.color-gray-90}",
+          opacity: "{palette.opacity.palette-opacity-border-readonly}",
+        },
         $type: "color",
       },
       "color-gray-200-fade-border-readonly": {
-        $value:
-          "rgba(97, 101, 110, var(--salt-palette-opacity-border-readonly))",
+        $value: {
+          color: "{foundations.color.color-gray-200}",
+          opacity: "{palette.opacity.palette-opacity-border-readonly}",
+        },
         $type: "color",
       },
       "color-blue-30-fade-background": {
-        $value: "rgba(164, 213, 244, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-blue-30}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-blue-500-fade-background": {
-        $value: "rgba(38, 112, 169, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-blue-500}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-blue-600-fade-background": {
-        $value: "rgba(21, 92, 147, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-blue-600}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-blue-700-fade-background": {
-        $value: "rgba(0, 71, 123, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-blue-700}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-gray-20-fade-background": {
-        $value: "rgba(234, 237, 239, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-gray-20}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-gray-60-fade-background": {
-        $value: "rgba(197, 201, 208, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-gray-60}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-gray-70-fade-background": {
-        $value: "rgba(180, 183, 190, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-gray-70}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-gray-200-fade-background": {
-        $value: "rgba(97, 101, 110, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-gray-200}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-gray-300-fade-background": {
-        $value: "rgba(76, 80, 91, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-gray-300}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-gray-600-fade-background": {
-        $value: "rgba(47, 49, 54, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-gray-600}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-gray-800-fade-background": {
-        $value: "rgba(36, 37, 38, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-gray-800}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-white-fade-background": {
-        $value: "rgba(255, 255, 255, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-white}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-white-fade-background-readonly": {
-        $value:
-          "rgba(255, 255, 255, var(--salt-palette-opacity-background-readonly))",
+        $value: {
+          color: "{foundations.color.color-white}",
+          opacity: "{palette.opacity.palette-opacity-background-readonly}",
+        },
         $type: "color",
       },
       "color-gray-20-fade-background-readonly": {
-        $value:
-          "rgba(234, 237, 239, var(--salt-palette-opacity-background-readonly))",
+        $value: {
+          color: "{foundations.color.color-gray-20}",
+          opacity: "{palette.opacity.palette-opacity-background-readonly}",
+        },
         $type: "color",
       },
       "color-gray-600-fade-background-readonly": {
-        $value:
-          "rgba(47, 49, 54, var(--salt-palette-opacity-background-readonly))",
+        $value: {
+          color: "{foundations.color.color-gray-600}",
+          opacity: "{palette.opacity.palette-opacity-background-readonly}",
+        },
         $type: "color",
       },
       "color-gray-800-fade-background-readonly": {
-        $value:
-          "rgba(36, 37, 38, var(--salt-palette-opacity-background-readonly))",
+        $value: {
+          color: "{foundations.color.color-gray-800}",
+          opacity: "{palette.opacity.palette-opacity-background-readonly}",
+        },
         $type: "color",
       },
       "color-white-fade-backdrop": {
-        $value: "rgba(255, 255, 255, var(--salt-palette-opacity-backdrop))",
+        $value: {
+          color: "{foundations.color.color-white}",
+          opacity: "{palette.opacity.palette-opacity-backdrop}",
+        },
         $type: "color",
       },
       "color-black-fade-backdrop": {
-        $value: "rgba(0, 0, 0, var(--salt-palette-opacity-backdrop))",
+        $value: {
+          color: "{foundations.color.color-black}",
+          opacity: "{palette.opacity.palette-opacity-backdrop}",
+        },
         $type: "color",
       },
       "color-blue-100-fade-fill": {
-        $value: "rgba(100, 177, 228, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-blue-100}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-blue-600-fade-fill": {
-        $value: "rgba(21, 92, 147, var(--salt-palette-opacity-disabled))",
+        $value: {
+          color: "{foundations.color.color-blue-600}",
+          opacity: "{palette.opacity.palette-opacity-disabled}",
+        },
         $type: "color",
       },
       "color-white-fade-separatorOpacity-primary": {
-        $value:
-          "rgba(255, 255, 255, var(--salt-palette-opacity-primary-border))",
+        $value: {
+          color: "{foundations.color.color-white}",
+          opacity: "{palette.opacity.palette-opacity-primary-border}",
+        },
         $type: "color",
       },
       "color-white-fade-separatorOpacity-secondary": {
-        $value:
-          "rgba(255, 255, 255, var(--salt-palette-opacity-secondary-border))",
+        $value: {
+          color: "{foundations.color.color-white}",
+          opacity: "{palette.opacity.palette-opacity-secondary-border}",
+        },
         $type: "color",
       },
       "color-white-fade-separatorOpacity-tertiary": {
-        $value:
-          "rgba(255, 255, 255, var(--salt-palette-opacity-tertiary-border))",
+        $value: {
+          color: "{foundations.color.color-white}",
+          opacity: "{palette.opacity.palette-opacity-tertiary-border}",
+        },
         $type: "color",
       },
       "color-black-fade-separatorOpacity-primary": {
-        $value: "rgba(0, 0, 0, var(--salt-palette-opacity-primary-border))",
+        $value: {
+          color: "{foundations.color.color-black}",
+          opacity: "{palette.opacity.palette-opacity-primary-border}",
+        },
         $type: "color",
       },
       "color-black-fade-separatorOpacity-secondary": {
-        $value: "rgba(0, 0, 0, var(--salt-palette-opacity-secondary-border))",
+        $value: {
+          color: "{foundations.color.color-black}",
+          opacity: "{palette.opacity.palette-opacity-secondary-border}",
+        },
         $type: "color",
       },
       "color-black-fade-separatorOpacity-tertiary": {
-        $value: "rgba(0, 0, 0, var(--salt-palette-opacity-tertiary-border))",
+        $value: {
+          color: "{foundations.color.color-black}",
+          opacity: "{palette.opacity.palette-opacity-tertiary-border}",
+        },
         $type: "color",
       },
       "color-black-fade-background-hover": {
-        $value: "rgba(0, 0, 0, var(--salt-opacity-8))",
+        $value: {
+          color: "{foundations.color.color-black}",
+          opacity: "{foundations.opacity.opacity-8}",
+        },
         $type: "color",
       },
       "color-white-fade-background-hover": {
-        $value: "rgba(255, 255, 255, var(--salt-opacity-8))",
+        $value: {
+          color: "{foundations.color.color-white}",
+          opacity: "{foundations.opacity.opacity-8}",
+        },
         $type: "color",
       },
     },
     duration: {
       "duration-instant": {
         $value: "0ms",
-        $type: "color",
+        $type: "duration",
       },
       "duration-perceptible": {
         $value: "300ms",
-        $type: "color",
+        $type: "duration",
       },
       "duration-notable": {
         $value: "1000ms",
-        $type: "color",
+        $type: "duration",
       },
       "duration-cutoff": {
         $value: "10000ms",
-        $type: "color",
+        $type: "duration",
       },
     },
     opacity: {
@@ -998,35 +1193,35 @@ export const saltData = {
     typography: {
       "typography-fontFamily": {
         $value: '"Open Sans"',
-        $type: "color",
+        $type: "fontFamily",
       },
       "typography-fontFamily-code": {
         $value: '"PT Mono"',
-        $type: "color",
+        $type: "fontFamily",
       },
       "typography-fontWeight-light": {
         $value: "300",
-        $type: "color",
+        $type: "fontWeight",
       },
       "typography-fontWeight-regular": {
         $value: "400",
-        $type: "color",
+        $type: "fontWeight",
       },
       "typography-fontWeight-medium": {
         $value: "500",
-        $type: "color",
+        $type: "fontWeight",
       },
       "typography-fontWeight-semiBold": {
         $value: "600",
-        $type: "color",
+        $type: "fontWeight",
       },
       "typography-fontWeight-bold": {
         $value: "700",
-        $type: "color",
+        $type: "fontWeight",
       },
       "typography-fontWeight-extraBold": {
         $value: "800",
-        $type: "color",
+        $type: "fontWeight",
       },
     },
   },
@@ -1910,171 +2105,171 @@ export const saltData = {
         $type: "textAlign",
       },
       "text-action-fontWeight": {
-        $value: "var(--salt-typography-fontWeight-semiBold)",
+        $value: "{foundations.typography.typography-fontWeight-semiBold}",
         $type: "fontWeight",
       },
       "text-fontFamily": {
-        $value: "var(--salt-typography-fontFamily)",
+        $value: "{foundations.typography.typography-fontFamily}",
         $type: "fontFamily",
       },
       "text-fontWeight": {
-        $value: "var(--salt-typography-fontWeight-regular)",
+        $value: "{foundations.typography.typography-fontWeight-regular}",
         $type: "fontWeight",
       },
       "text-fontWeight-small": {
-        $value: "var(--salt-typography-fontWeight-light)",
+        $value: "{foundations.typography.typography-fontWeight-light}",
         $type: "fontWeight",
       },
       "text-fontWeight-strong": {
-        $value: "var(--salt-typography-fontWeight-semiBold)",
+        $value: "{foundations.typography.typography-fontWeight-semiBold}",
         $type: "fontWeight",
       },
       "text-notation-fontFamily": {
-        $value: "var(--salt-typography-fontFamily)",
+        $value: "{foundations.typography.typography-fontFamily}",
         $type: "fontFamily",
       },
       "text-notation-fontWeight": {
-        $value: "var(--salt-typography-fontWeight-semiBold)",
+        $value: "{foundations.typography.typography-fontWeight-semiBold}",
         $type: "fontWeight",
       },
       "text-notation-fontWeight-small": {
-        $value: "var(--salt-typography-fontWeight-regular)",
+        $value: "{foundations.typography.typography-fontWeight-regular}",
         $type: "fontWeight",
       },
       "text-notation-fontWeight-strong": {
-        $value: "var(--salt-typography-fontWeight-bold)",
+        $value: "{foundations.typography.typography-fontWeight-bold}",
         $type: "fontWeight",
       },
       "text-h1-fontFamily": {
-        $value: "var(--salt-typography-fontFamily)",
+        $value: "{foundations.typography.typography-fontFamily}",
         $type: "fontFamily",
       },
       "text-h1-fontWeight": {
-        $value: "var(--salt-typography-fontWeight-bold)",
+        $value: "{foundations.typography.typography-fontWeight-bold}",
         $type: "fontWeight",
       },
       "text-h1-fontWeight-small": {
-        $value: "var(--salt-typography-fontWeight-medium)",
+        $value: "{foundations.typography.typography-fontWeight-medium}",
         $type: "fontWeight",
       },
       "text-h1-fontWeight-strong": {
-        $value: "var(--salt-typography-fontWeight-extraBold)",
+        $value: "{foundations.typography.typography-fontWeight-extraBold}",
         $type: "fontWeight",
       },
       "text-h2-fontFamily": {
-        $value: "var(--salt-typography-fontFamily)",
+        $value: "{foundations.typography.typography-fontFamily}",
         $type: "fontFamily",
       },
       "text-h2-fontWeight": {
-        $value: "var(--salt-typography-fontWeight-semiBold)",
+        $value: "{foundations.typography.typography-fontWeight-semiBold}",
         $type: "fontWeight",
       },
       "text-h2-fontWeight-small": {
-        $value: "var(--salt-typography-fontWeight-regular)",
+        $value: "{foundations.typography.typography-fontWeight-regular}",
         $type: "fontWeight",
       },
       "text-h2-fontWeight-strong": {
-        $value: "var(--salt-typography-fontWeight-bold)",
+        $value: "{foundations.typography.typography-fontWeight-bold}",
         $type: "fontWeight",
       },
       "text-h3-fontFamily": {
-        $value: "var(--salt-typography-fontFamily)",
+        $value: "{foundations.typography.typography-fontFamily}",
         $type: "fontFamily",
       },
       "text-h3-fontWeight": {
-        $value: "var(--salt-typography-fontWeight-semiBold)",
+        $value: "{foundations.typography.typography-fontWeight-semiBold}",
         $type: "fontWeight",
       },
       "text-h3-fontWeight-small": {
-        $value: "var(--salt-typography-fontWeight-regular)",
+        $value: "{foundations.typography.typography-fontWeight-regular}",
         $type: "fontWeight",
       },
       "text-h3-fontWeight-strong": {
-        $value: "var(--salt-typography-fontWeight-bold)",
+        $value: "{foundations.typography.typography-fontWeight-bold}",
         $type: "fontWeight",
       },
       "text-h4-fontFamily": {
-        $value: "var(--salt-typography-fontFamily)",
+        $value: "{foundations.typography.typography-fontFamily}",
         $type: "fontFamily",
       },
       "text-h4-fontWeight": {
-        $value: "var(--salt-typography-fontWeight-semiBold)",
+        $value: "{foundations.typography.typography-fontWeight-semiBold}",
         $type: "fontWeight",
       },
       "text-h4-fontWeight-small": {
-        $value: "var(--salt-typography-fontWeight-regular)",
+        $value: "{foundations.typography.typography-fontWeight-regular}",
         $type: "fontWeight",
       },
       "text-h4-fontWeight-strong": {
-        $value: "var(--salt-typography-fontWeight-bold)",
+        $value: "{foundations.typography.typography-fontWeight-bold}",
         $type: "fontWeight",
       },
       "text-label-fontFamily": {
-        $value: "var(--salt-typography-fontFamily)",
+        $value: "{foundations.typography.typography-fontFamily}",
         $type: "fontFamily",
       },
       "text-label-fontWeight": {
-        $value: "var(--salt-typography-fontWeight-regular)",
+        $value: "{foundations.typography.typography-fontWeight-regular}",
         $type: "fontWeight",
       },
       "text-label-fontWeight-small": {
-        $value: "var(--salt-typography-fontWeight-light)",
+        $value: "{foundations.typography.typography-fontWeight-light}",
         $type: "fontWeight",
       },
       "text-label-fontWeight-strong": {
-        $value: "var(--salt-typography-fontWeight-semiBold)",
+        $value: "{foundations.typography.typography-fontWeight-semiBold}",
         $type: "fontWeight",
       },
       "text-display1-fontFamily": {
-        $value: "var(--salt-typography-fontFamily)",
+        $value: "{foundations.typography.typography-fontFamily}",
         $type: "fontFamily",
       },
       "text-display1-fontWeight": {
-        $value: "var(--salt-typography-fontWeight-semiBold)",
+        $value: "{foundations.typography.typography-fontWeight-semiBold}",
         $type: "fontWeight",
       },
       "text-display1-fontWeight-strong": {
-        $value: "var(--salt-typography-fontWeight-bold)",
+        $value: "{foundations.typography.typography-fontWeight-bold}",
         $type: "fontWeight",
       },
       "text-display1-fontWeight-small": {
-        $value: "var(--salt-typography-fontWeight-regular)",
+        $value: "{foundations.typography.typography-fontWeight-regular}",
         $type: "fontWeight",
       },
       "text-display2-fontFamily": {
-        $value: "var(--salt-typography-fontFamily)",
+        $value: "{foundations.typography.typography-fontFamily}",
         $type: "fontFamily",
       },
       "text-display2-fontWeight": {
-        $value: "var(--salt-typography-fontWeight-semiBold)",
+        $value: "{foundations.typography.typography-fontWeight-semiBold}",
         $type: "fontWeight",
       },
       "text-display2-fontWeight-strong": {
-        $value: "var(--salt-typography-fontWeight-bold)",
+        $value: "{foundations.typography.typography-fontWeight-bold}",
         $type: "fontWeight",
       },
       "text-display2-fontWeight-small": {
-        $value: "var(--salt-typography-fontWeight-regular)",
+        $value: "{foundations.typography.typography-fontWeight-regular}",
         $type: "fontWeight",
       },
       "text-display3-fontFamily": {
-        $value: "var(--salt-typography-fontFamily)",
+        $value: "{foundations.typography.typography-fontFamily}",
         $type: "fontFamily",
       },
       "text-display3-fontWeight": {
-        $value: "var(--salt-typography-fontWeight-semiBold)",
+        $value: "{foundations.typography.typography-fontWeight-semiBold}",
         $type: "fontWeight",
       },
       "text-display3-fontWeight-strong": {
-        $value: "var(--salt-typography-fontWeight-bold)",
+        $value: "{foundations.typography.typography-fontWeight-bold}",
         $type: "fontWeight",
       },
       "text-display3-fontWeight-small": {
-        $value: "var(--salt-typography-fontWeight-regular)",
+        $value: "{foundations.typography.typography-fontWeight-regular}",
         $type: "fontWeight",
       },
       "text-code-fontFamily": {
-        $value: "var(--salt-typography-fontFamily-code)",
+        $value: "{foundations.typography.typography-fontFamily-code}",
         $type: "fontFamily",
       },
     },
@@ -2466,19 +2661,19 @@ export const saltData = {
         $type: "cursor",
       },
       "navigable-fontWeight": {
-        $value: "var(--salt-typography-fontWeight-regular)",
+        $value: "{foundations.typography.typography-fontWeight-regular}",
         $type: "fontWeight",
       },
       "navigable-fontWeight-hover": {
-        $value: "var(--salt-typography-fontWeight-regular)",
+        $value: "{foundations.typography.typography-fontWeight-regular}",
         $type: "fontWeight",
       },
       "navigable-fontWeight-active": {
-        $value: "var(--salt-typography-fontWeight-semiBold)",
+        $value: "{foundations.typography.typography-fontWeight-semiBold}",
         $type: "fontWeight",
       },
       "navigable-fontWeight-edit": {
-        $value: "var(--salt-typography-fontWeight-regular)",
+        $value: "{foundations.typography.typography-fontWeight-regular}",
         $type: "fontWeight",
       },
       "navigable-indicator-hover": {
