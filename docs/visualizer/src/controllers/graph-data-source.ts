@@ -88,16 +88,6 @@ function prefixOfSaltCategory(cat: string) {
   return cat.substring(0, cat.lastIndexOf(".") + 1);
 }
 
-const catMap: Record<string, GraphNode["type"]> = {
-  foundations: "foundation",
-  palette: "palette",
-  characteristics: "characteristic",
-};
-
-function typeOfCat(cat: string): GraphNode["type"] {
-  const catShort = cat.substring(0, cat.indexOf("."));
-  return catMap[catShort] || "orphan-category";
-}
 export class GraphDataSource {
   listOfComponents: string[] = [];
 
@@ -112,23 +102,19 @@ export class GraphDataSource {
   // - if we don't have it yet, we go and get it
   // - otherwise, we just return the previously fetched data
   //
-  async getCompleteSpectrumTokenJson(): Promise<RawSpectrumTokenJson> {
+  async getCompleteSpectrumTokenJson(
+    remoteJsonUrl: string
+  ): Promise<RawSpectrumTokenJson> {
     if (Object.keys(this._completeSpectrumTokenJson).length > 0) {
       return this._completeSpectrumTokenJson;
     }
 
-    // const listOfSourceFiles = await fetchJsonAsync(SOURCE_PATH + MANIFEST_JSON);
-
-    // const results: RawSpectrumTokenJson = {};
-
-    // for (let index = 0; index < listOfSourceFiles.length; index++) {
-    //   const data = (await fetchJsonAsync(
-    //     SOURCE_PATH + listOfSourceFiles[index],
-    //   )) as RawSpectrumTokenJson;
-    //   Object.assign(results, data);
-    // }
-
-    // return results;
+    if (remoteJsonUrl) {
+      console.log("Loading from remoteJsonUrl", remoteJsonUrl);
+      const data = await fetchJsonAsync(remoteJsonUrl);
+      console.log("Loaded data:", data);
+      return data;
+    }
 
     const results: RawSpectrumTokenJson = {};
 
@@ -179,12 +165,12 @@ export class GraphDataSource {
     return results;
   }
 
-  async getAllComponentNames(): Promise<string[]> {
+  async getAllComponentNames(remoteJsonUrl: string): Promise<string[]> {
     if (this.listOfComponents.length > 0) {
       return this.listOfComponents;
     }
 
-    const allTokens = await this.getCompleteSpectrumTokenJson();
+    const allTokens = await this.getCompleteSpectrumTokenJson(remoteJsonUrl);
     const allTokenIds = Object.keys(allTokens);
     const results = allTokenIds.reduce((accumulator, currentItem) => {
       const component = allTokens[currentItem].component;
@@ -200,9 +186,12 @@ export class GraphDataSource {
   //
   // @TODO: cache layer for filtered results?
   //
-  async getFilteredGraphModel(filters: string[]): Promise<GraphModel> {
+  async getFilteredGraphModel(
+    filters: string[],
+    remoteJsonUrl: string
+  ): Promise<GraphModel> {
     const results = new GraphModel();
-    const allTokens = await this.getCompleteSpectrumTokenJson();
+    const allTokens = await this.getCompleteSpectrumTokenJson(remoteJsonUrl);
     const nodeIds = Object.keys(allTokens);
 
     // console.log({ nodeIds });
@@ -403,7 +392,7 @@ export class GraphDataSource {
       if (!orphanCategories.includes(orphanCategory)) {
         orphanCategories.push(orphanCategory);
         results.createNode({
-          type: typeOfCat(orphanCategory),
+          type: "orphan-category",
           id: `${prefixOfSaltCategory(orphanCategory)}-*`,
           x: 0,
           y: 0,

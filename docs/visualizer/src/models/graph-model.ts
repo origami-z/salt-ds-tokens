@@ -66,7 +66,7 @@ export class GraphModel {
   // re-generated on next state-read any time
   // a mutation calls dirtyState so that
   // we can call dirtyState MANY times
-  // syncronously without needing to
+  // synchronously without needing to
   // regenerate our stringified state for
   // output...
   _stringifiedState: string;
@@ -151,7 +151,7 @@ export class GraphModel {
     delete this._state.adjacencyList[id];
     // remove upstream adjacency connections
     // @NOTE: this could be done more efficiently
-    //        if we kept a seperate datastore
+    //        if we kept a separate datastore
     //        of upstream connections keyed to target but
     //        that would inflate the model structure
     //        dramatically for large data sets
