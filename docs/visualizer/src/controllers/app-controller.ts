@@ -84,9 +84,7 @@ export class AppController {
 
     this.graphController.onNewGraphState(this.handleNewGraphState.bind(this));
 
-    await this.graphController.hydrateFromJson(
-      this.appModel.getRemoteJsonUrl()
-    );
+    await this.graphController.hydrateFromJson(remoteJsonUrl);
 
     this.appModel.setListOfComponents(this.graphController.listOfComponents);
 
