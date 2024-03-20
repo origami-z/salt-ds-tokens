@@ -120,7 +120,14 @@ export class GraphController {
         continue;
       }
       const adjacencies = completeGraph.adjacencyList[id] || [];
-      nodesToAdd.push(...adjacencies);
+      /**
+       * When selected item is
+       * - layer: only add next level group
+       * - group: add all downstream tokens
+       **/
+      if (node.type !== "group" || nodes.includes(node.id)) {
+        nodesToAdd.push(...adjacencies);
+      }
       results._state.nodes[id] = node;
       if (adjacencies.length > 0) {
         results._state.adjacencyList[id] = adjacencies;
@@ -228,17 +235,10 @@ export class GraphController {
     // console.info(this.completeGraphModel.orphanNodes());
 
     // what is the subgraph that should ALWAYS be displayed?
-    // ie.. the default state of the displayed graph when nothing is selected
+    // i,e,. the default state of the displayed graph when nothing is selected
     this.baseDisplayGraphModel = this.completeGraphModel.filter((node) => {
       const isComponent = node.type === "component";
-      const isOrphanCategory = node.type === "orphan-category";
-      return (
-        isComponent ||
-        isOrphanCategory ||
-        node.type === "characteristic" ||
-        node.type === "foundation" ||
-        node.type === "palette"
-      );
+      return isComponent || node.type === "layer";
     });
 
     this.updateDisplayGraph();
