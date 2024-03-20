@@ -224,13 +224,16 @@ export class GraphController {
     return target;
   }
 
-  async hydrateFromJson() {
+  async hydrateFromJson(remoteJsonUrl: string) {
     const filters = this.appState.setFilters;
 
-    this.completeGraphModel =
-      await this.graphDataSource.getFilteredGraphModel(filters);
+    this.completeGraphModel = await this.graphDataSource.getFilteredGraphModel(
+      filters,
+      remoteJsonUrl
+    );
 
-    this.listOfComponents = await this.graphDataSource.getAllComponentNames();
+    this.listOfComponents =
+      await this.graphDataSource.getAllComponentNames(remoteJsonUrl);
 
     // console.info(this.completeGraphModel.orphanNodes());
 
@@ -327,7 +330,7 @@ export class GraphController {
     this.appState = newAppState;
 
     if (refreshSetFilters) {
-      await this.hydrateFromJson();
+      await this.hydrateFromJson(newAppState.remoteJsonUrl);
     } else if (refreshDisplayGraph) {
       this.updateDisplayGraph();
       this.requestGraphLayout(this.displayGraphModel);
