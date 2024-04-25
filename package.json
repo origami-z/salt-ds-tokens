@@ -36,5 +36,8 @@
   "engines": {
     "node": "~20.12"
   },
-  "packageManager": "pnpm@9.0.6"
+  "packageManager": "pnpm@9.0.6",
+  "dependencies": {
+    "@changesets/changelog-github": "^0.5.0"
+  }
 }
