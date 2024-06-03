@@ -11,40 +11,17 @@ governing permissions and limitations under the License.
 */
 
 import test from "ava";
+import tokenDiff from "../src/index.js";
+import original from "./test-schemas/basicOriginalToken.json" with { type: "json" };
+import updated from "./test-schemas/basicRenamedToken.json" with { type: "json" };
 
-const macro = test.macro((t, original, updated, expected) => {
-  t.is(eval(original, updated), expected);
+const expected = [
+  {
+    oldname: "swatch-border-color",
+    newname: "hello-world",
+  },
+];
+
+test("basic test to see if diff catches rename", (t) => {
+  t.deepEqual(tokenDiff(original, updated), expected);
 });
-
-const original = {
-  "swatch-border-color": {
-    component: "swatch",
-    $schema:
-      "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    value: "{gray-900}",
-    uuid: "7da5157d-7f25-405b-8de0-f3669565fb48",
-  },
-};
-const updated = {
-  "hello-world": {
-    component: "swatch",
-    $schema:
-      "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    value: "{gray-900}",
-    uuid: "7da5157d-7f25-405b-8de0-f3669565fb48",
-  },
-};
-const expected = {
-  oldname: "swatch-border-color",
-  newname: "hello-world",
-};
-
-test(
-  "basic test to see if diff catches rename",
-  macro,
-  original,
-  updated,
-  expected,
-);
-// I want to test it with the most basic diff, but I'm not sure how to run these inputs into index.js
-// Checked the documentation and this seems to be how you do it? https://github.com/avajs/ava/blob/main/docs/01-writing-tests.md

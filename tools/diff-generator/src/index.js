@@ -9,7 +9,7 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-import { detailedDiff, diff } from "deep-object-diff";
+import { detailedDiff } from "deep-object-diff";
 
 /**
  * @param {object} original - token data to compare against
@@ -17,10 +17,9 @@ import { detailedDiff, diff } from "deep-object-diff";
  * @return {object} new tokens, newly deprecated tokens, deleted tokens, updated values, renamed, updated type.
  */
 export default function tokenDiff(original, updated) {
-  changes = detailedDiff(original, updated);
-  renamed = [];
-  renamed.concat(checkIfRenamed(original, changes.added));
-  renamed.concat(checkIfRenamed(original, changes.deleted));
+  const changes = detailedDiff(original, updated);
+  const renamed = checkIfRenamed(original, changes.added); // don't need to check deleted since added will include all renamed schema
+  return renamed;
 }
 
 /**
@@ -30,16 +29,21 @@ export default function tokenDiff(original, updated) {
  * @returns {object} renamed - an array containing the renamed tokens
  */
 function checkIfRenamed(original, changes) {
-  renamed = [];
+  const renamed = [];
+
   Object.keys(changes).forEach((change) => {
     Object.keys(original).forEach((originalToken) => {
-      if (originalToken.uuid === change.uuid) {
-        renamed.append({
-          oldname: Object.keys(originalToken)[0],
-          newname: Object.keys(change)[0],
+      if (original[originalToken].uuid === changes[change].uuid) {
+        renamed.push({
+          oldname: originalToken,
+          newname: change,
         });
       }
     });
   });
+
+  // renamed.forEach(schema => {
+  //   console.log(schema);
+  // });
   return renamed; // CLI Output For 1 Token: "oldname" -> "newname"
 }
