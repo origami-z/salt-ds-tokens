@@ -19,6 +19,7 @@ import { detailedDiff } from "deep-object-diff";
 export default function tokenDiff(original, updated) {
   const changes = detailedDiff(original, updated);
   const renamed = checkIfRenamed(original, changes.added); // don't need to check deleted since added will include all renamed schema
+  const newTokens = detectNewTokens(original, changes.added);
   return renamed;
 }
 
@@ -31,19 +32,56 @@ export default function tokenDiff(original, updated) {
 function checkIfRenamed(original, changes) {
   const renamed = [];
 
-  Object.keys(changes).forEach((change) => {
-    Object.keys(original).forEach((originalToken) => {
-      if (original[originalToken].uuid === changes[change].uuid) {
-        renamed.push({
-          oldname: originalToken,
-          newname: change,
-        });
-      }
+  const func = (renamed, originalToken, change) => {
+    renamed.push({
+      oldname: originalToken,
+      newname: change,
     });
-  });
+  };
 
   // renamed.forEach(schema => {
   //   console.log(schema);
   // });
-  return renamed; // CLI Output For 1 Token: "oldname" -> "newname"
+  return loopThrough(original, changes, renamed, func); // CLI Output For 1 Token: "oldname" -> "newname"
+}
+
+/**
+ * Check if the added token's uuid exists in the original schema
+ * @param {object} original - the original token data
+ * @param {object} changes - the changed token data
+ * @returns {object} addedTokens - an array containing the added tokens
+ */
+function detectNewTokens(original, changes) {
+  // new tokens are tokens whose uuids don't exist in the original schema
+  const addedTokens = [];
+  Object.keys(changes).forEach((change) => {
+    addedTokens.push(change);
+  });
+
+  const func = (addedTokens, change) => {
+    return addedTokens.filter((token) => {
+      return token !== change;
+    });
+  };
+
+  return loopThrough(original, changes, addedTokens, func);
+}
+
+/**
+ * Helper function for looping through due to repetitiveness
+ * @param {object} original - the original token data
+ * @param {object} changes - the changed token data
+ * @param {object} list - the list that will contain the resulting tokens of whichever category
+ * @param {object} func - the function that determines which category of tokens is returned
+ * @returns list - the list that will contain the resulting tokens of whichever category
+ */
+function loopThrough(original, changes, list, func) {
+  Object.keys(changes).forEach((change) => {
+    Object.keys(original).forEach((originalToken) => {
+      if (original[originalToken].uuid === changes[change].uuid) {
+        func(list, originalToken, change);
+      }
+    });
+  });
+  return list;
 }
