@@ -19,8 +19,11 @@ import { detailedDiff } from "deep-object-diff";
 export default function tokenDiff(original, updated) {
   const changes = detailedDiff(original, updated);
   const renamed = checkIfRenamed(original, changes.added); // don't need to check deleted since added will include all renamed schema
-  const newTokens = detectNewTokens(original, changes.added);
-  return renamed;
+  const newTokens = detectNewTokens(renamed, changes.added);
+
+  // formatResult(changes, newTokens, renamed);
+  // probably make a json object with renamed, newTokens, etc. and return that?
+  return newTokens;
 }
 
 /**
@@ -46,25 +49,25 @@ function checkIfRenamed(original, changes) {
 }
 
 /**
- * Check if the added token's uuid exists in the original schema
- * @param {object} original - the original token data
+ * Check if the added token's uuid exists in renamed and added
+ * @param {object} renamed - the token data that were renamed
  * @param {object} changes - the changed token data
- * @returns {object} addedTokens - an array containing the added tokens
+ * @returns {object} addedTokens - a JSON object containing the added tokens
  */
-function detectNewTokens(original, changes) {
-  // new tokens are tokens whose uuids don't exist in the original schema
-  const addedTokens = [];
-  Object.keys(changes).forEach((change) => {
-    addedTokens.push(change);
-  });
+function detectNewTokens(renamed, changes) {
+  const addedTokens = changes;
 
-  const func = (addedTokens, change) => {
-    return addedTokens.filter((token) => {
-      return token !== change;
+  if (renamed.length > 0) {
+    Object.keys(changes).forEach((token) => {
+      renamed.forEach((item) => {
+        if (item["newname"] == token) {
+          delete addedTokens[token];
+        }
+      });
     });
-  };
+  }
 
-  return loopThrough(original, changes, addedTokens, func);
+  return addedTokens;
 }
 
 /**
@@ -84,4 +87,20 @@ function loopThrough(original, changes, list, func) {
     });
   });
   return list;
+}
+
+// function formatResult(changes, addedTokens, deprecatedTokens, deletedTokens, updatedValues, renamedTokens, updatedTypes) {
+function formatResult(changes, addedTokens, renamedTokens) {
+  // go through each of these and append the json tokens
+  const resultJSON = {};
+  resultJSON["added"] = addedTokens.forEach((token) => {
+    console.log(token);
+    resultJSON["added"][token] = token;
+  });
+  console.log(resultJSON);
+  resultJSON["renamed"] = renamedTokens.forEach((token) => {
+    resultJSON["renamed"][token] = changes[token];
+  });
+
+  return resultJSON;
 }

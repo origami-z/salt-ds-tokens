@@ -80,7 +80,7 @@
     "value": "{opacity-disabled}",
     "uuid": "84d25d1b-f9e4-4a9e-8cd0-92367ff00637"
   },
-  "color-area-border-color": {
+  "i-like-ice-cream": {
     "component": "color-area",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{gray-900}",
@@ -257,5 +257,17 @@
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
     "value": "0.15",
     "uuid": "6a093ea1-f07e-4673-b52f-5b28a2e080d0"
+  },
+  "i-like-pizza": {
+    "component": "table",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+    "value": "0.07",
+    "uuid": "1234"
+  },
+  "hi-how-are-you": {
+    "component": "color-handle",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+    "value": "0.42",
+    "uuid": "234"
   }
 }

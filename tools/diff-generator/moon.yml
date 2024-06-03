@@ -20,3 +20,9 @@ tasks:
       - pnpm
       - ava
     platform: node
+  test-watch:
+    command:
+      - ava
+      - --watch
+    local: true
+    platform: node

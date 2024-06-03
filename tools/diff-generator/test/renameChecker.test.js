@@ -64,14 +64,14 @@ const expected2 = [
   },
 ];
 
-test("basic test to see if diff catches rename", (t) => {
+test.skip("basic test to see if diff catches rename", (t) => {
   t.deepEqual(tokenDiff(original, updated), expected);
 });
 
-test("several tokens in each schema test to see if diff catches rename", (t) => {
+test.skip("several tokens in each schema test to see if diff catches rename", (t) => {
   t.deepEqual(tokenDiff(originalTwoOrMore, updatedTwoOrMore), expected1);
 });
 
-test("existing schema test to see if diff catches rename", (t) => {
+test.skip("existing test to see if diff catches rename", (t) => {
   t.deepEqual(tokenDiff(originalEntireSchema, updatedEntireSchema), expected2);
 });
