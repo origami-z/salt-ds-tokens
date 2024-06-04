@@ -20,10 +20,11 @@ export default function tokenDiff(original, updated) {
   const changes = detailedDiff(original, updated);
   const renamed = checkIfRenamed(original, changes.added); // don't need to check deleted since added will include all renamed schema
   const newTokens = detectNewTokens(renamed, changes.added);
+  const deletedTokens = detectDeletedTokens(renamed, changes.deleted);
 
   // formatResult(changes, newTokens, renamed);
   // probably make a json object with renamed, newTokens, etc. and return that?
-  return newTokens;
+  return deletedTokens;
 }
 
 /**
@@ -68,6 +69,35 @@ function detectNewTokens(renamed, changes) {
   }
 
   return addedTokens;
+}
+
+/**
+ * Detects deleted tokens
+ * @param {object} renamed - the renamed tokens (can be none)
+ * @param {object} changes - the deleted tokens detected by deep-boject-diff
+ * @returns {object} deletedTokens - the tokens that were deleted, but not renamed
+ */
+function detectDeletedTokens(renamed, changes) {
+  const deletedTokens = changes;
+
+  if (renamed.length > 0) {
+    Object.keys(changes).forEach((token) => {
+      renamed.forEach((item) => {
+        if (item["oldname"] === token) {
+          delete deletedTokens[token];
+        }
+      });
+    });
+  }
+
+  return deletedTokens;
+}
+
+function detectDeprecatedTokens(original, changes) {
+  // go through original and changes and check for deprecated?
+  // do we only want to display deprecated from changes?
+  const deprecatedTokens = [];
+  return deprecatedTokens;
 }
 
 /**
