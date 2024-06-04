@@ -19,14 +19,14 @@ import updatedTwoOrMore from "./test-schemas/several-renamed-tokens.json" with {
 import originalEntireSchema from "./test-schemas/entire-schema.json" with { type: "json" };
 import updatedEntireSchema from "./test-schemas/entire-schema-renamed.json" with { type: "json" };
 
-const expected = [
+const expectedSingleRenamed = [
   {
     oldname: "swatch-border-color",
     newname: "hello-world",
   },
 ];
 
-const expected1 = [
+const expectedTwoRenamed = [
   {
     oldname: "swatch-border-color",
     newname: "swatch-color",
@@ -37,7 +37,7 @@ const expected1 = [
   },
 ];
 
-const expected2 = [
+const expectedSeveralRenamed = [
   {
     oldname: "swatch-border-opacity",
     newname: "swatch-opacity",
@@ -65,13 +65,19 @@ const expected2 = [
 ];
 
 test.skip("basic test to see if diff catches rename", (t) => {
-  t.deepEqual(tokenDiff(original, updated), expected);
+  t.deepEqual(tokenDiff(original, updated), expectedSingleRenamed);
 });
 
 test.skip("several tokens in each schema test to see if diff catches rename", (t) => {
-  t.deepEqual(tokenDiff(originalTwoOrMore, updatedTwoOrMore), expected1);
+  t.deepEqual(
+    tokenDiff(originalTwoOrMore, updatedTwoOrMore),
+    expectedTwoRenamed,
+  );
 });
 
 test.skip("existing test to see if diff catches rename", (t) => {
-  t.deepEqual(tokenDiff(originalEntireSchema, updatedEntireSchema), expected2);
+  t.deepEqual(
+    tokenDiff(originalEntireSchema, updatedEntireSchema),
+    expectedSeveralRenamed,
+  );
 });

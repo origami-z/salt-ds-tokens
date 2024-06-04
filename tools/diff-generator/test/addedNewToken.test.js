@@ -19,7 +19,7 @@ import updatedSeveral from "./test-schemas/several-added-tokens.json" with { typ
 import originalEntireSchema from "./test-schemas/entire-schema.json" with { type: "json" };
 import addedRenamedTokens from "./test-schemas/added-renamed-tokens.json" with { type: "json" };
 
-const expected = {
+const expectedOneToken = {
   "swatch-border-opacity": {
     component: "swatch",
     $schema:
@@ -29,7 +29,7 @@ const expected = {
   },
 };
 
-const expected1 = {
+const expectedSeveral = {
   "focus-indicator-color": {
     $schema:
       "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
@@ -56,7 +56,7 @@ const expected1 = {
   },
 };
 
-const expected2 = {
+const expectedNotRenamed = {
   "i-like-pizza": {
     component: "table",
     $schema:
@@ -73,14 +73,17 @@ const expected2 = {
   },
 };
 
-test.skip("basic test to see if new token was added", (t) => {
-  t.deepEqual(tokenDiff(original, updated), expected);
+test("basic test to see if new token was added", (t) => {
+  t.deepEqual(tokenDiff(original, updated), expectedOneToken);
 });
 
-test.skip("several tokens in each schema test to see if new token was added", (t) => {
-  t.deepEqual(tokenDiff(originalSeveral, updatedSeveral), expected1);
+test("several tokens in each schema test to see if new token was added", (t) => {
+  t.deepEqual(tokenDiff(originalSeveral, updatedSeveral), expectedSeveral);
 });
 
-test.skip("adding several new and renamed tokens test", (t) => {
-  t.deepEqual(tokenDiff(originalEntireSchema, addedRenamedTokens), expected2);
+test("adding several new and renamed tokens test", (t) => {
+  t.deepEqual(
+    tokenDiff(originalEntireSchema, addedRenamedTokens),
+    expectedNotRenamed,
+  );
 });

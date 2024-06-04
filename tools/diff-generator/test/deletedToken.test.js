@@ -15,25 +15,21 @@ import tokenDiff from "../src/index.js";
 import original from "./test-schemas/basic-original-token.json" with { type: "json" };
 import updated from "./test-schemas/new-token.json" with { type: "json" };
 import renamedBasic from "./test-schemas/basic-renamed-token.json" with { type: "json" };
-import originalSeveral from "./test-schemas/several-original-tokens.json" with { type: "json" };
-import updatedSeveral from "./test-schemas/several-added-tokens.json" with { type: "json" };
-import originalEntireSchema from "./test-schemas/entire-schema.json" with { type: "json" };
-import addedRenamedTokens from "./test-schemas/added-renamed-tokens.json" with { type: "json" };
 
-const expected = {
+const expectedOneDeleted = {
   "swatch-border-opacity": undefined,
 };
 
-const expected1 = {};
+const expectedRenamedNotDeleted = {};
 
 test("basic test to see if token was deleted", (t) => {
-  t.deepEqual(tokenDiff(updated, original), expected);
+  t.deepEqual(tokenDiff(updated, original), expectedOneDeleted);
 });
 
 test("checking if renamed tokens are mistakenly marked as deleted", (t) => {
-  t.deepEqual(tokenDiff(renamedBasic, original), expected1);
+  t.deepEqual(tokenDiff(renamedBasic, original), expectedRenamedNotDeleted);
 });
 
 test("checking if renamed tokens are mistakenly marked as deleted (same as above but swapped schema)", (t) => {
-  t.deepEqual(tokenDiff(original, renamedBasic), expected1);
+  t.deepEqual(tokenDiff(original, renamedBasic), expectedRenamedNotDeleted);
 });

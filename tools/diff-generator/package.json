@@ -4,7 +4,9 @@
   "description": "Creates diffs for tokens",
   "type": "module",
   "private": true,
-  "scripts": {},
+  "scripts": {
+    "test": "c8 ava"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/adobe/spectrum-tokens.git"
@@ -17,5 +19,8 @@
   "homepage": "https://github.com/adobe/spectrum-tokens#readme",
   "dependencies": {
     "deep-object-diff": "^1.1.9"
+  },
+  "devDependencies": {
+    "c8": "^9.1.0"
   }
 }

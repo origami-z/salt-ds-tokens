@@ -20,11 +20,11 @@ export default function tokenDiff(original, updated) {
   const changes = detailedDiff(original, updated);
   const renamed = checkIfRenamed(original, changes.added); // don't need to check deleted since added will include all renamed schema
   const newTokens = detectNewTokens(renamed, changes.added);
-  const deletedTokens = detectDeletedTokens(renamed, changes.deleted);
-
+  // const deprecatedTokens = detectDeprecatedTokens(changes.added);
+  // const deletedTokens = detectDeletedTokens(renamed, changes.deleted);
   // formatResult(changes, newTokens, renamed);
   // probably make a json object with renamed, newTokens, etc. and return that?
-  return deletedTokens;
+  return newTokens;
 }
 
 /**
@@ -43,9 +43,6 @@ function checkIfRenamed(original, changes) {
     });
   };
 
-  // renamed.forEach(schema => {
-  //   console.log(schema);
-  // });
   return loopThrough(original, changes, renamed, func); // CLI Output For 1 Token: "oldname" -> "newname"
 }
 
@@ -57,7 +54,7 @@ function checkIfRenamed(original, changes) {
  */
 function detectNewTokens(renamed, changes) {
   const addedTokens = changes;
-
+  console.log(addedTokens);
   if (renamed.length > 0) {
     Object.keys(changes).forEach((token) => {
       renamed.forEach((item) => {
@@ -93,10 +90,16 @@ function detectDeletedTokens(renamed, changes) {
   return deletedTokens;
 }
 
-function detectDeprecatedTokens(original, changes) {
-  // go through original and changes and check for deprecated?
-  // do we only want to display deprecated from changes?
-  const deprecatedTokens = [];
+function detectDeprecatedTokens(changes) {
+  const deprecatedTokens = changes;
+
+  Object.keys(changes).forEach((token) => {
+    // console.log("hello?", changes[token].deprecated);
+    if (changes[token].deprecated !== true) {
+      delete deprecatedTokens[token];
+    }
+  });
+
   return deprecatedTokens;
 }
 
