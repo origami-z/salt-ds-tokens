@@ -44,6 +44,5 @@ function formatResult(changes, addedTokens, renamedTokens) {
   resultJSON["renamed"] = renamedTokens.forEach((token) => {
     resultJSON["renamed"][token] = changes[token];
   });
-
   return resultJSON;
 }
