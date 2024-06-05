@@ -18,6 +18,8 @@ import originalTwoOrMore from "./test-schemas/several-original-tokens.json" with
 import updatedTwoOrMore from "./test-schemas/several-renamed-tokens.json" with { type: "json" };
 import originalEntireSchema from "./test-schemas/entire-schema.json" with { type: "json" };
 import updatedEntireSchema from "./test-schemas/entire-schema-renamed.json" with { type: "json" };
+import deprecatedTokens from "./test-schemas/several-deprecated-tokens.json" with { type: "json" };
+import renamedDeprecatedTokens from "./test-schemas/several-renamed-deprecated-tokens.json" with { type: "json" };
 
 const expectedSingleRenamed = [
   {
@@ -64,6 +66,17 @@ const expectedSeveralRenamed = [
   },
 ];
 
+const expectedRenamedDeprecated = [
+  {
+    oldname: "swatch-border-opacity",
+    newname: "i-like-matcha-lattes",
+  },
+  {
+    oldname: "swatch-disabled-icon-border-color",
+    newname: "i-like-cookies",
+  },
+];
+
 test.skip("basic test to see if diff catches rename", (t) => {
   t.deepEqual(tokenDiff(original, updated), expectedSingleRenamed);
 });
@@ -79,5 +92,12 @@ test.skip("existing test to see if diff catches rename", (t) => {
   t.deepEqual(
     tokenDiff(originalEntireSchema, updatedEntireSchema),
     expectedSeveralRenamed,
+  );
+});
+
+test.skip("several renamed deprecated tokens to see if diff catches rename", (t) => {
+  t.deepEqual(
+    tokenDiff(deprecatedTokens, renamedDeprecatedTokens),
+    expectedRenamedDeprecated,
   );
 });

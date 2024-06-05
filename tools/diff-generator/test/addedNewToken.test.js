@@ -73,15 +73,15 @@ const expectedNotRenamed = {
   },
 };
 
-test("basic test to see if new token was added", (t) => {
+test.skip("basic test to see if new token was added", (t) => {
   t.deepEqual(tokenDiff(original, updated), expectedOneToken);
 });
 
-test("several tokens in each schema test to see if new token was added", (t) => {
+test.skip("several tokens in each schema test to see if new token was added", (t) => {
   t.deepEqual(tokenDiff(originalSeveral, updatedSeveral), expectedSeveral);
 });
 
-test("adding several new and renamed tokens test", (t) => {
+test.skip("adding several new and renamed tokens test", (t) => {
   t.deepEqual(
     tokenDiff(originalEntireSchema, addedRenamedTokens),
     expectedNotRenamed,

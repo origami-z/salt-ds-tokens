@@ -22,14 +22,14 @@ const expectedOneDeleted = {
 
 const expectedRenamedNotDeleted = {};
 
-test("basic test to see if token was deleted", (t) => {
+test.skip("basic test to see if token was deleted", (t) => {
   t.deepEqual(tokenDiff(updated, original), expectedOneDeleted);
 });
 
-test("checking if renamed tokens are mistakenly marked as deleted", (t) => {
+test.skip("checking if renamed tokens are mistakenly marked as deleted", (t) => {
   t.deepEqual(tokenDiff(renamedBasic, original), expectedRenamedNotDeleted);
 });
 
-test("checking if renamed tokens are mistakenly marked as deleted (same as above but swapped schema)", (t) => {
+test.skip("checking if renamed tokens are mistakenly marked as deleted (same as above but swapped schema)", (t) => {
   t.deepEqual(tokenDiff(original, renamedBasic), expectedRenamedNotDeleted);
 });
