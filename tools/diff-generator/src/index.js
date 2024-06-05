@@ -42,7 +42,6 @@ function checkIfRenamed(original, changes) {
       newname: change,
     });
   };
-
   return loopThrough(original, changes, renamed, func); // CLI Output For 1 Token: "oldname" -> "newname"
 }
 
@@ -54,7 +53,6 @@ function checkIfRenamed(original, changes) {
  */
 function detectNewTokens(renamed, changes) {
   const addedTokens = changes;
-  console.log(addedTokens);
   if (renamed.length > 0) {
     Object.keys(changes).forEach((token) => {
       renamed.forEach((item) => {
@@ -134,6 +132,5 @@ function formatResult(changes, addedTokens, renamedTokens) {
   resultJSON["renamed"] = renamedTokens.forEach((token) => {
     resultJSON["renamed"][token] = changes[token];
   });
-
   return resultJSON;
 }

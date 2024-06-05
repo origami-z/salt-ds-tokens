@@ -19,6 +19,7 @@ import updatedSeveral from "./test-schemas/several-added-tokens.json" with { typ
 import originalEntireSchema from "./test-schemas/entire-schema.json" with { type: "json" };
 import addedRenamedTokens from "./test-schemas/added-renamed-tokens.json" with { type: "json" };
 
+
 const expectedOneToken = {
   "swatch-border-opacity": {
     component: "swatch",
