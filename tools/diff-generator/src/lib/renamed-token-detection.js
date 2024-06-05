@@ -27,7 +27,10 @@ export default function checkIfRenamed(original, changes) {
 
   Object.keys(changes).forEach((change) => {
     Object.keys(original).forEach((originalToken) => {
-      if (original[originalToken].uuid === changes[change].uuid) {
+      if (
+        original[originalToken].uuid === changes[change].uuid &&
+        originalToken !== change
+      ) {
         func(renamed, originalToken, change);
       }
     });

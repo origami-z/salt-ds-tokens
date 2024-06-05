@@ -15,9 +15,8 @@ governing permissions and limitations under the License.
  * @param {object} changes - the changed token data
  * @returns {object} deprecatedTokens - a JSON object containing the newly deprecated tokens
  */
-export default function detectDeprecatedTokens(changes) {
+export default function detectDeprecatedTokens(renamed, changes) {
   const deprecatedTokens = changes;
-
   Object.keys(deprecatedTokens).forEach((token) => {
     if (token !== undefined) {
       if (!deprecatedTokens[token].deprecated) {
@@ -26,5 +25,12 @@ export default function detectDeprecatedTokens(changes) {
     }
   });
 
+  renamed.forEach((name) => {
+    Object.keys(deprecatedTokens).forEach((token) => {
+      if (name["newname"] === token) {
+        delete deprecatedTokens[token];
+      }
+    });
+  });
   return deprecatedTokens;
 }

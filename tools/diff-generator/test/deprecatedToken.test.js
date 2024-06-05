@@ -11,7 +11,9 @@ governing permissions and limitations under the License.
 */
 
 import test from "ava";
-import tokenDiff from "../src/index.js";
+import detectDeprecatedTokens from "../src/lib/deprecated-token-detection.js";
+import checkIfRenamed from "../src/lib/renamed-token-detection.js";
+import { detailedDiff } from "deep-object-diff";
 import original from "./test-schemas/basic-original-token.json" with { type: "json" };
 import deprecatedToken from "./test-schemas/deprecated-token.json" with { type: "json" };
 import severalOriginalTokens from "./test-schemas/several-original-tokens.json" with { type: "json" };
@@ -63,26 +65,42 @@ const expectedAddedDeprecated = {
 };
 
 test("basic test to see deprecated token", (t) => {
-  t.deepEqual(tokenDiff(original, deprecatedToken), expected);
+  t.deepEqual(
+    detectDeprecatedTokens(
+      checkIfRenamed(original, deprecatedToken),
+      detailedDiff(original, deprecatedToken).added,
+    ),
+    expected,
+  );
 });
 
 test("several tokens to see if deprecated token is found", (t) => {
   t.deepEqual(
-    tokenDiff(severalOriginalTokens, severalDeprecatedTokens),
+    detectDeprecatedTokens(
+      checkIfRenamed(severalOriginalTokens, severalDeprecatedTokens),
+      detailedDiff(severalOriginalTokens, severalDeprecatedTokens).added,
+    ),
     expectedSeveralDeprecated,
   );
 });
 
 test("several tokens with with some renamed to see if new deprecated tokens are found", (t) => {
   t.deepEqual(
-    tokenDiff(severalDeprecatedTokens, severalRenamedDeprecatedTokens),
+    detectDeprecatedTokens(
+      checkIfRenamed(severalDeprecatedTokens, severalRenamedDeprecatedTokens),
+      detailedDiff(severalDeprecatedTokens, severalRenamedDeprecatedTokens)
+        .added,
+    ),
     expectedRenamedDeprecated,
   );
 });
 
 test("added a token to see if new deprecated tokens are found", (t) => {
   t.deepEqual(
-    tokenDiff(severalDeprecatedTokens, severalAddedDeprecatedTokens),
+    detectDeprecatedTokens(
+      checkIfRenamed(severalDeprecatedTokens, severalAddedDeprecatedTokens),
+      detailedDiff(severalDeprecatedTokens, severalAddedDeprecatedTokens).added,
+    ),
     expectedAddedDeprecated,
   );
 });
