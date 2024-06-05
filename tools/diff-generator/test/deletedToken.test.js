@@ -11,10 +11,12 @@ governing permissions and limitations under the License.
 */
 
 import test from "ava";
-import tokenDiff from "../src/index.js";
-import original from "./test-schemas/basic-original-token.json" with { type: "json" };
-import updated from "./test-schemas/new-token.json" with { type: "json" };
+import detectDeletedTokens from "../src/lib/deleted-token-detection.js";
+import updated from "./test-schemas/basic-original-token.json" with { type: "json" };
+import original from "./test-schemas/new-token.json" with { type: "json" };
 import renamedBasic from "./test-schemas/basic-renamed-token.json" with { type: "json" };
+import { detailedDiff } from "deep-object-diff";
+import checkIfRenamed from "../src/lib/renamed-token-detection.js";
 
 const expectedOneDeleted = {
   "swatch-border-opacity": undefined,
@@ -22,14 +24,32 @@ const expectedOneDeleted = {
 
 const expectedRenamedNotDeleted = {};
 
-test.skip("basic test to see if token was deleted", (t) => {
-  t.deepEqual(tokenDiff(updated, original), expectedOneDeleted);
+test("basic test to see if token was deleted", (t) => {
+  t.deepEqual(
+    detectDeletedTokens(
+      checkIfRenamed(original, updated),
+      detailedDiff(original, updated).deleted,
+    ),
+    expectedOneDeleted,
+  );
 });
 
-test.skip("checking if renamed tokens are mistakenly marked as deleted", (t) => {
-  t.deepEqual(tokenDiff(renamedBasic, original), expectedRenamedNotDeleted);
+test("checking if renamed tokens are mistakenly marked as deleted", (t) => {
+  t.deepEqual(
+    detectDeletedTokens(
+      checkIfRenamed(renamedBasic, updated),
+      detailedDiff(renamedBasic, updated).deleted,
+    ),
+    expectedRenamedNotDeleted,
+  );
 });
 
-test.skip("checking if renamed tokens are mistakenly marked as deleted (same as above but swapped schema)", (t) => {
-  t.deepEqual(tokenDiff(original, renamedBasic), expectedRenamedNotDeleted);
+test("checking if renamed tokens are mistakenly marked as deleted (same as above but swapped schema)", (t) => {
+  t.deepEqual(
+    detectDeletedTokens(
+      checkIfRenamed(updated, renamedBasic),
+      detailedDiff(updated, renamedBasic).deleted,
+    ),
+    expectedRenamedNotDeleted,
+  );
 });
