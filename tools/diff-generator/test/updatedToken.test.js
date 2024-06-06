@@ -96,14 +96,3 @@ test.skip("updated more than one property of a token", (t) => {
 test.skip("testing token with updates to its set property", (t) => {
   t.deepEqual(tokenDiff(tokenWithSet, tokenWithUpdatedSet), expectedUpdatedSet);
 });
-
-test.skip("added a token to see if new deprecated tokens are found", (t) => {
-  t.deepEqual(
-    tokenDiff(severalDeprecatedTokens, severalAddedDeprecatedTokens),
-    expectedAddedDeprecated,
-  );
-});
-
-test.skip("reverted a token to not deprecated", (t) => {
-  // not sure if a token can ever by "un-deprecated"
-});

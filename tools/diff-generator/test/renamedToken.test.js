@@ -11,7 +11,7 @@ governing permissions and limitations under the License.
 */
 
 import test from "ava";
-import checkIfRenamed from "../src/lib/renamed-token-detection.js";
+import detectRenamedTokens from "../src/lib/renamed-token-detection.js";
 import { detailedDiff } from "deep-object-diff";
 import original from "./test-schemas/basic-original-token.json" with { type: "json" };
 import updated from "./test-schemas/basic-renamed-token.json" with { type: "json" };
@@ -67,14 +67,14 @@ const expectedSeveralRenamed = [
 
 test("basic test to see if diff catches rename", (t) => {
   t.deepEqual(
-    checkIfRenamed(original, detailedDiff(original, updated).added),
+    detectRenamedTokens(original, detailedDiff(original, updated).added),
     expectedSingleRenamed,
   );
 });
 
 test("several tokens in each schema test to see if diff catches rename", (t) => {
   t.deepEqual(
-    checkIfRenamed(
+    detectRenamedTokens(
       originalTwoOrMore,
       detailedDiff(originalTwoOrMore, updatedTwoOrMore).added,
     ),
@@ -84,7 +84,7 @@ test("several tokens in each schema test to see if diff catches rename", (t) => 
 
 test("existing test to see if diff catches rename", (t) => {
   t.deepEqual(
-    checkIfRenamed(
+    detectRenamedTokens(
       originalEntireSchema,
       detailedDiff(originalEntireSchema, updatedEntireSchema).added,
     ),

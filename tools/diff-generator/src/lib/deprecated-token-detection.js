@@ -16,15 +16,22 @@ governing permissions and limitations under the License.
  * @returns {object} deprecatedTokens - a JSON object containing the newly deprecated tokens
  */
 export default function detectDeprecatedTokens(renamed, changes) {
-  const deprecatedTokens = changes;
+  const result = {
+    deprecated: {},
+    reverted: {},
+  };
+  const deprecatedTokens = changes.added;
+  const possibleMistakenRevert = changes.deleted;
   Object.keys(deprecatedTokens).forEach((token) => {
-    if (token !== undefined) {
-      if (!deprecatedTokens[token].deprecated) {
-        delete deprecatedTokens[token];
-      }
+    if (token !== undefined && !deprecatedTokens[token].deprecated) {
+      delete deprecatedTokens[token];
     }
   });
-
+  Object.keys(possibleMistakenRevert).forEach((token) => {
+    if (possibleMistakenRevert[token] === undefined) {
+      delete possibleMistakenRevert[token];
+    }
+  });
   renamed.forEach((name) => {
     Object.keys(deprecatedTokens).forEach((token) => {
       if (name["newname"] === token) {
@@ -32,5 +39,11 @@ export default function detectDeprecatedTokens(renamed, changes) {
       }
     });
   });
-  return deprecatedTokens;
+  Object.keys(deprecatedTokens).forEach((token) => {
+    result.deprecated[token] = deprecatedTokens[token];
+  });
+  Object.keys(possibleMistakenRevert).forEach((token) => {
+    result.reverted[token] = possibleMistakenRevert[token];
+  });
+  return result;
 }
