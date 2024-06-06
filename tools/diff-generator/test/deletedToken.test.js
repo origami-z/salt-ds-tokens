@@ -17,12 +17,24 @@ import original from "./test-schemas/new-token.json" with { type: "json" };
 import renamedBasic from "./test-schemas/basic-renamed-token.json" with { type: "json" };
 import { detailedDiff } from "deep-object-diff";
 import detectRenamedTokens from "../src/lib/renamed-token-detection.js";
+import severalSetTokens from "./test-schemas/several-set-tokens.json" with { type: "json" };
+import deletedSetTokens from "./test-schemas/deleted-set-token.json" with { type: "json" };
+import deletedSeveralSetTokens from "./test-schemas/deleted-set-tokens.json" with { type: "json" };
 
 const expectedOneDeleted = {
   "swatch-border-opacity": undefined,
 };
 
 const expectedRenamedNotDeleted = {};
+
+const expectedDeletedSetToken = {
+  "status-light-dot-size-extra-large": undefined,
+};
+
+const expectedTwoDeletedSetTokens = {
+  "help-text-top-to-workflow-icon-medium": undefined,
+  "status-light-dot-size-extra-large": undefined,
+};
 
 test("basic test to see if token was deleted", (t) => {
   t.deepEqual(
@@ -51,5 +63,25 @@ test("checking if renamed tokens are mistakenly marked as deleted (same as above
       detailedDiff(updated, renamedBasic).deleted,
     ),
     expectedRenamedNotDeleted,
+  );
+});
+
+test("checking if set token is deleted", (t) => {
+  t.deepEqual(
+    detectDeletedTokens(
+      detectRenamedTokens(severalSetTokens, deletedSetTokens),
+      detailedDiff(severalSetTokens, deletedSetTokens).deleted,
+    ),
+    expectedDeletedSetToken,
+  );
+});
+
+test("checking if multiple set tokens are deleted", (t) => {
+  t.deepEqual(
+    detectDeletedTokens(
+      detectRenamedTokens(severalSetTokens, deletedSeveralSetTokens),
+      detailedDiff(severalSetTokens, deletedSeveralSetTokens).deleted,
+    ),
+    expectedTwoDeletedSetTokens,
   );
 });

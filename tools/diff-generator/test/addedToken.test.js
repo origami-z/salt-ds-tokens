@@ -20,6 +20,9 @@ import originalSeveral from "./test-schemas/several-original-tokens.json" with {
 import updatedSeveral from "./test-schemas/several-added-tokens.json" with { type: "json" };
 import originalEntireSchema from "./test-schemas/entire-schema.json" with { type: "json" };
 import addedRenamedTokens from "./test-schemas/added-renamed-tokens.json" with { type: "json" };
+import basicSetToken from "./test-schemas/basic-set-token.json" with { type: "json" };
+import addedSetToken from "./test-schemas/added-set-token.json" with { type: "json" };
+import addedSeveralSetTokens from "./test-schemas/added-set-tokens-out-of-order.json" with { type: "json" };
 
 const expectedOneToken = {
   "swatch-border-opacity": {
@@ -75,6 +78,103 @@ const expectedNotRenamed = {
   },
 };
 
+const expectedAddedSetToken = {
+  "help-text-top-to-workflow-icon-medium": {
+    component: "help-text",
+    $schema:
+      "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token-set.json",
+    sets: {
+      desktop: {
+        $schema:
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/changing-two-schemas.json",
+        value: "3px",
+        uuid: "d159b313-4def-493a-adcf-398e2d1fce9f",
+      },
+      mobile: {
+        $schema:
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        value: "9px",
+        uuid: "b690bd12-855e-444d-8b76-a7ae948e3f52",
+      },
+    },
+    uuid: "86ac0bd3-7ea6-4f80-9c73-c0c77616f246",
+  },
+};
+
+const expectedSeveralAddedSetTokens = {
+  "background-layer-2-color": {
+    $schema:
+      "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color-set.json",
+    sets: {
+      light: {
+        $schema:
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        value: "{gray-50}",
+        uuid: "b7b2bf98-b96a-40ca-b51e-5876d3418085",
+      },
+      dark: {
+        $schema:
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        value: "{gray-100}",
+        uuid: "dd462fc7-bd79-4b52-9411-adf317832989",
+      },
+      darkest: {
+        $schema:
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        value: "{gray-100}",
+        uuid: "e30b7936-6ae7-4ada-8892-94a1f67d55c9",
+      },
+      wireframe: {
+        $schema:
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        value: "{gray-50}",
+        uuid: "6556a64d-5944-4d65-a6cc-9c6121044ac7",
+      },
+    },
+  },
+  "help-text-top-to-workflow-icon-medium": {
+    component: "help-text",
+    $schema:
+      "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token-set.json",
+    sets: {
+      desktop: {
+        $schema:
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/changing-two-schemas.json",
+        value: "3px",
+        uuid: "d159b313-4def-493a-adcf-398e2d1fce9f",
+      },
+      mobile: {
+        $schema:
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+        value: "9px",
+        uuid: "b690bd12-855e-444d-8b76-a7ae948e3f52",
+      },
+    },
+    uuid: "86ac0bd3-7ea6-4f80-9c73-c0c77616f246",
+  },
+  "neutral-background-color-selected-default": {
+    $schema:
+      "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/system-set.json",
+    sets: {
+      spectrum: {
+        $schema:
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        value: "{gray-700}",
+        uuid: "fd1c9f2b-8358-4bd3-a5cc-d211673428bc",
+      },
+      express: {
+        $schema:
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        value: "{gray-800}",
+        deprecated: true,
+        deprecated_comment:
+          "Express will merge with Spectrum with the release of Spectrum 2.",
+        uuid: "60caae29-d389-421e-a574-b26bcaeed3bf",
+      },
+    },
+  },
+};
+
 test("basic test to see if new token was added", (t) => {
   t.deepEqual(
     detectNewTokens(
@@ -108,5 +208,31 @@ test("adding several new and renamed tokens test", (t) => {
       detailedDiff(originalEntireSchema, addedRenamedTokens).added,
     ),
     expectedNotRenamed,
+  );
+});
+
+test("adding a set token test", (t) => {
+  t.deepEqual(
+    detectNewTokens(
+      detectRenamedTokens(
+        basicSetToken,
+        detailedDiff(basicSetToken, addedSetToken).added,
+      ),
+      detailedDiff(basicSetToken, addedSetToken).added,
+    ),
+    expectedAddedSetToken,
+  );
+});
+
+test("adding several set tokens out of order", (t) => {
+  t.deepEqual(
+    detectNewTokens(
+      detectRenamedTokens(
+        basicSetToken,
+        detailedDiff(basicSetToken, addedSeveralSetTokens).added,
+      ),
+      detailedDiff(basicSetToken, addedSeveralSetTokens).added,
+    ),
+    expectedSeveralAddedSetTokens,
   );
 });

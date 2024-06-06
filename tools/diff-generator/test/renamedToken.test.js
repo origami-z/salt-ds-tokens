@@ -19,6 +19,10 @@ import originalTwoOrMore from "./test-schemas/several-original-tokens.json" with
 import updatedTwoOrMore from "./test-schemas/several-renamed-tokens.json" with { type: "json" };
 import originalEntireSchema from "./test-schemas/entire-schema.json" with { type: "json" };
 import updatedEntireSchema from "./test-schemas/entire-schema-renamed.json" with { type: "json" };
+import basicSetToken from "./test-schemas/basic-set-token.json" with { type: "json" };
+import renamedSetToken from "./test-schemas/basic-renamed-set-token.json" with { type: "json" };
+import severalSetTokens from "./test-schemas/several-set-tokens.json" with { type: "json" };
+import severalRenamedSetTokens from "./test-schemas/several-renamed-set-tokens.json" with { type: "json" };
 
 const expectedSingleRenamed = [
   {
@@ -65,6 +69,24 @@ const expectedSeveralRenamed = [
   },
 ];
 
+const expectedSetTokenRenamed = [
+  {
+    oldname: "overlay-opacity",
+    newname: "i-like-lavendar-latte",
+  },
+];
+
+const expectedSeveralSetTokensRenamed = [
+  {
+    oldname: "status-light-dot-size-extra-large",
+    newname: "i-like-fish-tacos",
+  },
+  {
+    oldname: "status-light-top-to-dot-large",
+    newname: "i-like-scrambled-eggs",
+  },
+];
+
 test("basic test to see if diff catches rename", (t) => {
   t.deepEqual(
     detectRenamedTokens(original, detailedDiff(original, updated).added),
@@ -89,5 +111,25 @@ test("existing test to see if diff catches rename", (t) => {
       detailedDiff(originalEntireSchema, updatedEntireSchema).added,
     ),
     expectedSeveralRenamed,
+  );
+});
+
+test("renamed set token", (t) => {
+  t.deepEqual(
+    detectRenamedTokens(
+      basicSetToken,
+      detailedDiff(basicSetToken, renamedSetToken).added,
+    ),
+    expectedSetTokenRenamed,
+  );
+});
+
+test("renamed several set tokens", (t) => {
+  t.deepEqual(
+    detectRenamedTokens(
+      severalSetTokens,
+      detailedDiff(severalSetTokens, severalRenamedSetTokens).added,
+    ),
+    expectedSeveralSetTokensRenamed,
   );
 });
