@@ -14,6 +14,7 @@ import checkIfRenamed from "./lib/renamed-token-detection.js";
 import detectNewTokens from "./lib/added-token-detection.js";
 import detectDeletedTokens from "./lib/deleted-token-detection.js";
 import detectDeprecatedTokens from "./lib/deprecated-token-detection.js";
+import detectUpdatedTokens from "./lib/updated-token-detection.js";
 
 /**
  * @param {object} original - token data to compare against
@@ -27,6 +28,7 @@ export default function tokenDiff(original, updated) {
   // console.log(changes);
   const deprecatedTokens = detectDeprecatedTokens(changes.added);
   const deletedTokens = detectDeletedTokens(renamed, changes.deleted);
+  const updatedTokens = detectUpdatedTokens();
   // formatResult(changes, newTokens, renamed);
   // probably make a json object with renamed, newTokens, etc. and return that?
   return;
