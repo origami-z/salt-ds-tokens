@@ -34,7 +34,6 @@ export default function tokenDiff(original, updated) {
   const deletedTokens = detectDeletedTokens(renamedTokens, changes.deleted);
   const updatedTokens = detectUpdatedTokens(renamedTokens, original, changes);
   return formatResult(
-    changes,
     renamedTokens,
     deprecatedTokens,
     newTokens,
@@ -46,15 +45,14 @@ export default function tokenDiff(original, updated) {
 /**
  * Formats the results from all the different diff categories
  * @param {object} changes - the changed token data
- * @param {object} renamedTokens -
- * @param {object} deprecatedTokens
- * @param {object} newTokens
- * @param {object} deletedTokens
- * @param {object} updatedTokens
+ * @param {object} renamedTokens - a list containing the renamed tokens and their old names
+ * @param {object} deprecatedTokens - a JSON object containing the newly deprecated tokens
+ * @param {object} newTokens - a JSON object containing the added tokens
+ * @param {object} deletedTokens - a JSON object containing the deleted tokens
+ * @param {object} updatedTokens - a JSON object containing tokens that had updated properties
  * @returns {object} resultJSON - a JSON object containing the new tokens, newly deprecated tokens, deleted tokens, updated values, renamed, updated type
  */
 function formatResult(
-  changes,
   renamedTokens,
   deprecatedTokens,
   newTokens,
