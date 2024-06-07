@@ -16,7 +16,8 @@ governing permissions and limitations under the License.
  * @param {object} changes - the deleted tokens detected by deep-boject-diff
  * @returns {object} deletedTokens - the tokens that were deleted, but not renamed
  */
-export default function detectDeletedTokens(renamed, changes) {
+export default function detectDeletedTokens(renamed, changesOriginal) {
+  const changes = { ...changesOriginal };
   const deletedTokens = changes;
   if (renamed.length > 0) {
     Object.keys(changes).forEach((token) => {
@@ -25,6 +26,12 @@ export default function detectDeletedTokens(renamed, changes) {
           delete deletedTokens[token];
         }
       });
+      if (
+        deletedTokens[token] !== undefined &&
+        deletedTokens[token].deprecated === undefined
+      ) {
+        delete deletedTokens[token];
+      }
     });
   }
   return deletedTokens;
