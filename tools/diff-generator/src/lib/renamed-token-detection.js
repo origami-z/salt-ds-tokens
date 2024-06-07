@@ -16,8 +16,9 @@ governing permissions and limitations under the License.
  * @param {object} changes - the changed token data
  * @returns {object} renamed - an array containing the renamed tokens
  */
-export default function detectRenamedTokens(original, changes) {
+export default function detectRenamedTokens(original, changesOriginal) {
   const renamed = [];
+  const changes = { ...changesOriginal };
   const func = (renamed, originalToken, change) => {
     renamed.push({
       oldname: originalToken,

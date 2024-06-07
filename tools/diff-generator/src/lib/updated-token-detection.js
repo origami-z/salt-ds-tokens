@@ -9,19 +9,27 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-import { detailedDiff, diff } from "deep-object-diff";
+import { detailedDiff } from "deep-object-diff";
 
+/**
+ * Detects updates made to tokens
+ * @param {object} renamed - a list containing tokens that were renamed
+ * @param {object} original - the original token data
+ * @param {object} changes - the changed token data
+ * @returns {object} result - a JSON object containing the updated tokens (with new name, if renamed)
+ */
 export default function detectUpdatedTokens(renamed, original, changes) {
   const result = {
     updated: {},
   };
-  const updatedTokens = changes.updated;
+  const updatedTokens = { ...changes.updated };
+  const added = { ...changes.added };
   renamed.forEach((pair) => {
-    Object.keys(changes.added).forEach((token) => {
+    Object.keys(added).forEach((token) => {
       if (pair["newname"] === token) {
         const renamedTokenDiff = detailedDiff(
           original[pair.oldname],
-          changes.added[token],
+          added[token],
         ).updated;
         updatedTokens[token] = renamedTokenDiff;
       }

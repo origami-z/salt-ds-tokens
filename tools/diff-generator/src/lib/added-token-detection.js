@@ -16,12 +16,22 @@ governing permissions and limitations under the License.
  * @param {object} changes - the changed token data
  * @returns {object} addedTokens - a JSON object containing the added tokens
  */
-export default function detectNewTokens(renamed, changes) {
+export default function detectNewTokens(
+  renamed,
+  deprecatedTokens,
+  changesOriginal,
+) {
+  const changes = { ...changesOriginal };
   const addedTokens = changes;
   if (renamed.length > 0) {
     Object.keys(changes).forEach((token) => {
       renamed.forEach((item) => {
         if (item["newname"] == token) {
+          delete addedTokens[token];
+        }
+      });
+      Object.keys(deprecatedTokens.deprecated).forEach((dep) => {
+        if (dep === token) {
           delete addedTokens[token];
         }
       });

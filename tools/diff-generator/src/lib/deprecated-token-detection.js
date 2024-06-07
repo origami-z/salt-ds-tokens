@@ -20,8 +20,8 @@ export default function detectDeprecatedTokens(renamed, changes) {
     deprecated: {},
     reverted: {},
   };
-  const deprecatedTokens = changes.added;
-  const possibleMistakenRevert = changes.deleted;
+  const deprecatedTokens = { ...changes.added };
+  const possibleMistakenRevert = { ...changes.deleted };
   Object.keys(deprecatedTokens).forEach((token) => {
     if (token !== undefined && !deprecatedTokens[token].deprecated) {
       delete deprecatedTokens[token];
