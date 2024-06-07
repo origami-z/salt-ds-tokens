@@ -13,7 +13,7 @@ tasks:
   diff:
     command:
       - node
-      - src/index.js
+      - src/lib/index.js
     platform: node
   test:
     command:
