@@ -22,12 +22,12 @@ export default function detectDeprecatedTokens(renamed, changes) {
   };
   const deprecatedTokens = { ...changes.added };
   const possibleMistakenRevert = { ...changes.deleted };
-  Object.keys(deprecatedTokens).forEach((token) => {
+  Object.keys(changes.added).forEach((token) => {
     if (token !== undefined && !deprecatedTokens[token].deprecated) {
       delete deprecatedTokens[token];
     }
   });
-  Object.keys(possibleMistakenRevert).forEach((token) => {
+  Object.keys(changes.deleted).forEach((token) => {
     if (possibleMistakenRevert[token] === undefined) {
       delete possibleMistakenRevert[token];
     }

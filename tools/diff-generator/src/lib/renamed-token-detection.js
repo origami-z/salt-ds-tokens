@@ -36,5 +36,5 @@ export default function detectRenamedTokens(original, changesOriginal) {
       }
     });
   });
-  return renamed; // CLI Output For 1 Token: "oldname" -> "newname"
+  return renamed;
 }
