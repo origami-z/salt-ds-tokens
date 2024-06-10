@@ -44,7 +44,6 @@ export default function tokenDiff(original, updated) {
 
 /**
  * Formats the results from all the different diff categories
- * @param {object} changes - the changed token data
  * @param {object} renamedTokens - a list containing the renamed tokens and their old names
  * @param {object} deprecatedTokens - a JSON object containing the newly deprecated tokens
  * @param {object} newTokens - a JSON object containing the added tokens

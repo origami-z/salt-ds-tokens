@@ -16,33 +16,20 @@ import { detailedDiff } from "deep-object-diff";
  * @param {object} renamed - a list containing tokens that were renamed
  * @param {object} original - the original token data
  * @param {object} changes - the changed token data
- * @returns {object} result - a JSON object containing the updated tokens (with new name, if renamed)
+ * @returns {object} updatedTokens - a JSON object containing the updated tokens (with new name, if renamed)
  */
 export default function detectUpdatedTokens(renamed, original, changes) {
-  const result = {};
   const updatedTokens = { ...changes.updated };
-  const added = { ...changes.added };
-  Object.keys(added).forEach((token) => {
+  Object.keys(changes.added).forEach((token) => {
     if (renamed[token] !== undefined) {
       const renamedTokenDiff = detailedDiff(
         original[renamed[token]["old-name"]],
-        added[token],
+        changes.added[token],
       ).updated;
-      updatedTokens[token] = renamedTokenDiff;
-    }
-  });
-  Object.keys(updatedTokens).forEach((token) => {
-    result[token] = {};
-    Object.keys(updatedTokens[token]).forEach((property) => {
-      if (property === "$schema") {
-        result[token]["$schema"] = updatedTokens[token].$schema;
-      } else {
-        result[token][property] = updatedTokens[token][property];
+      if (Object.keys(renamedTokenDiff).length !== 0) {
+        updatedTokens[token] = renamedTokenDiff;
       }
-    });
-    if (Object.keys(result[token]).length === 0) {
-      delete result[token];
     }
   });
-  return result;
+  return updatedTokens;
 }
