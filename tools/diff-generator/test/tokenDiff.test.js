@@ -358,7 +358,7 @@ test("test to see renamed, added, deleted, deprecated, and updated tokens (many)
   );
 });
 
-test("test to see renamed, added, deleted, deprecated, updated, and if for some reaosn, 'un-deprecated' tokens (many)", (t) => {
+test("test to see renamed, added, deleted, deprecated, updated, and if for some reason, 'un-deprecated' tokens (many)", (t) => {
   t.deepEqual(
     tokenDiff(originalEntireSchema, rADDepURevTokens),
     expectedSeveralRADDepURev,

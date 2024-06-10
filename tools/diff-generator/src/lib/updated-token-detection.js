@@ -24,16 +24,14 @@ export default function detectUpdatedTokens(renamed, original, changes) {
   };
   const updatedTokens = { ...changes.updated };
   const added = { ...changes.added };
-  renamed.forEach((pair) => {
-    Object.keys(added).forEach((token) => {
-      if (pair["newname"] === token) {
-        const renamedTokenDiff = detailedDiff(
-          original[pair.oldname],
-          added[token],
-        ).updated;
-        updatedTokens[token] = renamedTokenDiff;
-      }
-    });
+  Object.keys(added).forEach((token) => {
+    if (renamed[token] !== undefined) {
+      const renamedTokenDiff = detailedDiff(
+        original[renamed[token]["old-name"]],
+        added[token],
+      ).updated;
+      updatedTokens[token] = renamedTokenDiff;
+    }
   });
   Object.keys(updatedTokens).forEach((token) => {
     result.updated[token] = {};

@@ -17,22 +17,17 @@ governing permissions and limitations under the License.
  * @returns {object} renamed - an array containing the renamed tokens
  */
 export default function detectRenamedTokens(original, changesOriginal) {
-  const renamed = [];
+  const renamed = {};
   const changes = { ...changesOriginal };
-  const func = (renamed, originalToken, change) => {
-    renamed.push({
-      oldname: originalToken,
-      newname: change,
-    });
-  };
-
   Object.keys(changes).forEach((change) => {
     Object.keys(original).forEach((originalToken) => {
       if (
         original[originalToken].uuid === changes[change].uuid &&
         originalToken !== change
       ) {
-        func(renamed, originalToken, change);
+        renamed[change] = {
+          "old-name": originalToken,
+        };
       }
     });
   });

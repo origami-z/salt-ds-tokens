@@ -24,68 +24,56 @@ import renamedSetToken from "./test-schemas/basic-renamed-set-token.json" with {
 import severalSetTokens from "./test-schemas/several-set-tokens.json" with { type: "json" };
 import severalRenamedSetTokens from "./test-schemas/several-renamed-set-tokens.json" with { type: "json" };
 
-const expectedSingleRenamed = [
-  {
-    oldname: "swatch-border-color",
-    newname: "hello-world",
+const expectedSingleRenamed = {
+  "hello-world": {
+    "old-name": "swatch-border-color",
   },
-];
+};
 
-const expectedTwoRenamed = [
-  {
-    oldname: "swatch-border-color",
-    newname: "swatch-color",
+const expectedTwoRenamed = {
+  "swatch-color": {
+    "old-name": "swatch-border-color",
   },
-  {
-    oldname: "swatch-border-opacity",
-    newname: "swatch-opacity",
+  "swatch-opacity": {
+    "old-name": "swatch-border-opacity",
   },
-];
+};
 
-const expectedSeveralRenamed = [
-  {
-    oldname: "swatch-border-opacity",
-    newname: "swatch-opacity",
+const expectedSeveralRenamed = {
+  "swatch-opacity": {
+    "old-name": "swatch-border-opacity",
   },
-  {
-    oldname: "swatch-disabled-icon-border-color",
-    newname: "swatch-disabled-border-color",
+  "swatch-disabled-border-color": {
+    "old-name": "swatch-disabled-icon-border-color",
   },
-  {
-    oldname: "table-row-hover-color",
-    newname: "table-col-hover-color",
+  "table-col-hover-color": {
+    "old-name": "table-row-hover-color",
   },
-  {
-    oldname: "table-row-hover-opacity",
-    newname: "table-col-hover-opacity",
+  "table-col-hover-opacity": {
+    "old-name": "table-row-hover-opacity",
   },
-  {
-    oldname: "table-selected-row-background-opacity-non-emphasized",
-    newname: "table-selected-row-background-opacity-definitely-emphasized",
+  "table-selected-row-background-opacity-definitely-emphasized": {
+    "old-name": "table-selected-row-background-opacity-non-emphasized",
   },
-  {
-    oldname: "table-selected-row-background-opacity-non-emphasized-hover",
-    newname: "table-selected-row-background-opacity-ultra-emphasized-hover",
+  "table-selected-row-background-opacity-ultra-emphasized-hover": {
+    "old-name": "table-selected-row-background-opacity-non-emphasized-hover",
   },
-];
+};
 
-const expectedSetTokenRenamed = [
-  {
-    oldname: "overlay-opacity",
-    newname: "i-like-lavendar-latte",
+const expectedSetTokenRenamed = {
+  "i-like-lavendar-latte": {
+    "old-name": "overlay-opacity",
   },
-];
+};
 
-const expectedSeveralSetTokensRenamed = [
-  {
-    oldname: "status-light-dot-size-extra-large",
-    newname: "i-like-fish-tacos",
+const expectedSeveralSetTokensRenamed = {
+  "i-like-fish-tacos": {
+    "old-name": "status-light-dot-size-extra-large",
   },
-  {
-    oldname: "status-light-top-to-dot-large",
-    newname: "i-like-scrambled-eggs",
+  "i-like-scrambled-eggs": {
+    "old-name": "status-light-top-to-dot-large",
   },
-];
+};
 
 test("basic test to see if diff catches rename", (t) => {
   t.deepEqual(

@@ -68,9 +68,7 @@ function formatResult(
     updated: {},
   };
   Object.keys(renamedTokens).forEach((token) => {
-    resultJSON.renamed[renamedTokens[token].newname] = {
-      "old-name": renamedTokens[token].oldname,
-    };
+    resultJSON.renamed[token] = renamedTokens[token];
   });
   Object.keys(deprecatedTokens.deprecated).forEach((token) => {
     resultJSON.deprecated[token] = deprecatedTokens[token];

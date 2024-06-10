@@ -18,20 +18,14 @@ governing permissions and limitations under the License.
  */
 export default function detectNewTokens(renamed, deprecatedTokens, changes) {
   const addedTokens = { ...changes };
-  if (renamed.length > 0) {
-    Object.keys(changes).forEach((token) => {
-      renamed.forEach((item) => {
-        if (item["newname"] == token) {
-          delete addedTokens[token];
-        }
-      });
-      Object.keys(deprecatedTokens.deprecated).forEach((dep) => {
-        if (dep === token) {
-          delete addedTokens[token];
-        }
-      });
-    });
-  }
+  Object.keys(changes).forEach((token) => {
+    if (
+      renamed[token] !== undefined ||
+      deprecatedTokens.deprecated[token] !== undefined
+    ) {
+      delete addedTokens[token];
+    }
+  });
 
   return addedTokens;
 }
