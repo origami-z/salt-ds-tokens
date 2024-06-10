@@ -174,8 +174,14 @@ const expectedSeveralRADDep = {
     "table-selected-row-background-opacity-non-emphasized": undefined,
   },
   deprecated: {
-    "color-slider-border-color": undefined,
-    "color-loupe-outer-border": undefined,
+    "color-slider-border-color": {
+      deprecated: true,
+      deprecated_comment: "insert random deprecated comment",
+    },
+    "color-loupe-outer-border": {
+      deprecated: true,
+      deprecated_comment: "insert random deprecated comment",
+    },
   },
   reverted: {},
   renamed: {
@@ -213,8 +219,14 @@ const expectedSeveralRADDepU = {
     "table-selected-row-background-opacity-non-emphasized": undefined,
   },
   deprecated: {
-    "color-slider-border-color": undefined,
-    "color-loupe-outer-border": undefined,
+    "color-slider-border-color": {
+      deprecated: true,
+      deprecated_comment: "insert random deprecated comment",
+    },
+    "color-loupe-outer-border": {
+      deprecated: true,
+      deprecated_comment: "insert random deprecated comment",
+    },
   },
   reverted: {},
   renamed: {
@@ -277,11 +289,20 @@ const expectedSeveralRADDepURev = {
     "table-selected-row-background-opacity-non-emphasized": undefined,
   },
   deprecated: {
-    "color-slider-border-color": undefined,
-    "color-loupe-outer-border": undefined,
+    "color-slider-border-color": {
+      deprecated: true,
+      deprecated_comment: "insert random deprecated comment",
+    },
+    "color-loupe-outer-border": {
+      deprecated: true,
+      deprecated_comment: "insert random deprecated comment",
+    },
   },
   reverted: {
-    "color-handle-drop-shadow-color": undefined,
+    "color-handle-drop-shadow-color": {
+      deprecated: undefined,
+      deprecated_comment: undefined,
+    },
   },
   renamed: {
     "i-like-ice-cream": {

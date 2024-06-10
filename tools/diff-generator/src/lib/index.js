@@ -67,23 +67,11 @@ function formatResult(
     deleted: {},
     updated: {},
   };
-  Object.keys(renamedTokens).forEach((token) => {
-    resultJSON.renamed[token] = renamedTokens[token];
-  });
-  Object.keys(deprecatedTokens.deprecated).forEach((token) => {
-    resultJSON.deprecated[token] = deprecatedTokens[token];
-  });
-  Object.keys(deprecatedTokens.reverted).forEach((token) => {
-    resultJSON.reverted[token] = deprecatedTokens[token];
-  });
-  Object.keys(newTokens).forEach((token) => {
-    resultJSON.added[token] = newTokens[token];
-  });
-  Object.keys(deletedTokens).forEach((token) => {
-    resultJSON.deleted[token] = deletedTokens[token];
-  });
-  Object.keys(updatedTokens).forEach((token) => {
-    resultJSON.updated = updatedTokens[token];
-  });
+  resultJSON.renamed = renamedTokens;
+  resultJSON.deprecated = deprecatedTokens.deprecated;
+  resultJSON.reverted = deprecatedTokens.reverted;
+  resultJSON.added = newTokens;
+  resultJSON.deleted = deletedTokens;
+  resultJSON.updated = updatedTokens;
   return resultJSON;
 }

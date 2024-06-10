@@ -19,9 +19,7 @@ import { detailedDiff } from "deep-object-diff";
  * @returns {object} result - a JSON object containing the updated tokens (with new name, if renamed)
  */
 export default function detectUpdatedTokens(renamed, original, changes) {
-  const result = {
-    updated: {},
-  };
+  const result = {};
   const updatedTokens = { ...changes.updated };
   const added = { ...changes.added };
   Object.keys(added).forEach((token) => {
@@ -34,16 +32,16 @@ export default function detectUpdatedTokens(renamed, original, changes) {
     }
   });
   Object.keys(updatedTokens).forEach((token) => {
-    result.updated[token] = {};
+    result[token] = {};
     Object.keys(updatedTokens[token]).forEach((property) => {
       if (property === "$schema") {
-        result.updated[token]["$schema"] = updatedTokens[token].$schema;
+        result[token]["$schema"] = updatedTokens[token].$schema;
       } else {
-        result.updated[token][property] = updatedTokens[token][property];
+        result[token][property] = updatedTokens[token][property];
       }
     });
-    if (Object.keys(result.updated[token]).length === 0) {
-      delete result.updated[token];
+    if (Object.keys(result[token]).length === 0) {
+      delete result[token];
     }
   });
   return result;

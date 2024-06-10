@@ -13,16 +13,15 @@ governing permissions and limitations under the License.
 /**
  * Check if a change is a rename by comparing the tokens' UUIDs
  * @param {object} original - the original token data
- * @param {object} changes - the changed token data
+ * @param {object} added - the added token data from deep-obj-diff
  * @returns {object} renamed - an array containing the renamed tokens
  */
-export default function detectRenamedTokens(original, changesOriginal) {
+export default function detectRenamedTokens(original, added) {
   const renamed = {};
-  const changes = { ...changesOriginal };
-  Object.keys(changes).forEach((change) => {
+  Object.keys(added).forEach((change) => {
     Object.keys(original).forEach((originalToken) => {
       if (
-        original[originalToken].uuid === changes[change].uuid &&
+        original[originalToken].uuid === added[change].uuid &&
         originalToken !== change
       ) {
         renamed[change] = {

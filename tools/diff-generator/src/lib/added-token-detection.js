@@ -13,12 +13,13 @@ governing permissions and limitations under the License.
 /**
  * Check if the added token's uuid exists in renamed and added
  * @param {object} renamed - the token data that were renamed
+ * @param {object} deprecatedTokens - the newly deprecated tokens
  * @param {object} changes - the changed token data
  * @returns {object} addedTokens - a JSON object containing the added tokens
  */
-export default function detectNewTokens(renamed, deprecatedTokens, changes) {
-  const addedTokens = { ...changes };
-  Object.keys(changes).forEach((token) => {
+export default function detectNewTokens(renamed, deprecatedTokens, added) {
+  const addedTokens = { ...added };
+  Object.keys(added).forEach((token) => {
     if (
       renamed[token] !== undefined ||
       deprecatedTokens.deprecated[token] !== undefined
