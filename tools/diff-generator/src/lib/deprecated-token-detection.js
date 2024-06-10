@@ -12,10 +12,11 @@ governing permissions and limitations under the License.
 
 /**
  * Detects newly deprecated tokens in the diff
+ * @param {object} renamedTokens - the newly renamed tokens
  * @param {object} changes - the changed token data
- * @returns {object} deprecatedTokens - a JSON object containing the newly deprecated tokens
+ * @returns {object} result - a JSON object containing the newly deprecated tokens and (potentially) "undeprecated" tokens
  */
-export default function detectDeprecatedTokens(renamed, changes) {
+export default function detectDeprecatedTokens(renamedTokens, changes) {
   const result = {
     deprecated: {},
     reverted: {},
@@ -25,7 +26,7 @@ export default function detectDeprecatedTokens(renamed, changes) {
   Object.keys(changes.added).forEach((token) => {
     if (
       (token !== undefined && !deprecatedTokens[token].deprecated) ||
-      renamed[token] !== undefined
+      renamedTokens[token] !== undefined
     ) {
       delete deprecatedTokens[token];
     }
@@ -35,11 +36,7 @@ export default function detectDeprecatedTokens(renamed, changes) {
       delete possibleMistakenRevert[token];
     }
   });
-  Object.keys(deprecatedTokens).forEach((token) => {
-    result.deprecated[token] = deprecatedTokens[token];
-  });
-  Object.keys(possibleMistakenRevert).forEach((token) => {
-    result.reverted[token] = possibleMistakenRevert[token];
-  });
+  result.deprecated = deprecatedTokens;
+  result.reverted = possibleMistakenRevert;
   return result;
 }
