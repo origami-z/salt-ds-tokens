@@ -24,83 +24,73 @@ import severalUpdatedSetTokens from "./test-schemas/several-updated-set-tokens.j
 import severalRenamedUpdatedSetTokens from "./test-schemas/several-renamed-updated-set-tokens.json" with { type: "json" };
 
 const expected = {
-  updated: {
-    "swatch-border-color": { value: "{blue-200}" },
-  },
+  "swatch-border-color": { value: "{blue-200}" },
 };
 
 const expectedUpdatedSeveralProperties = {
-  updated: {
-    "swatch-border-color": {
-      $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-      value: "{blue-200}",
-    },
+  "swatch-border-color": {
+    $schema:
+      "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+    value: "{blue-200}",
   },
 };
 
 const expectedUpdatedSet = {
-  updated: {
-    "overlay-opacity": {
-      sets: {
-        darkest: {
-          value: "0.8",
-        },
-        light: {
-          $schema:
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-        },
-        wireframe: {
-          $schema:
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/wireframe.json",
-          value: "0",
-        },
+  "overlay-opacity": {
+    sets: {
+      darkest: {
+        value: "0.8",
+      },
+      light: {
+        $schema:
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+      },
+      wireframe: {
+        $schema:
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/wireframe.json",
+        value: "0",
       },
     },
   },
 };
 
 const expectedSeveralUpdatedSet = {
-  updated: {
-    "help-text-top-to-workflow-icon-medium": {
-      $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token-set.json",
-      sets: {
-        desktop: {
-          $schema:
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/changing-two-schemas.json",
-        },
-        mobile: {
-          value: "9px",
-        },
+  "help-text-top-to-workflow-icon-medium": {
+    $schema:
+      "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token-set.json",
+    sets: {
+      desktop: {
+        $schema:
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/changing-two-schemas.json",
+      },
+      mobile: {
+        value: "9px",
       },
     },
-    "status-light-top-to-dot-large": {
-      sets: {
-        desktop: {
-          value: "20px",
-        },
+  },
+  "status-light-top-to-dot-large": {
+    sets: {
+      desktop: {
+        value: "20px",
       },
     },
   },
 };
 
 const expectedUpdatedSetWithRename = {
-  updated: {
-    "help-text-top-to-workflow-icon-medium": {
-      sets: {
-        desktop: {
-          value: "7px",
-        },
+  "help-text-top-to-workflow-icon-medium": {
+    sets: {
+      desktop: {
+        value: "7px",
       },
     },
-    "i-like-fish-tacos": {
-      $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scaly-fish.json",
-      sets: {
-        mobile: {
-          value: "15px",
-        },
+  },
+  "i-like-fish-tacos": {
+    $schema:
+      "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scaly-fish.json",
+    sets: {
+      mobile: {
+        value: "15px",
       },
     },
   },
