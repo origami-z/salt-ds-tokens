@@ -33,11 +33,9 @@ export default function detectDeprecatedTokens(renamed, changes) {
     }
   });
   renamed.forEach((name) => {
-    Object.keys(deprecatedTokens).forEach((token) => {
-      if (name["newname"] === token) {
-        delete deprecatedTokens[token];
-      }
-    });
+    if (deprecatedTokens[name["newname"]] !== undefined) {
+      delete deprecatedTokens[name["newname"]];
+    }
   });
   Object.keys(deprecatedTokens).forEach((token) => {
     result.deprecated[token] = deprecatedTokens[token];
