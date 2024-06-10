@@ -75,6 +75,24 @@ const expectedSeveralSetTokensRenamed = {
   },
 };
 
+const expectedSetTokenRenamed = [
+  {
+    oldname: "overlay-opacity",
+    newname: "i-like-lavendar-latte",
+  },
+];
+
+const expectedSeveralSetTokensRenamed = [
+  {
+    oldname: "status-light-dot-size-extra-large",
+    newname: "i-like-fish-tacos",
+  },
+  {
+    oldname: "status-light-top-to-dot-large",
+    newname: "i-like-scrambled-eggs",
+  },
+];
+
 test("basic test to see if diff catches rename", (t) => {
   t.deepEqual(
     detectRenamedTokens(original, detailedDiff(original, updated).added),

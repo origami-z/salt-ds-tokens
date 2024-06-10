@@ -16,6 +16,7 @@ governing permissions and limitations under the License.
  * @param {object} changes - the changed token data
  * @returns {object} result - a JSON object containing the newly deprecated tokens and (potentially) "undeprecated" tokens
  */
+
 export default function detectDeprecatedTokens(renamedTokens, changes) {
   const result = {
     deprecated: {},

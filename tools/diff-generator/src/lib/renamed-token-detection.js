@@ -16,6 +16,7 @@ governing permissions and limitations under the License.
  * @param {object} added - the added token data from deep-obj-diff
  * @returns {object} renamedTokens - an array containing the renamed tokens
  */
+
 export default function detectRenamedTokens(original, added) {
   const renamedTokens = {};
   Object.keys(added).forEach((change) => {
