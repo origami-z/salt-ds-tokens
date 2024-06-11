@@ -1,3 +1,5 @@
+#! /usr/bin/env node
+
 /*
 Copyright 2024 Adobe. All rights reserved.
 This file is licensed to you under the Apache License, Version 2.0 (the "License");
@@ -9,6 +11,7 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
+
 import tokenDiff from "./index.js";
 import chalk from "chalk";
 
@@ -39,6 +42,10 @@ program.parse();
 // 4) How do I get the user's response in my y/n question?
 // 4) How do you add indents lol?
 
+function indent(text, amount) {
+  return `${"  ".repeat(amount)}${text}`;
+}
+
 function formatCLI(original, result) {
   const log = console.log;
   const totalTokens =
@@ -61,7 +68,12 @@ function formatCLI(original, result) {
     ),
   );
   Object.keys(result.renamed).forEach((token) => {
-    log(chalk.white(`"${token["old-name"]}" -> ` + chalk.yellow(`"${token}"`)));
+    log(
+      indent(
+        chalk.white(`"${token["old-name"]}" -> `) +
+          chalk.yellow(`"${token}"`, 0),
+      ),
+    );
   });
   log(
     chalk.white(
@@ -72,9 +84,12 @@ function formatCLI(original, result) {
   );
   Object.keys(result.deprecated).forEach((token) => {
     log(
-      chalk.yellow(`"${token}"`) +
-        chalk.white(": ") +
-        chalk.yellow(`"${token["deprecated_comment"]}"`),
+      indent(
+        chalk.yellow(`"${token}"`) +
+          chalk.white(": ") +
+          chalk.yellow(`"${token["deprecated_comment"]}"`),
+        0,
+      ),
     );
   });
   log(
@@ -85,9 +100,14 @@ function formatCLI(original, result) {
     ),
   );
   Object.keys(result.deprecated).forEach((token) => {
-    log(chalk.yellow(`"${token}"`));
+    log(indent(chalk.yellow(`"${token}"`), 0));
   });
   // if user says y, deletes(?) this message and continues to print, else exits
+  log(
+    chalk.white(
+      "\n-------------------------------------------------------------------------------------------",
+    ),
+  );
   log(
     chalk.white(
       "Are you sure this token is supposed to lose its `deprecated` status (y/n)?",
@@ -99,7 +119,7 @@ function formatCLI(original, result) {
     ),
   );
   Object.keys(result.added).forEach((token) => {
-    log(chalk.green(`"${token}"`));
+    log(indent(chalk.green(`"${token}"`), 0));
   });
   log(
     chalk.white(
@@ -109,7 +129,7 @@ function formatCLI(original, result) {
     ),
   );
   Object.keys(result.deleted).forEach((token) => {
-    log(chalk.red(`"${token}"`));
+    log(indent(chalk.red(`"${token}"`), 0));
   });
   log(
     chalk.white(
@@ -121,20 +141,24 @@ function formatCLI(original, result) {
       original[token] === undefined
         ? original[renamed[token]["old-name"]]
         : original[token]; // if the token was renamed and updated, need to look in renamed to get token's old name
-    log(chalk.yellow(`"${token}"`));
+    log(indent(chalk.yellow(`"${token}"`), 0));
     Object.keys(result.updated[token]).forEach((key) => {
       if (Object.keys(key).length > 0) {
         const properties = getNestedKeys(result.updated[token], "");
-        log(chalk.yellow(properties));
+        log(indent(chalk.yellow(properties), 1));
         log(
-          chalk.white(`"${originalToken.properties}" -> `) +
-            chalk.yellow(`"${result.updated[token][key]}"`),
+          indent(
+            chalk.white(`"${originalToken.properties}" -> `) +
+              chalk.yellow(`"${result.updated[token][key]}"`, 2),
+          ),
         );
       } else {
-        log(chalk.yellow(key));
+        log(indent(chalk.yellow(key), 1));
         log(
-          chalk.white(`"${originalToken[key]}" -> `) +
-            chalk.yellow(`"${result.updated[token][key]}"`),
+          indent(
+            chalk.white(`"${originalToken[key]}" -> `) +
+              chalk.yellow(`"${result.updated[token][key]}"`, 2),
+          ),
         );
       }
     });
