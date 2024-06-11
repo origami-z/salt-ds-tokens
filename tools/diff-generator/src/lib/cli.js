@@ -14,6 +14,7 @@ governing permissions and limitations under the License.
 
 import tokenDiff from "./index.js";
 import chalk from "chalk";
+import inquirer from "inquirer";
 
 import { Command } from "commander";
 const program = new Command();
@@ -30,7 +31,7 @@ program
   .argument("<updated>", "updated tokens") // idk what options there would be yet
   .action((original, updated) => {
     const report = tokenDiff(original, updated);
-    formatCLI(report);
+    cliCheck(report);
   });
 
 program.parse();
@@ -39,14 +40,12 @@ program.parse();
 // 1) How do I run this?
 // 2) To automate testing, would I make an ava test File, import cli.js as a module, but then what?
 // 3) How do you compare the output of the terminal (is it just text?)?
-// 4) How do I get the user's response in my y/n question?
-// 4) How do you add indents lol?
 
 function indent(text, amount) {
   return `${"  ".repeat(amount)}${text}`;
 }
 
-function formatCLI(original, result) {
+function cliCheck(original, result) {
   const log = console.log;
   const totalTokens =
     Object.keys(result.renamed).length +
@@ -55,13 +54,48 @@ function formatCLI(original, result) {
     Object.keys(result.added).length +
     Object.keys(result.deleted).length +
     Object.keys(result.updated).length;
+  log(
+    chalk.white(
+      emoji.emojify(
+        `:alarmclock: Newly "Un-deprecated" (${Object.keys(result.reverted).length})`,
+      ),
+    ),
+  );
+  Object.keys(result.reverted).forEach((token) => {
+    log(indent(chalk.yellow(`"${token}"`), 0));
+  });
+  log(
+    chalk.white(
+      "\n-------------------------------------------------------------------------------------------",
+    ),
+  );
+  inquirer
+    .prompt([
+      {
+        type: "confirm",
+        name: "confirmation",
+        message:
+          "Are you sure this token is supposed to lose its `deprecated` status (y/n)?",
+        default: false,
+      },
+    ])
+    .then((response) => {
+      if (response.confirmation) {
+        console.clear();
+        return printReport(original, result);
+      } else {
+        return 1;
+      }
+    });
+}
+
+function printReport(original, result) {
   log(chalk.white("**Tokens Changed (" + totalTokens + ")**"));
   log(
     chalk.white(
       "\n-------------------------------------------------------------------------------------------",
     ),
   );
-  // how do you add an emoji?
   log(
     chalk.white(
       emoji.emojify(`:memo: Renamed (${Object.keys(result.renamed).length})`),
@@ -99,20 +133,9 @@ function formatCLI(original, result) {
       ),
     ),
   );
-  Object.keys(result.deprecated).forEach((token) => {
+  Object.keys(result.reverted).forEach((token) => {
     log(indent(chalk.yellow(`"${token}"`), 0));
   });
-  // if user says y, deletes(?) this message and continues to print, else exits
-  log(
-    chalk.white(
-      "\n-------------------------------------------------------------------------------------------",
-    ),
-  );
-  log(
-    chalk.white(
-      "Are you sure this token is supposed to lose its `deprecated` status (y/n)?",
-    ),
-  );
   log(
     chalk.white(
       emoji.emojify(`:uptick: Added (${Object.keys(result.added).length})`),
@@ -163,6 +186,7 @@ function formatCLI(original, result) {
       }
     });
   });
+  return 0;
 }
 
 function getNestedKeys(token, properties) {
