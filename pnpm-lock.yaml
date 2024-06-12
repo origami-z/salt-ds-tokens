@@ -183,6 +183,9 @@ importers:
       deep-object-diff:
         specifier: ^1.1.9
         version: 1.1.9
+      emojilib:
+        specifier: ^3.0.12
+        version: 3.0.12
       inquirer:
         specifier: ^9.2.23
         version: 9.2.23
@@ -2453,6 +2456,12 @@ packages:
     resolution:
       {
         integrity: sha512-5U0rVMU5Y2n2+ykNLQqMoqklN9ICBT/KsvC1Gz6vqHbz2AXXGkG+Pm5rMWk/8Vjrr/mY9985Hi8DYzn1F09Nyw==,
+      }
+
+  emojilib@3.0.12:
+    resolution:
+      {
+        integrity: sha512-b52zmWqBwv9juk6lKaTdYxRQSnpsnT58Sj/x6fE8fZWcsNd43gAPXUbtjLKJvVlPS9FFNCN6nB9Vh1xipnCzXw==,
       }
 
   enquirer@2.4.1:
@@ -7000,6 +7009,8 @@ snapshots:
   emoji-regex@9.2.2: {}
 
   emojilib@2.4.0: {}
+
+  emojilib@3.0.12: {}
 
   enquirer@2.4.1:
     dependencies:

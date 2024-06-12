@@ -11,11 +11,16 @@ governing permissions and limitations under the License.
 */
 import { access, readFile } from "fs/promises";
 
+/**
+ * Returns file with given file name as a JSON object (took this from diff.js)
+ * @param {object} fileName - the name of the target file
+ * @returns {object} the target file as a JSON object
+ */
 export default async function fileImport(fileName) {
   try {
     await access(fileName);
     return JSON.parse(await readFile(fileName, { encoding: "utf8" }));
   } catch {
-    console.error(`cannot access ${fileName}`);
+    throw new Error(`Invalid file name "${fileName}"`);
   }
 }
