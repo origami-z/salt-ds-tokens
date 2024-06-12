@@ -15,6 +15,7 @@ governing permissions and limitations under the License.
 import tokenDiff from "./index.js";
 import chalk from "chalk";
 import inquirer from "inquirer";
+import fileImport from "./file-import.js";
 
 import { Command } from "commander";
 const program = new Command();
@@ -29,12 +30,16 @@ program
   .description("Generates a diff report for two inputted schema")
   .argument("<original>", "original tokens")
   .argument("<updated>", "updated tokens") // idk what options there would be yet
-  .action((original, updated) => {
-    const report = tokenDiff(original, updated);
+  .action(async (original, updated) => {
+    const [originalFile, updatedFile] = await Promise.all([
+      fileImport(original),
+      fileImport(updated),
+    ]);
+    const report = tokenDiff(originalFile, updatedFile);
     cliCheck(report);
   });
 
-program.parse();
+program.parse(process.argv);
 
 // Questions:
 // 1) How do I run this?
@@ -47,13 +52,6 @@ function indent(text, amount) {
 
 function cliCheck(original, result) {
   const log = console.log;
-  const totalTokens =
-    Object.keys(result.renamed).length +
-    Object.keys(result.deprecated).length +
-    Object.keys(result.reverted).length +
-    Object.keys(result.added).length +
-    Object.keys(result.deleted).length +
-    Object.keys(result.updated).length;
   log(
     chalk.white(
       emoji.emojify(
@@ -90,6 +88,13 @@ function cliCheck(original, result) {
 }
 
 function printReport(original, result) {
+  const totalTokens =
+    Object.keys(result.renamed).length +
+    Object.keys(result.deprecated).length +
+    Object.keys(result.reverted).length +
+    Object.keys(result.added).length +
+    Object.keys(result.deleted).length +
+    Object.keys(result.updated).length;
   log(chalk.white("**Tokens Changed (" + totalTokens + ")**"));
   log(
     chalk.white(
