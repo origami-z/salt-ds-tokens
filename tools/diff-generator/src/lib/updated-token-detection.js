@@ -24,6 +24,7 @@ export default function detectUpdatedTokens(
   changes,
   newTokens,
   deletedTokens,
+  deprecatedTokens,
 ) {
   const updatedTokens = { ...changes.updated };
   Object.keys(changes.added).forEach((token) => {
@@ -36,11 +37,11 @@ export default function detectUpdatedTokens(
         updatedTokens[token] = tokenDiff;
       }
     } else if (
-      newTokens[token] !== undefined &&
-      original[token] !== undefined
+      newTokens[token] === undefined &&
+      original[token] !== undefined &&
+      deprecatedTokens.deprecated[token] === undefined
     ) {
-      console.log(newTokens[token]);
-      updatedTokens[token] = newTokens[token];
+      updatedTokens[token] = changes.added[token];
     }
   });
   Object.keys(deletedTokens).forEach((token) => {

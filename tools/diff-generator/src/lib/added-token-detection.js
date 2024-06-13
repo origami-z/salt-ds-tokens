@@ -27,8 +27,8 @@ export default function detectNewTokens(
   const addedTokens = { ...added };
   Object.keys(added).forEach((token) => {
     if (
-      renamed[token] !== undefined ||
       deprecatedTokens.deprecated[token] !== undefined ||
+      renamed[token] !== undefined ||
       original[token] !== undefined
     ) {
       delete addedTokens[token];

@@ -38,6 +38,7 @@ program
         fileImport(updated),
       ]);
       const result = tokenDiff(originalFile, updatedFile);
+      console.log(result);
       cliCheck(originalFile, result);
     } catch (e) {
       console.error(chalk.red("\n" + e + "\n"));
@@ -232,9 +233,15 @@ function printReport(original, result, log) {
  * @param {object} log - the console.log object used
  */
 function printNestedChanges(token, properties, originalToken, log) {
-  if (typeof token !== "object" || token === null) {
+  if (
+    typeof token !== "object" ||
+    typeof token === "string" ||
+    token === null
+  ) {
     log(indent(chalk.yellow(properties.substring(1)), 2));
-    if (properties.substring(1) === "$schema") {
+    if (originalToken === 1) {
+      log(indent(chalk.yellow(`"${token}"`), 3));
+    } else if (properties.substring(1) === "$schema") {
       const newValue = token.split("/");
       const str =
         indent(chalk.white(`"${originalToken}" -> \n`), 3) +
@@ -261,11 +268,8 @@ function printNestedChanges(token, properties, originalToken, log) {
   }
   Object.keys(token).forEach((property) => {
     const nextProperties = properties + "." + property;
-    printNestedChanges(
-      token[property],
-      nextProperties,
-      originalToken[property],
-      log,
-    );
+    originalToken =
+      originalToken[property] === undefined ? 1 : originalToken[property];
+    printNestedChanges(token[property], nextProperties, originalToken, log);
   });
 }
