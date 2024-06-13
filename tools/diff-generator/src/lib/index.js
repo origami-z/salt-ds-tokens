@@ -38,7 +38,6 @@ export default function tokenDiff(original, updated) {
     original,
     changes,
     newTokens,
-    deletedTokens,
     deprecatedTokens,
   );
   return formatResult(

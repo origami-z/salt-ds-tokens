@@ -38,6 +38,7 @@ program
         fileImport(updated),
       ]);
       const result = tokenDiff(originalFile, updatedFile);
+      console.log(result);
       cliCheck(originalFile, result);
     } catch (e) {
       console.error(chalk.red("\n" + e + "\n"));

@@ -22,6 +22,8 @@ import renamedAddedDeletedSetTokens from "./test-schemas/renamed-added-deleted-s
 import rADDepTokens from "./test-schemas/renamed-added-deleted-deprecated-tokens.json" with { type: "json" };
 import rADDepUTokens from "./test-schemas/renamed-added-deleted-deprecated-updated-tokens.json" with { type: "json" };
 import rADDepURevTokens from "./test-schemas/renamed-added-deleted-deprecated-updated-reverted-tokens.json" with { type: "json" };
+import basicSetTokenProperty from "./test-schemas/basic-set-token-property.json" with { type: "json" };
+import addedPropertySetToken from "./test-schemas/added-property-set-token.json" with { type: "json" };
 
 const expectedRenamed = {
   added: {},
@@ -340,6 +342,26 @@ const expectedSeveralRADDepURev = {
   },
 };
 
+const expectedDeletedProperty = {
+  renamed: {},
+  deprecated: {},
+  reverted: {},
+  added: {},
+  deleted: {},
+  updated: {
+    "celery-background-color-default": {
+      sets: {
+        "random-property": {
+          $schema:
+            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+          value: "{spinach-100}",
+          uuid: "1234",
+        },
+      },
+    },
+  },
+};
+
 test("basic test to see renamed token", (t) => {
   t.deepEqual(tokenDiff(basicToken, basicRenamedToken), expectedRenamed);
 });
@@ -383,5 +405,12 @@ test("test to see renamed, added, deleted, deprecated, updated, and if for some 
   t.deepEqual(
     tokenDiff(originalEntireSchema, rADDepURevTokens),
     expectedSeveralRADDepURev,
+  );
+});
+
+test("test to see if deleted property from token looks right", (t) => {
+  t.deepEqual(
+    tokenDiff(addedPropertySetToken, basicSetTokenProperty),
+    expectedDeletedProperty,
   );
 });

@@ -117,7 +117,12 @@ const expectedAddedProperty = {
 const expectedDeletedProperty = {
   "celery-background-color-default": {
     sets: {
-      "random-property": undefined,
+      "random-property": {
+        $schema:
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        value: "{spinach-100}",
+        uuid: "1234",
+      },
     },
   },
 };
@@ -127,10 +132,9 @@ test("basic test to check if updated token is detected", (t) => {
   const renamed = detectRenamedTokens(original, updatedToken);
   const deprecated = detectDeprecatedTokens(renamed, diff);
   const added = detectNewTokens(renamed, deprecated, diff.added, original);
-  const deleted = detectDeletedTokens(renamed, diff.deleted);
 
   t.deepEqual(
-    detectUpdatedTokens(renamed, original, diff, added, deleted, deprecated),
+    detectUpdatedTokens(renamed, original, diff, added, deprecated),
     expected,
   );
 });
@@ -143,7 +147,7 @@ test("updated more than one property of a token", (t) => {
   const deleted = detectDeletedTokens(renamed, diff.deleted);
 
   t.deepEqual(
-    detectUpdatedTokens(renamed, original, diff, added, deleted, deprecated),
+    detectUpdatedTokens(renamed, original, diff, added, deprecated),
     expectedUpdatedSeveralProperties,
   );
 });
@@ -156,14 +160,7 @@ test("testing basic token with updates to its set property", (t) => {
   const deleted = detectDeletedTokens(renamed, diff.deleted);
 
   t.deepEqual(
-    detectUpdatedTokens(
-      renamed,
-      tokenWithSet,
-      diff,
-      added,
-      deleted,
-      deprecated,
-    ),
+    detectUpdatedTokens(renamed, tokenWithSet, diff, added, deprecated),
     expectedUpdatedSet,
   );
 });
@@ -184,14 +181,7 @@ test("testing several tokens with updates to its set property", (t) => {
   const deleted = detectDeletedTokens(renamed, diff.deleted);
 
   t.deepEqual(
-    detectUpdatedTokens(
-      renamed,
-      severalSetTokens,
-      diff,
-      added,
-      deleted,
-      deprecated,
-    ),
+    detectUpdatedTokens(renamed, severalSetTokens, diff, added, deprecated),
     expectedSeveralUpdatedSet,
   );
 });
@@ -212,14 +202,7 @@ test("testing several tokens with updates to its set property and renames", (t) 
   const deleted = detectDeletedTokens(renamed, diff.deleted);
 
   t.deepEqual(
-    detectUpdatedTokens(
-      renamed,
-      severalSetTokens,
-      diff,
-      added,
-      deleted,
-      deprecated,
-    ),
+    detectUpdatedTokens(renamed, severalSetTokens, diff, added, deprecated),
     expectedUpdatedSetWithRename,
   );
 });
@@ -245,7 +228,6 @@ test("testing adding a property to a token with sets", (t) => {
       basicSetTokenProperty,
       diff,
       added,
-      deleted,
       deprecated,
     ),
     expectedAddedProperty,
@@ -272,7 +254,6 @@ test("testing deleting a property to a token with sets", (t) => {
       addedPropertySetToken,
       diff,
       added,
-      deleted,
       deprecated,
     ),
     expectedDeletedProperty,
