@@ -38,7 +38,6 @@ program
         fileImport(updated),
       ]);
       const result = tokenDiff(originalFile, updatedFile);
-      console.log(result);
       cliCheck(originalFile, result);
     } catch (e) {
       console.error(chalk.red("\n" + e + "\n"));
@@ -251,7 +250,7 @@ function printNestedChanges(
     token === null
   ) {
     log(indent(chalk.yellow(properties.substring(1)), 2));
-    if (curOriginalLevel === 1) {
+    if (curOriginalLevel === token) {
       log(indent(chalk.yellow(`"${token}"`), 3));
     } else if (properties.substring(1) === "$schema") {
       const newValue = token.split("/");
