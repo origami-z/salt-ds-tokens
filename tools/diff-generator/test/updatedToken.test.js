@@ -144,7 +144,6 @@ test("updated more than one property of a token", (t) => {
   const renamed = detectRenamedTokens(original, updatedSeveralProperties);
   const deprecated = detectDeprecatedTokens(renamed, diff);
   const added = detectNewTokens(renamed, deprecated, diff.added, original);
-  const deleted = detectDeletedTokens(renamed, diff.deleted);
 
   t.deepEqual(
     detectUpdatedTokens(renamed, original, diff, added, deprecated),
@@ -157,7 +156,6 @@ test("testing basic token with updates to its set property", (t) => {
   const renamed = detectRenamedTokens(tokenWithSet, tokenWithUpdatedSet);
   const deprecated = detectDeprecatedTokens(renamed, diff);
   const added = detectNewTokens(renamed, deprecated, diff.added, tokenWithSet);
-  const deleted = detectDeletedTokens(renamed, diff.deleted);
 
   t.deepEqual(
     detectUpdatedTokens(renamed, tokenWithSet, diff, added, deprecated),
@@ -178,7 +176,6 @@ test("testing several tokens with updates to its set property", (t) => {
     diff.added,
     severalSetTokens,
   );
-  const deleted = detectDeletedTokens(renamed, diff.deleted);
 
   t.deepEqual(
     detectUpdatedTokens(renamed, severalSetTokens, diff, added, deprecated),
@@ -199,7 +196,6 @@ test("testing several tokens with updates to its set property and renames", (t) 
     diff.added,
     severalSetTokens,
   );
-  const deleted = detectDeletedTokens(renamed, diff.deleted);
 
   t.deepEqual(
     detectUpdatedTokens(renamed, severalSetTokens, diff, added, deprecated),
@@ -220,7 +216,6 @@ test("testing adding a property to a token with sets", (t) => {
     diff.added,
     basicSetTokenProperty,
   );
-  const deleted = detectDeletedTokens(renamed, diff.deleted);
 
   t.deepEqual(
     detectUpdatedTokens(
@@ -247,7 +242,6 @@ test("testing deleting a property to a token with sets", (t) => {
     diff.added,
     addedPropertySetToken,
   );
-  const deleted = detectDeletedTokens(renamed, diff.deleted);
   t.deepEqual(
     detectUpdatedTokens(
       renamed,

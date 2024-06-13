@@ -58,6 +58,63 @@ function indent(text, amount) {
 }
 
 /**
+ * Styling for renamed tokens
+ * @param {object} result - the JSON object with the report results
+ * @param {object} token - the current token
+ * @param {object} log - the console.log object being used
+ */
+const printStyleRenamed = (result, token, log) => {
+  const str =
+    chalk.white(`"${result[token]["old-name"]}" -> `) +
+    chalk.yellow(`"${token}"`);
+  log(indent(str, 1));
+};
+
+/**
+ * Styling for deprecated tokens
+ * @param {object} result - the JSON object with the report results
+ * @param {object} token - the current token
+ * @param {object} log - the console.log object being used
+ */
+const printStyleDeprecated = (result, token, log) => {
+  log(
+    indent(
+      chalk.yellow(`"${token}"`) +
+        chalk.white(": ") +
+        chalk.yellow(`"${result[token]["deprecated_comment"]}"`),
+      1,
+    ),
+  );
+};
+
+/**
+ * Styling for reverted, added, and deleted tokens
+ * @param {object} token - the current token
+ * @param {object} color - intended color
+ * @param {object} log - the console.log object being used
+ */
+const printStyleColored = (token, color, log) => {
+  log(indent(color(`"${token}"`), 1));
+};
+
+/**
+ * Styling for updated tokens
+ * @param {object} original - the original token(s)
+ * @param {object} result - the JSON object with the report results
+ * @param {object} renamed - tokens that were renamed
+ * @param {object} token - the current token
+ * @param {object} log - the console.log object being used
+ */
+const printStyleUpdated = (original, result, renamed, token, log) => {
+  const originalToken =
+    original[token] === undefined
+      ? original[renamed[token]["old-name"]] // if the token was renamed and updated, need to look in renamed to get token's old name
+      : original[token];
+  log(indent(chalk.yellow(`"${token}"`), 1));
+  printNestedChanges(result[token], "", originalToken, originalToken, log);
+};
+
+/**
  * Checks for previously deprecated tokens whose deprecated status is removed and asks
  * the user if that is intended
  * @param {object} originalFile - the original token
@@ -67,16 +124,15 @@ async function cliCheck(originalFile, result) {
   const log = console.log;
   if (Object.keys(result.reverted).length > 0) {
     log("\n");
-    log(
-      chalk.white(
-        emoji.emojify(
-          `:alarm_clock: Newly "Un-deprecated" (${Object.keys(result.reverted).length})`,
-        ),
-      ),
+    printSection(
+      "alarm_clock",
+      'Newly "Un-deprecated"',
+      Object.keys(result.reverted).length,
+      result.reverted,
+      log,
+      printStyleColored,
+      chalk.yellow,
     );
-    Object.keys(result.reverted).forEach((token) => {
-      log(indent(chalk.yellow(`"${token}"`), 1));
-    });
     log(
       chalk.white(
         "\n-------------------------------------------------------------------------------------------",
@@ -135,88 +191,65 @@ function printReport(original, result, log) {
       ),
     );
     log("\n");
-    log(
-      chalk.white(
-        emoji.emojify(`:memo: Renamed (${Object.keys(result.renamed).length})`),
-      ),
+    printSection(
+      "memo",
+      "Renamed",
+      Object.keys(result.renamed).length,
+      result.renamed,
+      log,
+      printStyleRenamed,
     );
-    Object.keys(result.renamed).forEach((token) => {
-      const str =
-        chalk.white(`"${result.renamed[token]["old-name"]}" -> `) +
-        chalk.yellow(`"${token}"`);
-      log(indent(str, 1));
-    });
     log("\n");
-    log(
-      chalk.white(
-        emoji.emojify(
-          `:clock3: Newly Deprecated (${Object.keys(result.deprecated).length})`,
-        ),
-      ),
+    printSection(
+      "clock3",
+      "Newly Deprecated",
+      Object.keys(result.deprecated).length,
+      result.deprecated,
+      log,
+      printStyleDeprecated,
     );
-    Object.keys(result.deprecated).forEach((token) => {
-      log(
-        indent(
-          chalk.yellow(`"${token}"`) +
-            chalk.white(": ") +
-            chalk.yellow(`"${result.deprecated[token]["deprecated_comment"]}"`),
-          1,
-        ),
-      );
-    });
     log("\n");
-    log(
-      chalk.white(
-        emoji.emojify(
-          `:alarm_clock: Newly "Un-deprecated" (${Object.keys(result.reverted).length})`,
-        ),
-      ),
+    printSection(
+      "alarm_clock",
+      'Newly "Un-deprecated"',
+      Object.keys(result.reverted).length,
+      result.reverted,
+      log,
+      printStyleColored,
+      chalk.yellow,
     );
-    Object.keys(result.reverted).forEach((token) => {
-      log(indent(chalk.yellow(`"${token}"`), 1));
-    });
     log("\n");
-    log(
-      chalk.white(
-        emoji.emojify(
-          `:arrow_up_small: Added (${Object.keys(result.added).length})`,
-        ),
-      ),
+    printSection(
+      "arrow_up_small",
+      "Added",
+      Object.keys(result.added).length,
+      result.added,
+      log,
+      printStyleColored,
+      chalk.green,
     );
-    Object.keys(result.added).forEach((token) => {
-      log(indent(chalk.green(`"${token}"`), 1));
-    });
     log("\n");
-    log(
-      chalk.white(
-        emoji.emojify(
-          `:arrow_down_small: Deleted (${Object.keys(result.deleted).length})`,
-        ),
-      ),
+    printSection(
+      "arrow_down_small",
+      "Deleted",
+      Object.keys(result.deleted).length,
+      result.deleted,
+      log,
+      printStyleColored,
+      chalk.red,
     );
-    Object.keys(result.deleted).forEach((token) => {
-      log(indent(chalk.red(`"${token}"`), 1));
-    });
     log("\n");
-    log(
-      chalk.white(
-        emoji.emojify(`:new: Updated (${Object.keys(result.updated).length})`),
-      ),
+    printSection(
+      "new",
+      "Updated",
+      Object.keys(result.updated).length,
+      result.updated,
+      log,
+      printStyleUpdated,
+      chalk.white,
+      result.renamed,
+      original,
     );
-    Object.keys(result.updated).forEach((token) => {
-      const originalToken =
-        original[token] === undefined
-          ? original[renamed[token]["old-name"]] // if the token was renamed and updated, need to look in renamed to get token's old name
-          : original[token];
-      log(indent(chalk.yellow(`"${token}"`), 1));
-      printNestedChanges(
-        result.updated[token],
-        "",
-        originalToken,
-        originalToken,
-        log,
-      );
-    });
     log("\n"); // adding a space at the very end of report to make it look nicer
   } catch {
     return console.error(
@@ -228,6 +261,34 @@ function printReport(original, result, log) {
     );
   }
   return 0;
+}
+
+function printTitle(emojiName, title, numTokens, log) {
+  log(chalk.white(emoji.emojify(`:${emojiName}: ${title} (${numTokens})`)));
+}
+
+function printSection(
+  emojiName,
+  title,
+  numTokens,
+  result,
+  log,
+  func,
+  color,
+  renamed,
+  original,
+) {
+  const textColor = color || chalk.white;
+  printTitle(emojiName, title, numTokens, log);
+  Object.keys(result).forEach((token) => {
+    if (textColor != chalk.white) {
+      func(token, textColor, log);
+    } else if (original !== undefined && renamed !== undefined) {
+      func(original, result, renamed, token, log);
+    } else {
+      func(result, token, log);
+    }
+  });
 }
 
 /**
@@ -283,7 +344,7 @@ function printNestedChanges(
     curOriginalLevel = originalToken;
     keys.forEach((key) => {
       curOriginalLevel =
-        curOriginalLevel[key] === undefined ? 1 : curOriginalLevel[key];
+        curOriginalLevel[key] === undefined ? token : curOriginalLevel[key];
     });
     printNestedChanges(
       token[property],
