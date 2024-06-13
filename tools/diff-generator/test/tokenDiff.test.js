@@ -35,7 +35,11 @@ const expectedRenamed = {
       "old-name": "swatch-border-color",
     },
   },
-  updated: {},
+  updated: {
+    added: {},
+    deleted: {},
+    updated: {},
+  },
 };
 
 const expectedManyAddedRenamed = {
@@ -63,7 +67,11 @@ const expectedManyAddedRenamed = {
       "old-name": "color-area-border-color",
     },
   },
-  updated: {},
+  updated: {
+    added: {},
+    deleted: {},
+    updated: {},
+  },
 };
 
 const expectedRenamedAddedDeleted = {
@@ -111,7 +119,11 @@ const expectedRenamedAddedDeleted = {
       "old-name": "help-text-top-to-workflow-icon-medium",
     },
   },
-  updated: {},
+  updated: {
+    added: {},
+    deleted: {},
+    updated: {},
+  },
 };
 
 const expectedSeveralRenamedAddedDeleted = {
@@ -147,7 +159,11 @@ const expectedSeveralRenamedAddedDeleted = {
       "old-name": "color-handle-inner-border-color",
     },
   },
-  updated: {},
+  updated: {
+    added: {},
+    deleted: {},
+    updated: {},
+  },
 };
 
 // The names are getting pretty long lol, so here's the abbreviations (open to change b/c tbh these kinda suck!)
@@ -194,7 +210,11 @@ const expectedSeveralRADDep = {
       "old-name": "color-handle-inner-border-color",
     },
   },
-  updated: {},
+  updated: {
+    added: {},
+    deleted: {},
+    updated: {},
+  },
 };
 
 const expectedSeveralRADDepU = {
@@ -240,29 +260,33 @@ const expectedSeveralRADDepU = {
     },
   },
   updated: {
-    "thumbnail-border-color": {
-      $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/not-a-thumbnail.json",
-    },
-    "opacity-checkerboard-square-dark": {
-      sets: {
-        light: {
-          value: "{gray-500}",
-        },
-        darkest: {
-          value: "{gray-900}",
+    added: {},
+    deleted: {},
+    updated: {
+      "thumbnail-border-color": {
+        $schema:
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/not-a-thumbnail.json",
+      },
+      "opacity-checkerboard-square-dark": {
+        sets: {
+          light: {
+            value: "{gray-500}",
+          },
+          darkest: {
+            value: "{gray-900}",
+          },
         },
       },
-    },
-    "color-slider-border-opacity": {
-      component: "not-a-color-slider",
-    },
-    "color-loupe-inner-border": {
-      uuid: "if a uuid ever change lol",
-    },
-    "drop-zone-background-color": {
-      component: "woohoo!",
-      value: "{fushcia pink}",
+      "color-slider-border-opacity": {
+        component: "not-a-color-slider",
+      },
+      "color-loupe-inner-border": {
+        uuid: "if a uuid ever change lol",
+      },
+      "drop-zone-background-color": {
+        component: "woohoo!",
+        value: "{fushcia pink}",
+      },
     },
   },
 };
@@ -315,29 +339,33 @@ const expectedSeveralRADDepURev = {
     },
   },
   updated: {
-    "thumbnail-border-color": {
-      $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/not-a-thumbnail.json",
-    },
-    "opacity-checkerboard-square-dark": {
-      sets: {
-        light: {
-          value: "{gray-500}",
-        },
-        darkest: {
-          value: "{gray-900}",
+    added: {},
+    deleted: {},
+    updated: {
+      "thumbnail-border-color": {
+        $schema:
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/not-a-thumbnail.json",
+      },
+      "opacity-checkerboard-square-dark": {
+        sets: {
+          light: {
+            value: "{gray-500}",
+          },
+          darkest: {
+            value: "{gray-900}",
+          },
         },
       },
-    },
-    "color-slider-border-opacity": {
-      component: "not-a-color-slider",
-    },
-    "color-loupe-inner-border": {
-      uuid: "if a uuid ever change lol",
-    },
-    "drop-zone-background-color": {
-      component: "woohoo!",
-      value: "{fushcia pink}",
+      "color-slider-border-opacity": {
+        component: "not-a-color-slider",
+      },
+      "color-loupe-inner-border": {
+        uuid: "if a uuid ever change lol",
+      },
+      "drop-zone-background-color": {
+        component: "woohoo!",
+        value: "{fushcia pink}",
+      },
     },
   },
 };
@@ -349,16 +377,44 @@ const expectedAddedProperty = {
   added: {},
   deleted: {},
   updated: {
-    "celery-background-color-default": {
-      sets: {
-        "random-property": {
-          $schema:
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-          value: "{spinach-100}",
-          uuid: "1234",
+    added: {
+      "celery-background-color-default": {
+        sets: {
+          "random-property": {
+            $schema:
+              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+            value: "{spinach-100}",
+            uuid: "1234",
+          },
         },
       },
     },
+    deleted: {},
+    updated: {},
+  },
+};
+
+const expectedDeletedProperty = {
+  renamed: {},
+  deprecated: {},
+  reverted: {},
+  added: {},
+  deleted: {},
+  updated: {
+    added: {},
+    deleted: {
+      "celery-background-color-default": {
+        sets: {
+          "random-property": {
+            $schema:
+              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+            value: "{spinach-100}",
+            uuid: "1234",
+          },
+        },
+      },
+    },
+    updated: {},
   },
 };
 
@@ -415,9 +471,9 @@ test("test to see if added property from token looks right", (t) => {
   );
 });
 
-test.skip("test to see if deleted property from token looks right", (t) => {
+test("test to see if deleted property from token looks right", (t) => {
   t.deepEqual(
     tokenDiff(addedPropertySetToken, basicSetTokenProperty),
-    expectedAddedProperty,
+    expectedDeletedProperty,
   );
 });

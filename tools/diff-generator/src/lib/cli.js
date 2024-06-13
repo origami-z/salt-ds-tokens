@@ -110,7 +110,7 @@ const printStyleUpdated = (original, result, renamed, token, log) => {
     original[token] === undefined
       ? original[renamed[token]["old-name"]] // if the token was renamed and updated, need to look in renamed to get token's old name
       : original[token];
-  log(indent(chalk.yellow(`"${token}"`), 1));
+  log(indent(chalk.yellow(`"${token}"`), 2));
   printNestedChanges(result[token], "", originalToken, originalToken, log);
 };
 
@@ -176,21 +176,24 @@ async function cliCheck(originalFile, result) {
  * @returns {int} exit code
  */
 function printReport(original, result, log) {
-  try {
-    const totalTokens =
-      Object.keys(result.renamed).length +
-      Object.keys(result.deprecated).length +
-      Object.keys(result.reverted).length +
-      Object.keys(result.added).length +
-      Object.keys(result.deleted).length +
-      Object.keys(result.updated).length;
-    log(chalk.white("\n**Tokens Changed (" + totalTokens + ")**"));
-    log(
-      chalk.white(
-        "-------------------------------------------------------------------------------------------",
-      ),
-    );
-    log("\n");
+  // try {
+  const totalTokens =
+    Object.keys(result.renamed).length +
+    Object.keys(result.deprecated).length +
+    Object.keys(result.reverted).length +
+    Object.keys(result.added).length +
+    Object.keys(result.deleted).length +
+    Object.keys(result.updated.added).length +
+    Object.keys(result.updated.deleted).length +
+    Object.keys(result.updated.updated).length;
+  log(chalk.white("\n**Tokens Changed (" + totalTokens + ")**"));
+  log(
+    chalk.white(
+      "-------------------------------------------------------------------------------------------",
+    ),
+  );
+  log("\n");
+  if (Object.keys(result.renamed).length > 0) {
     printSection(
       "memo",
       "Renamed",
@@ -199,7 +202,8 @@ function printReport(original, result, log) {
       log,
       printStyleRenamed,
     );
-    log("\n");
+  }
+  if (Object.keys(result.deprecated).length > 0) {
     printSection(
       "clock3",
       "Newly Deprecated",
@@ -208,7 +212,8 @@ function printReport(original, result, log) {
       log,
       printStyleDeprecated,
     );
-    log("\n");
+  }
+  if (Object.keys(result.reverted).length > 0) {
     printSection(
       "alarm_clock",
       'Newly "Un-deprecated"',
@@ -218,7 +223,8 @@ function printReport(original, result, log) {
       printStyleColored,
       chalk.yellow,
     );
-    log("\n");
+  }
+  if (Object.keys(result.added).length > 0) {
     printSection(
       "arrow_up_small",
       "Added",
@@ -228,7 +234,8 @@ function printReport(original, result, log) {
       printStyleColored,
       chalk.green,
     );
-    log("\n");
+  }
+  if (Object.keys(result.deleted).length > 0) {
     printSection(
       "arrow_down_small",
       "Deleted",
@@ -238,33 +245,76 @@ function printReport(original, result, log) {
       printStyleColored,
       chalk.red,
     );
-    log("\n");
-    printSection(
-      "new",
-      "Updated",
-      Object.keys(result.updated).length,
-      result.updated,
-      log,
-      printStyleUpdated,
-      chalk.white,
-      result.renamed,
-      original,
-    );
-    log("\n"); // adding a space at the very end of report to make it look nicer
-  } catch {
-    return console.error(
-      chalk.red(
-        new Error(
-          `either could not format and print the result or failed along the way\n`,
-        ),
-      ),
-    );
   }
+  const totalUpdatedTokens =
+    Object.keys(result.updated.added).length +
+    Object.keys(result.updated.deleted).length +
+    Object.keys(result.updated.updated).length;
+  if (totalUpdatedTokens > 0) {
+    printTitle("new", "Updated", totalUpdatedTokens, log);
+    if (Object.keys(result.updated.added).length > 0) {
+      printSection(
+        "new",
+        "Added Properties",
+        Object.keys(result.updated.added).length,
+        result.updated.added,
+        log,
+        printStyleUpdated,
+        chalk.white,
+        result.renamed,
+        original,
+      );
+    }
+    if (Object.keys(result.updated.deleted).length > 0) {
+      printSection(
+        "new",
+        "Deleted Properties",
+        Object.keys(result.updated.deleted).length,
+        result.updated.deleted,
+        log,
+        printStyleUpdated,
+        chalk.white,
+        result.renamed,
+        original,
+      );
+    }
+    if (Object.keys(result.updated.updated).length > 0) {
+      printSection(
+        "new",
+        "Updated Properties",
+        Object.keys(result.updated.updated).length,
+        result.updated.updated,
+        log,
+        printStyleUpdated,
+        chalk.white,
+        result.renamed,
+        original,
+      );
+    }
+  }
+  // } catch {
+  //   return console.error(
+  //     chalk.red(
+  //       new Error(
+  //         `either could not format and print the result or failed along the way\n`,
+  //       ),
+  //     ),
+  //   );
+  // }
   return 0;
 }
 
 function printTitle(emojiName, title, numTokens, log) {
   log(chalk.white(emoji.emojify(`:${emojiName}: ${title} (${numTokens})`)));
+}
+
+function printSubTitle(emojiName, title, numTokens, log, amount) {
+  log(
+    indent(
+      chalk.white(emoji.emojify(`:${emojiName}: ${title} (${numTokens})`)),
+      amount,
+    ),
+  );
 }
 
 function printSection(
@@ -279,7 +329,15 @@ function printSection(
   original,
 ) {
   const textColor = color || chalk.white;
-  printTitle(emojiName, title, numTokens, log);
+  if (
+    title === "Added Properties" ||
+    title === "Deleted Properties" ||
+    title === "Updated Properties"
+  ) {
+    printSubTitle(emojiName, title, numTokens, log, 1);
+  } else {
+    printTitle(emojiName, title, numTokens, log);
+  }
   Object.keys(result).forEach((token) => {
     if (textColor != chalk.white) {
       func(token, textColor, log);
@@ -289,6 +347,7 @@ function printSection(
       func(result, token, log);
     }
   });
+  log("\n");
 }
 
 /**
@@ -310,29 +369,29 @@ function printNestedChanges(
     typeof token === "string" ||
     token === null
   ) {
-    log(indent(chalk.yellow(properties.substring(1)), 2));
+    log(indent(chalk.yellow(properties.substring(1)), 3));
     if (curOriginalLevel === token) {
-      log(indent(chalk.yellow(`"${token}"`), 3));
+      log(indent(chalk.yellow(`${token}`), 4));
     } else if (properties.substring(1) === "$schema") {
       const newValue = token.split("/");
       const str =
-        indent(chalk.white(`"${curOriginalLevel}" -> \n`), 3) +
+        indent(chalk.white(`${curOriginalLevel} -> \n`), 4) +
         indent(
           chalk.white(
-            `"${token.substring(0, token.length - newValue[newValue.length - 1].length)}`,
+            `${token.substring(0, token.length - newValue[newValue.length - 1].length)}`,
           ) +
             chalk.yellow(
               `${newValue[newValue.length - 1].split(".")[0]}` +
-                chalk.white(`.${newValue[newValue.length - 1].split(".")[1]}"`),
+                chalk.white(`.${newValue[newValue.length - 1].split(".")[1]}`),
             ),
-          3,
+          4,
         );
       log(str);
     } else {
       log(
         indent(
-          chalk.white(`"${curOriginalLevel}" -> `) + chalk.yellow(`"${token}"`),
-          3,
+          chalk.white(`${curOriginalLevel} -> `) + chalk.yellow(`${token}`),
+          4,
         ),
       );
     }

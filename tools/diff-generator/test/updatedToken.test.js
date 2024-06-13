@@ -15,7 +15,6 @@ import detectUpdatedTokens from "../src/lib/updated-token-detection.js";
 import detectRenamedTokens from "../src/lib/renamed-token-detection.js";
 import detectNewTokens from "../src/lib/added-token-detection.js";
 import detectDeprecatedTokens from "../src/lib/deprecated-token-detection.js";
-import detectDeletedTokens from "../src/lib/deleted-token-detection.js";
 import { detailedDiff } from "deep-object-diff";
 import original from "./test-schemas/basic-original-token.json" with { type: "json" };
 import updatedToken from "./test-schemas/basic-updated-token.json" with { type: "json" };
@@ -29,102 +28,130 @@ import basicSetTokenProperty from "./test-schemas/basic-set-token-property.json"
 import addedPropertySetToken from "./test-schemas/added-property-set-token.json" with { type: "json" };
 
 const expected = {
-  "swatch-border-color": { value: "{blue-200}" },
+  added: {},
+  deleted: {},
+  updated: {
+    "swatch-border-color": { value: "{blue-200}" },
+  },
 };
 
 const expectedUpdatedSeveralProperties = {
-  "swatch-border-color": {
-    $schema:
-      "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-    value: "{blue-200}",
+  added: {},
+  deleted: {},
+  updated: {
+    "swatch-border-color": {
+      $schema:
+        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+      value: "{blue-200}",
+    },
   },
 };
 
 const expectedUpdatedSet = {
-  "overlay-opacity": {
-    sets: {
-      darkest: {
-        value: "0.8",
-      },
-      light: {
-        $schema:
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-      },
-      wireframe: {
-        $schema:
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/wireframe.json",
-        value: "0",
+  added: {},
+  deleted: {},
+  updated: {
+    "overlay-opacity": {
+      sets: {
+        darkest: {
+          value: "0.8",
+        },
+        light: {
+          $schema:
+            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        },
+        wireframe: {
+          $schema:
+            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/wireframe.json",
+          value: "0",
+        },
       },
     },
   },
 };
 
 const expectedSeveralUpdatedSet = {
-  "help-text-top-to-workflow-icon-medium": {
-    $schema:
-      "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token-set.json",
-    sets: {
-      desktop: {
-        $schema:
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/changing-two-schemas.json",
-      },
-      mobile: {
-        value: "9px",
+  added: {},
+  deleted: {},
+  updated: {
+    "help-text-top-to-workflow-icon-medium": {
+      $schema:
+        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token-set.json",
+      sets: {
+        desktop: {
+          $schema:
+            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/changing-two-schemas.json",
+        },
+        mobile: {
+          value: "9px",
+        },
       },
     },
-  },
-  "status-light-top-to-dot-large": {
-    sets: {
-      desktop: {
-        value: "20px",
+    "status-light-top-to-dot-large": {
+      sets: {
+        desktop: {
+          value: "20px",
+        },
       },
     },
   },
 };
 
 const expectedUpdatedSetWithRename = {
-  "help-text-top-to-workflow-icon-medium": {
-    sets: {
-      desktop: {
-        value: "7px",
+  added: {},
+  deleted: {},
+  updated: {
+    "help-text-top-to-workflow-icon-medium": {
+      sets: {
+        desktop: {
+          value: "7px",
+        },
       },
     },
-  },
-  "i-like-fish-tacos": {
-    $schema:
-      "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scaly-fish.json",
-    sets: {
-      mobile: {
-        value: "15px",
+    "i-like-fish-tacos": {
+      $schema:
+        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scaly-fish.json",
+      sets: {
+        mobile: {
+          value: "15px",
+        },
       },
     },
   },
 };
 
 const expectedAddedProperty = {
-  "celery-background-color-default": {
-    sets: {
-      "random-property": {
-        $schema:
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        value: "{spinach-100}",
-        uuid: "1234",
+  added: {
+    "celery-background-color-default": {
+      sets: {
+        "random-property": {
+          $schema:
+            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+          value: "{spinach-100}",
+          uuid: "1234",
+        },
       },
     },
   },
+  deleted: {},
+  updated: {},
 };
 
 const expectedDeletedProperty = {
-  "celery-background-color-default": {
-    sets: {
-      "random-property": {
-        $schema:
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-        value: "{spinach-100}",
-        uuid: "1234",
+  added: {},
+  deleted: {
+    "celery-background-color-default": {
+      sets: {
+        "random-property": {
+          $schema:
+            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+          value: "{spinach-100}",
+          uuid: "1234",
+        },
       },
     },
   },
+  updated: {},
 };
 
 test("basic test to check if updated token is detected", (t) => {
