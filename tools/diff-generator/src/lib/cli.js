@@ -38,7 +38,6 @@ program
         fileImport(updated),
       ]);
       const result = tokenDiff(originalFile, updatedFile);
-      console.log(result);
       cliCheck(originalFile, result);
     } catch (e) {
       console.error(chalk.red("\n" + e + "\n"));
@@ -210,7 +209,13 @@ function printReport(original, result, log) {
           ? original[renamed[token]["old-name"]] // if the token was renamed and updated, need to look in renamed to get token's old name
           : original[token];
       log(indent(chalk.yellow(`"${token}"`), 1));
-      printNestedChanges(result.updated[token], "", originalToken, log);
+      printNestedChanges(
+        result.updated[token],
+        "",
+        originalToken,
+        originalToken,
+        log,
+      );
     });
     log("\n"); // adding a space at the very end of report to make it look nicer
   } catch {
@@ -232,19 +237,25 @@ function printReport(original, result, log) {
  * @param {object} originalToken - the original token
  * @param {object} log - the console.log object used
  */
-function printNestedChanges(token, properties, originalToken, log) {
+function printNestedChanges(
+  token,
+  properties,
+  originalToken,
+  curOriginalLevel,
+  log,
+) {
   if (
     typeof token !== "object" ||
     typeof token === "string" ||
     token === null
   ) {
     log(indent(chalk.yellow(properties.substring(1)), 2));
-    if (originalToken === 1) {
+    if (curOriginalLevel === 1) {
       log(indent(chalk.yellow(`"${token}"`), 3));
     } else if (properties.substring(1) === "$schema") {
       const newValue = token.split("/");
       const str =
-        indent(chalk.white(`"${originalToken}" -> \n`), 3) +
+        indent(chalk.white(`"${curOriginalLevel}" -> \n`), 3) +
         indent(
           chalk.white(
             `"${token.substring(0, token.length - newValue[newValue.length - 1].length)}`,
@@ -259,7 +270,7 @@ function printNestedChanges(token, properties, originalToken, log) {
     } else {
       log(
         indent(
-          chalk.white(`"${originalToken}" -> `) + chalk.yellow(`"${token}"`),
+          chalk.white(`"${curOriginalLevel}" -> `) + chalk.yellow(`"${token}"`),
           3,
         ),
       );
@@ -268,8 +279,18 @@ function printNestedChanges(token, properties, originalToken, log) {
   }
   Object.keys(token).forEach((property) => {
     const nextProperties = properties + "." + property;
-    originalToken =
-      originalToken[property] === undefined ? 1 : originalToken[property];
-    printNestedChanges(token[property], nextProperties, originalToken, log);
+    const keys = nextProperties.substring(1).split(".");
+    curOriginalLevel = originalToken;
+    keys.forEach((key) => {
+      curOriginalLevel =
+        curOriginalLevel[key] === undefined ? 1 : curOriginalLevel[key];
+    });
+    printNestedChanges(
+      token[property],
+      nextProperties,
+      originalToken,
+      curOriginalLevel,
+      log,
+    );
   });
 }
