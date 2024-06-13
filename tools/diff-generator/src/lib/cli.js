@@ -63,49 +63,53 @@ function indent(text, amount) {
  * @param {object} originalFile - the original token
  * @param {object} result - the updated token report
  */
-function cliCheck(originalFile, result) {
+async function cliCheck(originalFile, result) {
   const log = console.log;
-  log("\n");
-  log(
-    chalk.white(
-      emoji.emojify(
-        `:alarm_clock: Newly "Un-deprecated" (${Object.keys(result.reverted).length})`,
+  if (Object.keys(result.reverted).length > 0) {
+    log("\n");
+    log(
+      chalk.white(
+        emoji.emojify(
+          `:alarm_clock: Newly "Un-deprecated" (${Object.keys(result.reverted).length})`,
+        ),
       ),
-    ),
-  );
-  Object.keys(result.reverted).forEach((token) => {
-    log(indent(chalk.yellow(`"${token}"`), 1));
-  });
-  log(
-    chalk.white(
-      "\n-------------------------------------------------------------------------------------------",
-    ),
-  );
-  inquirer
-    .prompt([
-      {
-        type: "confirm",
-        name: "confirmation",
-        message:
-          "Are you sure this token is supposed to lose its `deprecated` status (y/n)?",
-        default: false,
-      },
-    ])
-    .then((response) => {
-      if (response.confirmation) {
-        console.clear();
-        return printReport(originalFile, result, log);
-      } else {
-        log(
-          chalk.yellow(
-            emoji.emojify(
-              "\n:+1: Cool, closing diff generator CLI, see you next time!\n",
-            ),
-          ),
-        );
-        return 1;
-      }
+    );
+    Object.keys(result.reverted).forEach((token) => {
+      log(indent(chalk.yellow(`"${token}"`), 1));
     });
+    log(
+      chalk.white(
+        "\n-------------------------------------------------------------------------------------------",
+      ),
+    );
+    inquirer
+      .prompt([
+        {
+          type: "confirm",
+          name: "confirmation",
+          message:
+            "Are you sure this token is supposed to lose its `deprecated` status (y/n)?",
+          default: false,
+        },
+      ])
+      .then((response) => {
+        if (response.confirmation) {
+          console.clear();
+          return printReport(originalFile, result, log);
+        } else {
+          log(
+            chalk.yellow(
+              emoji.emojify(
+                "\n:+1: Cool, closing diff generator CLI, see you next time!\n",
+              ),
+            ),
+          );
+          return 1;
+        }
+      });
+  } else {
+    return printReport(originalFile, result, log);
+  }
 }
 
 /**
@@ -202,11 +206,12 @@ function printReport(original, result, log) {
     Object.keys(result.updated).forEach((token) => {
       const originalToken =
         original[token] === undefined
-          ? original[renamed[token]["old-name"]]
-          : original[token]; // if the token was renamed and updated, need to look in renamed to get token's old name
+          ? original[renamed[token]["old-name"]] // if the token was renamed and updated, need to look in renamed to get token's old name
+          : original[token];
       log(indent(chalk.yellow(`"${token}"`), 1));
       printNestedChanges(result.updated[token], "", originalToken, log);
     });
+    log("\n"); // adding a space at the very end of report to make it look nicer
   } catch {
     return console.error(
       chalk.red(

@@ -18,17 +18,34 @@ import { detailedDiff } from "deep-object-diff";
  * @param {object} changes - the changed token data
  * @returns {object} updatedTokens - a JSON object containing the updated tokens (with new name, if renamed)
  */
-export default function detectUpdatedTokens(renamed, original, changes) {
+export default function detectUpdatedTokens(
+  renamed,
+  original,
+  changes,
+  newTokens,
+  deletedTokens,
+) {
   const updatedTokens = { ...changes.updated };
   Object.keys(changes.added).forEach((token) => {
     if (renamed[token] !== undefined) {
-      const renamedTokenDiff = detailedDiff(
+      const tokenDiff = detailedDiff(
         original[renamed[token]["old-name"]],
         changes.added[token],
       ).updated;
-      if (Object.keys(renamedTokenDiff).length !== 0) {
-        updatedTokens[token] = renamedTokenDiff;
+      if (Object.keys(tokenDiff).length !== 0) {
+        updatedTokens[token] = tokenDiff;
       }
+    } else if (
+      newTokens[token] !== undefined &&
+      original[token] !== undefined
+    ) {
+      console.log(newTokens[token]);
+      updatedTokens[token] = newTokens[token];
+    }
+  });
+  Object.keys(deletedTokens).forEach((token) => {
+    if (deletedTokens[token] !== undefined) {
+      updatedTokens[token] = deletedTokens[token];
     }
   });
   return updatedTokens;
