@@ -32,6 +32,8 @@ program
   .argument("<original>", "original tokens")
   .argument("<updated>", "updated tokens") // idk what options there would be yet
   .action(async (original, updated) => {
+    console.log("entered cli: ", original);
+    console.log("entered cli: ", updated);
     try {
       const [originalFile, updatedFile] = await Promise.all([
         fileImport(original),
