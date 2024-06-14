@@ -40,11 +40,16 @@ program
       const result = tokenDiff(originalFile, updatedFile);
       cliCheck(originalFile, result);
     } catch (e) {
-      console.error(chalk.red("\n" + e + "\n"));
+      console.error(red("\n" + e + "\n"));
     }
   });
 
 program.parse(process.argv);
+
+const yellow = chalk.hex("F3EE7E");
+const red = chalk.hex("F37E7E");
+const green = chalk.hex("7EF383");
+const white = chalk.white;
 
 /**
  * Formatting helper function for indentation
@@ -65,8 +70,7 @@ function indent(text, amount) {
  */
 const printStyleRenamed = (result, token, log) => {
   const str =
-    chalk.white(`"${result[token]["old-name"]}" -> `) +
-    chalk.yellow(`"${token}"`);
+    white(`"${result[token]["old-name"]}" -> `) + yellow(`"${token}"`);
   log(indent(str, 1));
 };
 
@@ -79,9 +83,9 @@ const printStyleRenamed = (result, token, log) => {
 const printStyleDeprecated = (result, token, log) => {
   log(
     indent(
-      chalk.yellow(`"${token}"`) +
-        chalk.white(": ") +
-        chalk.yellow(`"${result[token]["deprecated_comment"]}"`),
+      yellow(`"${token}"`) +
+        white(": ") +
+        yellow(`"${result[token]["deprecated_comment"]}"`),
       1,
     ),
   );
@@ -110,7 +114,7 @@ const printStyleUpdated = (original, result, renamed, token, log) => {
     original[token] === undefined
       ? original[renamed[token]["old-name"]] // if the token was renamed and updated, need to look in renamed to get token's old name
       : original[token];
-  log(indent(chalk.yellow(`"${token}"`), 2));
+  log(indent(yellow(`"${token}"`), 2));
   printNestedChanges(result[token], "", originalToken, originalToken, log);
 };
 
@@ -131,10 +135,10 @@ async function cliCheck(originalFile, result) {
       result.reverted,
       log,
       printStyleColored,
-      chalk.yellow,
+      yellow,
     );
     log(
-      chalk.white(
+      white(
         "\n-------------------------------------------------------------------------------------------",
       ),
     );
@@ -154,7 +158,7 @@ async function cliCheck(originalFile, result) {
           return printReport(originalFile, result, log);
         } else {
           log(
-            chalk.yellow(
+            yellow(
               emoji.emojify(
                 "\n:+1: Cool, closing diff generator CLI, see you next time!\n",
               ),
@@ -176,131 +180,131 @@ async function cliCheck(originalFile, result) {
  * @returns {int} exit code
  */
 function printReport(original, result, log) {
-  // try {
-  const totalTokens =
-    Object.keys(result.renamed).length +
-    Object.keys(result.deprecated).length +
-    Object.keys(result.reverted).length +
-    Object.keys(result.added).length +
-    Object.keys(result.deleted).length +
-    Object.keys(result.updated.added).length +
-    Object.keys(result.updated.deleted).length +
-    Object.keys(result.updated.updated).length;
-  log(chalk.white("\n**Tokens Changed (" + totalTokens + ")**"));
-  log(
-    chalk.white(
-      "-------------------------------------------------------------------------------------------",
-    ),
-  );
-  log("\n");
-  if (Object.keys(result.renamed).length > 0) {
-    printSection(
-      "memo",
-      "Renamed",
-      Object.keys(result.renamed).length,
-      result.renamed,
-      log,
-      printStyleRenamed,
+  try {
+    const totalTokens =
+      Object.keys(result.renamed).length +
+      Object.keys(result.deprecated).length +
+      Object.keys(result.reverted).length +
+      Object.keys(result.added).length +
+      Object.keys(result.deleted).length +
+      Object.keys(result.updated.added).length +
+      Object.keys(result.updated.deleted).length +
+      Object.keys(result.updated.updated).length;
+    log(chalk.white("\n**Tokens Changed (" + totalTokens + ")**"));
+    log(
+      chalk.white(
+        "-------------------------------------------------------------------------------------------",
+      ),
     );
-  }
-  if (Object.keys(result.deprecated).length > 0) {
-    printSection(
-      "clock3",
-      "Newly Deprecated",
-      Object.keys(result.deprecated).length,
-      result.deprecated,
-      log,
-      printStyleDeprecated,
-    );
-  }
-  if (Object.keys(result.reverted).length > 0) {
-    printSection(
-      "alarm_clock",
-      'Newly "Un-deprecated"',
-      Object.keys(result.reverted).length,
-      result.reverted,
-      log,
-      printStyleColored,
-      chalk.yellow,
-    );
-  }
-  if (Object.keys(result.added).length > 0) {
-    printSection(
-      "arrow_up_small",
-      "Added",
-      Object.keys(result.added).length,
-      result.added,
-      log,
-      printStyleColored,
-      chalk.green,
-    );
-  }
-  if (Object.keys(result.deleted).length > 0) {
-    printSection(
-      "arrow_down_small",
-      "Deleted",
-      Object.keys(result.deleted).length,
-      result.deleted,
-      log,
-      printStyleColored,
-      chalk.red,
-    );
-  }
-  const totalUpdatedTokens =
-    Object.keys(result.updated.added).length +
-    Object.keys(result.updated.deleted).length +
-    Object.keys(result.updated.updated).length;
-  if (totalUpdatedTokens > 0) {
-    printTitle("new", "Updated", totalUpdatedTokens, log);
-    if (Object.keys(result.updated.added).length > 0) {
+    log("\n");
+    if (Object.keys(result.renamed).length > 0) {
       printSection(
-        "new",
-        "Added Properties",
-        Object.keys(result.updated.added).length,
-        result.updated.added,
-        log,
-        printStyleUpdated,
-        chalk.white,
+        "memo",
+        "Renamed",
+        Object.keys(result.renamed).length,
         result.renamed,
-        original,
+        log,
+        printStyleRenamed,
       );
     }
-    if (Object.keys(result.updated.deleted).length > 0) {
+    if (Object.keys(result.deprecated).length > 0) {
       printSection(
-        "new",
-        "Deleted Properties",
-        Object.keys(result.updated.deleted).length,
-        result.updated.deleted,
+        "clock3",
+        "Newly Deprecated",
+        Object.keys(result.deprecated).length,
+        result.deprecated,
         log,
-        printStyleUpdated,
-        chalk.white,
-        result.renamed,
-        original,
+        printStyleDeprecated,
       );
     }
-    if (Object.keys(result.updated.updated).length > 0) {
+    if (Object.keys(result.reverted).length > 0) {
       printSection(
-        "new",
-        "Updated Properties",
-        Object.keys(result.updated.updated).length,
-        result.updated.updated,
+        "alarm_clock",
+        'Newly "Un-deprecated"',
+        Object.keys(result.reverted).length,
+        result.reverted,
         log,
-        printStyleUpdated,
-        chalk.white,
-        result.renamed,
-        original,
+        printStyleColored,
+        yellow,
       );
     }
+    if (Object.keys(result.added).length > 0) {
+      printSection(
+        "arrow_up_small",
+        "Added",
+        Object.keys(result.added).length,
+        result.added,
+        log,
+        printStyleColored,
+        green,
+      );
+    }
+    if (Object.keys(result.deleted).length > 0) {
+      printSection(
+        "arrow_down_small",
+        "Deleted",
+        Object.keys(result.deleted).length,
+        result.deleted,
+        log,
+        printStyleColored,
+        red,
+      );
+    }
+    const totalUpdatedTokens =
+      Object.keys(result.updated.added).length +
+      Object.keys(result.updated.deleted).length +
+      Object.keys(result.updated.updated).length;
+    if (totalUpdatedTokens > 0) {
+      printTitle("new", "Updated", totalUpdatedTokens, log);
+      if (Object.keys(result.updated.added).length > 0) {
+        printSection(
+          "new",
+          "Added Properties",
+          Object.keys(result.updated.added).length,
+          result.updated.added,
+          log,
+          printStyleUpdated,
+          chalk.white,
+          result.renamed,
+          original,
+        );
+      }
+      if (Object.keys(result.updated.deleted).length > 0) {
+        printSection(
+          "new",
+          "Deleted Properties",
+          Object.keys(result.updated.deleted).length,
+          result.updated.deleted,
+          log,
+          printStyleUpdated,
+          chalk.white,
+          result.renamed,
+          original,
+        );
+      }
+      if (Object.keys(result.updated.updated).length > 0) {
+        printSection(
+          "new",
+          "Updated Properties",
+          Object.keys(result.updated.updated).length,
+          result.updated.updated,
+          log,
+          printStyleUpdated,
+          chalk.white,
+          result.renamed,
+          original,
+        );
+      }
+    }
+  } catch {
+    return console.error(
+      red(
+        new Error(
+          `either could not format and print the result or failed along the way\n`,
+        ),
+      ),
+    );
   }
-  // } catch {
-  //   return console.error(
-  //     chalk.red(
-  //       new Error(
-  //         `either could not format and print the result or failed along the way\n`,
-  //       ),
-  //     ),
-  //   );
-  // }
   return 0;
 }
 
@@ -369,31 +373,26 @@ function printNestedChanges(
     typeof token === "string" ||
     token === null
   ) {
-    log(indent(chalk.yellow(properties.substring(1)), 3));
+    log(indent(yellow(properties.substring(1)), 3));
     if (curOriginalLevel === token) {
-      log(indent(chalk.yellow(`${token}`), 4));
+      log(indent(yellow(`${token}`), 4));
     } else if (properties.substring(1) === "$schema") {
       const newValue = token.split("/");
       const str =
-        indent(chalk.white(`${curOriginalLevel} -> \n`), 4) +
+        indent(white(`${curOriginalLevel} -> \n`), 4) +
         indent(
-          chalk.white(
+          white(
             `${token.substring(0, token.length - newValue[newValue.length - 1].length)}`,
           ) +
-            chalk.yellow(
+            yellow(
               `${newValue[newValue.length - 1].split(".")[0]}` +
-                chalk.white(`.${newValue[newValue.length - 1].split(".")[1]}`),
+                white(`.${newValue[newValue.length - 1].split(".")[1]}`),
             ),
           4,
         );
       log(str);
     } else {
-      log(
-        indent(
-          chalk.white(`${curOriginalLevel} -> `) + chalk.yellow(`${token}`),
-          4,
-        ),
-      );
+      log(indent(white(`${curOriginalLevel} -> `) + yellow(`${token}`), 4));
     }
     return;
   }
