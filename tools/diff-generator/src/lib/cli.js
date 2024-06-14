@@ -190,9 +190,9 @@ function printReport(original, result, log) {
       Object.keys(result.updated.added).length +
       Object.keys(result.updated.deleted).length +
       Object.keys(result.updated.updated).length;
-    log(chalk.white("\n**Tokens Changed (" + totalTokens + ")**"));
+    log(white("\n**Tokens Changed (" + totalTokens + ")**"));
     log(
-      chalk.white(
+      white(
         "-------------------------------------------------------------------------------------------",
       ),
     );
@@ -264,7 +264,7 @@ function printReport(original, result, log) {
           result.updated.added,
           log,
           printStyleUpdated,
-          chalk.white,
+          white,
           result.renamed,
           original,
         );
@@ -277,7 +277,7 @@ function printReport(original, result, log) {
           result.updated.deleted,
           log,
           printStyleUpdated,
-          chalk.white,
+          white,
           result.renamed,
           original,
         );
@@ -290,7 +290,7 @@ function printReport(original, result, log) {
           result.updated.updated,
           log,
           printStyleUpdated,
-          chalk.white,
+          white,
           result.renamed,
           original,
         );
@@ -309,13 +309,13 @@ function printReport(original, result, log) {
 }
 
 function printTitle(emojiName, title, numTokens, log) {
-  log(chalk.white(emoji.emojify(`:${emojiName}: ${title} (${numTokens})`)));
+  log(white(emoji.emojify(`:${emojiName}: ${title} (${numTokens})`)));
 }
 
 function printSubTitle(emojiName, title, numTokens, log, amount) {
   log(
     indent(
-      chalk.white(emoji.emojify(`:${emojiName}: ${title} (${numTokens})`)),
+      white(emoji.emojify(`:${emojiName}: ${title} (${numTokens})`)),
       amount,
     ),
   );
@@ -332,7 +332,7 @@ function printSection(
   renamed,
   original,
 ) {
-  const textColor = color || chalk.white;
+  const textColor = color || white;
   if (
     title === "Added Properties" ||
     title === "Deleted Properties" ||
@@ -343,7 +343,7 @@ function printSection(
     printTitle(emojiName, title, numTokens, log);
   }
   Object.keys(result).forEach((token) => {
-    if (textColor != chalk.white) {
+    if (textColor != white) {
       func(token, textColor, log);
     } else if (original !== undefined && renamed !== undefined) {
       func(original, result, renamed, token, log);
