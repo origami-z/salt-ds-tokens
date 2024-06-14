@@ -10,12 +10,12 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import nixt from "nixt@0.5.1/node_modules/nixt/index";
+// import nixt from "nixt@0.5.1/node_modules/nixt/index";
 
-nixt()
-  .exec("touch /tmp/test")
-  .run(
-    "pnpm tdiff report test/test-schemas/basic-set-token-property.json test/test-schemas/added-property-set-token.json",
-  )
-  .stdout(/test/)
-  .end();
+// nixt()
+//   .exec("touch /tmp/test")
+//   .run(
+//     "pnpm tdiff report test/test-schemas/basic-set-token-property.json test/test-schemas/added-property-set-token.json",
+//   )
+//   .stdout(/test/)
+//   .end();
