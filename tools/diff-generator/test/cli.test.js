@@ -27,6 +27,22 @@ const path =
 //     t.pass();
 // });
 
+test("cli should return correct version number", async (t) => {
+  t.plan(1);
+  return new Promise((resolve, reject) => {
+    try {
+      nixt()
+        .expect((result) => {
+          t.is(result.stdout, "0.1.0"); // TODO: fix this to read from package.json for assertion.
+        })
+        .run("pnpm tdiff --version")
+        .end(resolve);
+    } catch (error) {
+      reject(error);
+    }
+  });
+});
+
 test("check cli output for simple diff", async (t) => {
   console.log("at top: ", `${path}test-schemas/entire-schema.json`);
   console.log(
