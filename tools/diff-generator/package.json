@@ -24,7 +24,9 @@
     "emojilib": "^3.0.12",
     "inquirer": "^9.2.23",
     "nixt": "^0.5.1",
-    "node-emoji": "^2.1.3"
+    "node-emoji": "^2.1.3",
+    "tar": "^7.0.1",
+    "tmp-promise": "^3.0.3"
   },
   "devDependencies": {
     "c8": "^9.1.0"

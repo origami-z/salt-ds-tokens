@@ -30,13 +30,31 @@ program
   .command("report")
   .description("Generates a diff report for two inputted schema")
   .argument("<original>", "original tokens")
-  .argument("<updated>", "updated tokens") // idk what options there would be yet
-  .option("--y", "yes to removing deprecated status of token(s)")
+  .argument("<updated>", "updated tokens")
+  .option("-y", "answers yes to removing deprecated status of token(s)")
+  .option(
+    "-otv, --old-token-version <oldVersion>",
+    "indicates which token version to pull old tokens from",
+    "latest",
+  )
+  .option(
+    "-ntv, --new-token-version <updatedVersion>",
+    "indicates which token version to pull new tokens from",
+    "latest",
+  )
+  .option(
+    "-otl, --old-token-location <oldLocation>",
+    "indicates where to fetch old token data from (npm, github branch, or github tag",
+  )
+  .option(
+    "-ntl, --new-token-location <newLocation>",
+    "indicates where to fetch updated token data from (npm, github branch, or github tag",
+  )
   .action(async (original, updated, options) => {
     try {
       const [originalFile, updatedFile] = await Promise.all([
-        fileImport(original),
-        fileImport(updated),
+        fileImport(original, options.oldTokenVersion, options.oldTokenLocation),
+        fileImport(updated, options.newTokenVersion, options.newTokenLocation),
       ]);
       const result = tokenDiff(originalFile, updatedFile);
       cliCheck(originalFile, result, options);
@@ -348,7 +366,7 @@ function printSection(
   renamed,
   original,
 ) {
-  const textColor = color;
+  const textColor = color || chalk.white;
   if (
     title === "Added Properties" ||
     title === "Deleted Properties" ||

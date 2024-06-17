@@ -54,7 +54,7 @@ test("check cli output for simple diff", async (t) => {
           }
         })
         .run(
-          `pnpm tdiff report --y ${path}${schemaPath}entire-schema.json ${path}${schemaPath}renamed-added-deleted-deprecated-updated-reverted-tokens.json`,
+          `pnpm tdiff report -y ${path}${schemaPath}entire-schema.json ${path}${schemaPath}renamed-added-deleted-deprecated-updated-reverted-tokens.json`,
         )
         .end(resolve);
     } catch (error) {
@@ -81,7 +81,7 @@ test("check cli output for updated (added) property", async (t) => {
           }
         })
         .run(
-          `pnpm tdiff report --y ${path}${schemaPath}basic-set-token-property.json ${path}${schemaPath}added-property-set-token.json`,
+          `pnpm tdiff report ${path}${schemaPath}basic-set-token-property.json ${path}${schemaPath}added-property-set-token.json`,
         )
         .end(resolve);
     } catch (error) {
@@ -108,7 +108,61 @@ test("check cli output for updated (deleted) property", async (t) => {
           }
         })
         .run(
-          `pnpm tdiff report --y ${path}${schemaPath}added-property-set-token.json ${path}${schemaPath}basic-set-token-property.json`,
+          `pnpm tdiff report ${path}${schemaPath}added-property-set-token.json ${path}${schemaPath}basic-set-token-property.json`,
+        )
+        .end(resolve);
+    } catch (error) {
+      reject(error);
+    }
+  });
+});
+
+test("check cli output for renamed, added, and deleted tokens", async (t) => {
+  t.plan(1);
+  return new Promise((resolve, reject) => {
+    try {
+      nixt()
+        .expect(async () => {
+          try {
+            const expectedFileName = `${path}${outputPath}expected-renamed-added-deleted.txt`;
+            await access(expectedFileName);
+            const expected = await readFile(expectedFileName, {
+              encoding: "utf8",
+            });
+            t.snapshot(expected.trim());
+          } catch (error) {
+            reject(error);
+          }
+        })
+        .run(
+          `pnpm tdiff report ${path}${schemaPath}several-set-tokens.json ${path}${schemaPath}renamed-added-deleted-set-tokens.json`,
+        )
+        .end(resolve);
+    } catch (error) {
+      reject(error);
+    }
+  });
+});
+
+test("check cli output for renamed, added, deleted, and deprecated tokens", async (t) => {
+  t.plan(1);
+  return new Promise((resolve, reject) => {
+    try {
+      nixt()
+        .expect(async () => {
+          try {
+            const expectedFileName = `${path}${outputPath}expected-renamed-added-deleted-deprecated.txt`;
+            await access(expectedFileName);
+            const expected = await readFile(expectedFileName, {
+              encoding: "utf8",
+            });
+            t.snapshot(expected.trim());
+          } catch (error) {
+            reject(error);
+          }
+        })
+        .run(
+          `pnpm tdiff report ${path}${schemaPath}entire-schema.json ${path}${schemaPath}renamed-added-deleted-deprecated-tokens.json`,
         )
         .end(resolve);
     } catch (error) {
