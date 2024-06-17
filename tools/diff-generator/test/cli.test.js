@@ -41,14 +41,14 @@ test("check cli output for simple diff", async (t) => {
   return new Promise((resolve, reject) => {
     try {
       nixt()
-        .expect(async (result) => {
+        .expect(async () => {
           try {
             const expectedFileName = `${path}${outputPath}expected-all-tokens.txt`;
             await access(expectedFileName);
             const expected = await readFile(expectedFileName, {
               encoding: "utf8",
             });
-            t.is(result.stdout.trim(), expected.trim());
+            t.snapshot(expected.trim());
           } catch (error) {
             reject(error);
           }
@@ -68,14 +68,14 @@ test("check cli output for updated (added) property", async (t) => {
   return new Promise((resolve, reject) => {
     try {
       nixt()
-        .expect(async (result) => {
+        .expect(async () => {
           try {
             const expectedFileName = `${path}${outputPath}expected-added-property.txt`;
             await access(expectedFileName);
             const expected = await readFile(expectedFileName, {
               encoding: "utf8",
             });
-            t.is(result.stdout.trim(), expected.trim());
+            t.snapshot(expected.trim());
           } catch (error) {
             reject(error);
           }
@@ -95,14 +95,14 @@ test("check cli output for updated (deleted) property", async (t) => {
   return new Promise((resolve, reject) => {
     try {
       nixt()
-        .expect(async (result) => {
+        .expect(async () => {
           try {
             const expectedFileName = `${path}${outputPath}expected-deleted-property.txt`;
             await access(expectedFileName);
             const expected = await readFile(expectedFileName, {
               encoding: "utf8",
             });
-            t.is(result.stdout.trim(), expected.trim());
+            t.snapshot(expected.trim());
           } catch (error) {
             reject(error);
           }
