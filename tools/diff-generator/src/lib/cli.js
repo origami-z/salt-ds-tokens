@@ -24,23 +24,22 @@ const program = new Command();
 program
   .name("diff")
   .description("CLI to a Spectrum token diff generator")
-  .version("0.1.0");
+  .version("0.0.1");
 
 program
   .command("report")
   .description("Generates a diff report for two inputted schema")
   .argument("<original>", "original tokens")
   .argument("<updated>", "updated tokens") // idk what options there would be yet
-  .action(async (original, updated) => {
-    console.log("entered cli: ", original);
-    console.log("entered cli: ", updated);
+  .option("--y", "yes to removing deprecated status of token(s)")
+  .action(async (original, updated, options) => {
     try {
       const [originalFile, updatedFile] = await Promise.all([
         fileImport(original),
         fileImport(updated),
       ]);
       const result = tokenDiff(originalFile, updatedFile);
-      cliCheck(originalFile, result);
+      cliCheck(originalFile, result, options);
     } catch (e) {
       console.error(red("\n" + e + "\n"));
     }
@@ -126,9 +125,9 @@ const printStyleUpdated = (original, result, renamed, token, log) => {
  * @param {object} originalFile - the original token
  * @param {object} result - the updated token report
  */
-async function cliCheck(originalFile, result) {
+async function cliCheck(originalFile, result, options) {
   const log = console.log;
-  if (Object.keys(result.reverted).length > 0) {
+  if (Object.keys(result.reverted).length > 0 && !options.y) {
     log("\n");
     printSection(
       "alarm_clock",

@@ -1,0 +1,21 @@
+**Tokens Changed (1)**
+-------------------------------------------------------------------------------------------
+
+
+🆕 Updated (1)
+
+   🆕 Deleted Properties (1)
+
+      "celery-background-color-default"
+
+         sets.random-property.$schema
+
+            https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json
+
+         sets.random-property.value
+
+            spinach-100
+
+         sets.random-property.uuid
+
+            1234
