@@ -60,6 +60,7 @@ program
     "indicates specific tokens to compare",
   )
   .action(async (options) => {
+    // console.log(options);
     try {
       const [originalFile, updatedFile] =
         options.test !== undefined
@@ -71,15 +72,17 @@ program
               fileImport(
                 options.tokenNames,
                 options.oldTokenVersion,
-                options.oldTokenLocation,
+                options.oldTokenBranch,
               ),
               fileImport(
                 options.tokenNames,
                 options.newTokenVersion,
-                options.newTokenLocation,
+                options.newTokenBranch,
               ),
             ]);
+      // console.log("updatedFile: ", updatedFile);
       const result = tokenDiff(originalFile, updatedFile);
+      // console.log("result in cli: ", result);
       cliCheck(originalFile, result, options);
     } catch (e) {
       console.error(red("\n" + e + "\n"));

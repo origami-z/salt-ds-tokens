@@ -1,22 +1,12 @@
 WARNING: Will either be inaccurate or will throw an error if used for releases made before every token got their own uuid!
 
 
-**Tokens Changed (3)**
+**Tokens Changed (2)**
 -------------------------------------------------------------------------------------------
 
 
-📝 Renamed (1)
+🔽 Deleted (2)
 
-   "help-text-top-to-workflow-icon-medium" -> "i-like-lemon-coconut-muffins"
+   "spacing-1000"
 
-
-
-🔼 Added (1)
-
-   "gray-100"
-
-
-
-🔽 Deleted (1)
-
-   "status-light-dot-size-extra-large"
+   "text-to-visual-100"

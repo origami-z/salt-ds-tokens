@@ -44,3 +44,57 @@ test("checking file import for two branches (both main)", async (t) => {
     }
   });
 });
+
+test("checking cli output for two branches (shirlsli/diff-generator-cli-tests and shirlsli/file-import-tests) for added color-component tokens", async (t) => {
+  t.plan(1);
+  return new Promise((resolve, reject) => {
+    try {
+      nixt()
+        .expect(async () => {
+          try {
+            const expectedFileName = `${path}${outputPath}expected-branches-added.txt`;
+            await access(expectedFileName);
+            const expected = await readFile(expectedFileName, {
+              encoding: "utf8",
+            });
+            t.snapshot(expected.trim());
+          } catch (error) {
+            reject(error);
+          }
+        })
+        .run(
+          "pnpm tdiff report -otb shirlsli/diff-generator-cli-tests -ntb shirlsli/file-import-tests -tn src/color-component.json",
+        )
+        .end(resolve);
+    } catch (error) {
+      reject(error);
+    }
+  });
+});
+
+test("checking cli output for two branches (shirlsli/diff-generator-cli-tests and shirlsli/file-import-tests) for deleted layout tokens", async (t) => {
+  t.plan(1);
+  return new Promise((resolve, reject) => {
+    try {
+      nixt()
+        .expect(async () => {
+          try {
+            const expectedFileName = `${path}${outputPath}expected-branches-deleted.txt`;
+            await access(expectedFileName);
+            const expected = await readFile(expectedFileName, {
+              encoding: "utf8",
+            });
+            t.snapshot(expected.trim());
+          } catch (error) {
+            reject(error);
+          }
+        })
+        .run(
+          "pnpm tdiff report -otb shirlsli/diff-generator-cli-tests -ntb shirlsli/file-import-tests -tn src/layout.json",
+        )
+        .end(resolve);
+    } catch (error) {
+      reject(error);
+    }
+  });
+});

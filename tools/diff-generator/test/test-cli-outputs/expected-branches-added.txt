@@ -1,22 +1,16 @@
 WARNING: Will either be inaccurate or will throw an error if used for releases made before every token got their own uuid!
 
 
-**Tokens Changed (3)**
+**Tokens Changed (4)**
 -------------------------------------------------------------------------------------------
 
 
-📝 Renamed (1)
+🔼 Added (4)
 
-   "help-text-top-to-workflow-icon-medium" -> "i-like-lemon-coconut-muffins"
+   "i-like-dosas"
 
+   "i-like-panang-curry"
 
+   "i-like-fried-chicken"
 
-🔼 Added (1)
-
-   "gray-100"
-
-
-
-🔽 Deleted (1)
-
-   "status-light-dot-size-extra-large"
+   "i-like-frozen-yogurt"

@@ -1,3 +1,6 @@
+WARNING: Will either be inaccurate or will throw an error if used for releases made before every token got their own uuid!
+
+
 **Tokens Changed (10)**
 -------------------------------------------------------------------------------------------
 
