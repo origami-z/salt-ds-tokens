@@ -60,7 +60,6 @@ program
     "indicates specific tokens to compare",
   )
   .action(async (options) => {
-    // console.log(options);
     try {
       const [originalFile, updatedFile] =
         options.test !== undefined
@@ -80,9 +79,7 @@ program
                 options.newTokenBranch,
               ),
             ]);
-      // console.log("updatedFile: ", updatedFile);
       const result = tokenDiff(originalFile, updatedFile);
-      // console.log("result in cli: ", result);
       cliCheck(originalFile, result, options);
     } catch (e) {
       console.error(red("\n" + e + "\n"));
@@ -169,7 +166,7 @@ async function cliCheck(originalFile, result, options) {
   const log = console.log;
   log(
     red(
-      "\nWARNING: Will either be inaccurate or will throw an error if used for releases made before every token got their own uuid!\n",
+      "\nWARNING: Will either be inaccurate or will throw an error if used for releases before @adobe/spectrum-tokens@12.26.0!\n",
     ),
   );
   if (Object.keys(result.reverted).length > 0 && !options.y) {
