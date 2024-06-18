@@ -210,7 +210,7 @@ async function cliCheck(originalFile, result, options) {
         }
       });
   } else {
-    return printReport(originalFile, result, log);
+    return printReport(originalFile, result, log, options);
   }
 }
 
@@ -221,7 +221,7 @@ async function cliCheck(originalFile, result, options) {
  * @param {object} log - console.log object used in previous function (don't really need this, but decided to continue using same variable)
  * @returns {int} exit code
  */
-function printReport(original, result, log) {
+function printReport(original, result, log, options) {
   try {
     const totalTokens =
       Object.keys(result.renamed).length +
@@ -233,6 +233,24 @@ function printReport(original, result, log) {
       Object.keys(result.updated.deleted).length +
       Object.keys(result.updated.updated).length;
     log(white("\n**Tokens Changed (" + totalTokens + ")**"));
+    if (
+      options.oldTokenBranch !== undefined &&
+      options.newTokenBranch !== undefined
+    ) {
+      log(
+        white(`\n${options.oldTokenBranch} | `) +
+          yellow(`${options.newTokenBranch}`),
+      );
+    }
+    if (
+      options.oldTokenVersion !== undefined &&
+      options.newTokenVersion !== undefined
+    ) {
+      log(
+        white(`\n${options.oldTokenVersion} | `) +
+          yellow(`${options.newTokenVersion}`),
+      );
+    }
     log(
       white(
         "-------------------------------------------------------------------------------------------\n",
