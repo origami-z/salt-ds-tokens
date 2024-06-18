@@ -407,7 +407,7 @@ function printSection(
   renamed,
   original,
 ) {
-  const textColor = color || chalk.white;
+  const textColor = color || white;
   if (
     title === "Added Properties" ||
     title === "Deleted Properties" ||
