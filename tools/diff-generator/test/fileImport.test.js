@@ -98,3 +98,30 @@ test("checking cli output for two branches (shirlsli/diff-generator-cli-tests an
     }
   });
 });
+
+test("checking cli output for two branches (shirlsli/diff-generator-cli-tests and shirlsli/file-import-tests) for renamed, deprecated, added, deleted, and updated tokens", async (t) => {
+  t.plan(1);
+  return new Promise((resolve, reject) => {
+    try {
+      nixt()
+        .expect(async () => {
+          try {
+            const expectedFileName = `${path}${outputPath}expected-branches-changes.txt`;
+            await access(expectedFileName);
+            const expected = await readFile(expectedFileName, {
+              encoding: "utf8",
+            });
+            t.snapshot(expected.trim());
+          } catch (error) {
+            reject(error);
+          }
+        })
+        .run(
+          "pnpm tdiff report -otb shirlsli/diff-generator-cli-tests -ntb shirlsli/file-import-tests",
+        )
+        .end(resolve);
+    } catch (error) {
+      reject(error);
+    }
+  });
+});

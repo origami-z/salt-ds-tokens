@@ -432,18 +432,26 @@ function printNestedChanges(
   ) {
     log(indent(yellow(properties.substring(1)), 3));
     if (curOriginalLevel === token) {
-      log(indent(yellow(`${token}`), 4));
+      if (
+        curOriginalLevel.includes(
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/",
+        )
+      ) {
+        log(indent(yellow(`"${token}"`), 4));
+      } else {
+        log(indent(yellow(`${token}`), 4));
+      }
     } else if (properties.substring(1) === "$schema") {
       const newValue = token.split("/");
       const str =
-        indent(white(`${curOriginalLevel} -> \n`), 4) +
+        indent(white(`"${curOriginalLevel}" -> \n`), 4) +
         indent(
           white(
-            `${token.substring(0, token.length - newValue[newValue.length - 1].length)}`,
+            `"${token.substring(0, token.length - newValue[newValue.length - 1].length)}`,
           ) +
             yellow(
               `${newValue[newValue.length - 1].split(".")[0]}` +
-                white(`.${newValue[newValue.length - 1].split(".")[1]}`),
+                white(`.${newValue[newValue.length - 1].split(".")[1]}"`),
             ),
           4,
         );
