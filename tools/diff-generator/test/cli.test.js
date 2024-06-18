@@ -54,7 +54,7 @@ test("check cli output for simple diff", async (t) => {
           }
         })
         .run(
-          `pnpm tdiff report -y ${path}${schemaPath}entire-schema.json ${path}${schemaPath}renamed-added-deleted-deprecated-updated-reverted-tokens.json`,
+          `pnpm tdiff report -y -t ${path}${schemaPath}entire-schema.json ${path}${schemaPath}renamed-added-deleted-deprecated-updated-reverted-tokens.json`,
         )
         .end(resolve);
     } catch (error) {
@@ -81,7 +81,7 @@ test("check cli output for updated (added) property", async (t) => {
           }
         })
         .run(
-          `pnpm tdiff report ${path}${schemaPath}basic-set-token-property.json ${path}${schemaPath}added-property-set-token.json`,
+          `pnpm tdiff report -t ${path}${schemaPath}basic-set-token-property.json ${path}${schemaPath}added-property-set-token.json`,
         )
         .end(resolve);
     } catch (error) {
@@ -108,7 +108,7 @@ test("check cli output for updated (deleted) property", async (t) => {
           }
         })
         .run(
-          `pnpm tdiff report ${path}${schemaPath}added-property-set-token.json ${path}${schemaPath}basic-set-token-property.json`,
+          `pnpm tdiff report -t ${path}${schemaPath}added-property-set-token.json ${path}${schemaPath}basic-set-token-property.json`,
         )
         .end(resolve);
     } catch (error) {
@@ -135,7 +135,7 @@ test("check cli output for renamed, added, and deleted tokens", async (t) => {
           }
         })
         .run(
-          `pnpm tdiff report ${path}${schemaPath}several-set-tokens.json ${path}${schemaPath}renamed-added-deleted-set-tokens.json`,
+          `pnpm tdiff report -t ${path}${schemaPath}several-set-tokens.json ${path}${schemaPath}renamed-added-deleted-set-tokens.json`,
         )
         .end(resolve);
     } catch (error) {
@@ -162,7 +162,7 @@ test("check cli output for renamed, added, deleted, and deprecated tokens", asyn
           }
         })
         .run(
-          `pnpm tdiff report ${path}${schemaPath}entire-schema.json ${path}${schemaPath}renamed-added-deleted-deprecated-tokens.json`,
+          `pnpm tdiff report -t ${path}${schemaPath}entire-schema.json ${path}${schemaPath}renamed-added-deleted-deprecated-tokens.json`,
         )
         .end(resolve);
     } catch (error) {

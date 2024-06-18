@@ -19,43 +19,66 @@ import fileImport from "./file-import.js";
 import * as emoji from "node-emoji";
 
 import { Command } from "commander";
+
+const yellow = chalk.hex("F3EE7E");
+const red = chalk.hex("F37E7E");
+const green = chalk.hex("7EF383");
+const white = chalk.white;
+
 const program = new Command();
 
 program
-  .name("diff")
+  .name("tdiff")
   .description("CLI to a Spectrum token diff generator")
   .version("0.0.1");
 
 program
   .command("report")
   .description("Generates a diff report for two inputted schema")
-  .argument("<original>", "original tokens")
-  .argument("<updated>", "updated tokens")
   .option("-y", "answers yes to removing deprecated status of token(s)")
   .option(
     "-otv, --old-token-version <oldVersion>",
-    "indicates which token version to pull old tokens from",
+    "indicates which npm package version/github tag to pull old tokens from",
     "latest",
   )
   .option(
     "-ntv, --new-token-version <updatedVersion>",
-    "indicates which token version to pull new tokens from",
+    "indicates which npm package version/github tag to pull new tokens from",
     "latest",
   )
   .option(
-    "-otl, --old-token-location <oldLocation>",
-    "indicates where to fetch old token data from (npm, github branch, or github tag",
+    "-otb, --old-token-branch <oldBranch>",
+    "indicates which branch to fetch old token data from",
   )
   .option(
-    "-ntl, --new-token-location <newLocation>",
-    "indicates where to fetch updated token data from (npm, github branch, or github tag",
+    "-ntb, --new-token-branch <newBranch>",
+    "indicates which branch to fetch updated token data from",
   )
-  .action(async (original, updated, options) => {
+  .option("-t, --test <file...>", "indicates switch to testing mode")
+  .option(
+    "-tn, --token-names <name...>",
+    "indicates specific tokens to compare",
+  )
+  .action(async (options) => {
     try {
-      const [originalFile, updatedFile] = await Promise.all([
-        fileImport(original, options.oldTokenVersion, options.oldTokenLocation),
-        fileImport(updated, options.newTokenVersion, options.newTokenLocation),
-      ]);
+      const [originalFile, updatedFile] =
+        options.test !== undefined
+          ? await Promise.all([
+              fileImport(options.test[0], "test"),
+              fileImport(options.test[1], "test"),
+            ])
+          : await Promise.all([
+              fileImport(
+                options.tokenNames,
+                options.oldTokenVersion,
+                options.oldTokenLocation,
+              ),
+              fileImport(
+                options.tokenNames,
+                options.newTokenVersion,
+                options.newTokenLocation,
+              ),
+            ]);
       const result = tokenDiff(originalFile, updatedFile);
       cliCheck(originalFile, result, options);
     } catch (e) {
@@ -63,12 +86,7 @@ program
     }
   });
 
-program.parse(process.argv);
-
-const yellow = chalk.hex("F3EE7E");
-const red = chalk.hex("F37E7E");
-const green = chalk.hex("7EF383");
-const white = chalk.white;
+program.parse();
 
 /**
  * Formatting helper function for indentation
@@ -146,6 +164,11 @@ const printStyleUpdated = (original, result, renamed, token, log) => {
  */
 async function cliCheck(originalFile, result, options) {
   const log = console.log;
+  log(
+    red(
+      "\nWARNING: Will either be inaccurate or will throw an error if used for releases made before every token got their own uuid!\n",
+    ),
+  );
   if (Object.keys(result.reverted).length > 0 && !options.y) {
     printSection(
       "\nalarm_clock",

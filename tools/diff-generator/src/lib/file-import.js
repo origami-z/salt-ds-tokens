@@ -10,68 +10,47 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 import { access, readFile } from "fs/promises";
-import tmp from "tmp-promise";
-import { exec } from "node:child_process";
-import { promisify } from "util";
-import { x } from "tar";
-import { join } from "path";
 
-const execP = promisify(exec);
+const source = "https://raw.githubusercontent.com/adobe/spectrum-tokens/";
 
 /**
  * Returns file with given file name as a JSON object (took this from diff.js)
  * @param {string} tokenName - the name of the target file
- * @param {string} version - the intended package version
+ * @param {string} version - the intended package version (full name)
  * @returns {object} the target file as a JSON object
  */
-export default async function fileImport(tokenName, version, location) {
-  try {
-    return fetchTokens(tokenName, version, location);
-  } catch {
-    throw new Error(`Invalid file name "${tokenName}"`);
-  }
-}
-
-export async function fetchTokens(tokenName, givenVersion, location) {
-  // took a lot of code from what Garth wrote in diff.js
-  const tmpDir = await tmp.dir();
+export default async function fileImport(
+  givenTokenNames,
+  givenVersion,
+  givenLocation,
+) {
   const version = givenVersion || "latest";
-  let curTokenPath = tokenName;
-  if (
-    location === "npm" ||
-    (location !== undefined && location.includes("@adobe/spectrum-tokens")) ||
-    version === "latest"
-  ) {
-    // gets tokens from specified npm package or github tag
-    // const { stdout, stderr } = await execP(
-    //   `npm pack @adobe/spectrum-tokens@${version} --pack-destination ${tmpDir.path}`,
-    // );
-    // await x({
-    //   cwd: tmpDir.path,
-    //   file: join(tmpDir.path, stdout.trim()),
-    // });
-    // curTokenPath = join(tmpDir.path, "package", tokenName);
-    await access(curTokenPath);
-    return JSON.parse(await readFile(curTokenPath, { encoding: "utf8" }));
-  } else {
-    // gets tokens from specified branch (location)
-    return (
-      await fetch(
-        `https://raw.githubusercontent.com/adobe/spectrum-tokens/${location}/packages/tokens/src/${tokenName}`,
-      )
-    )
-      .json()
-      .then((tokens) => {
-        return tokens;
-      })
-      .catch((e) => {
-        reject(e);
-      });
+  const location = givenLocation || "main";
+  const tokenNames =
+    givenTokenNames || (await fetchTokens("manifest.json", version, location));
+  if (givenVersion === "test") {
+    await access(tokenNames);
+    return JSON.parse(await readFile(tokenNames, { encoding: "utf8" }));
   }
+  const result = {};
+  for (let i = 0; i < tokenNames.length; i++) {
+    const tokens = await fetchTokens(tokenNames[i], version, location);
+    Object.assign(result, tokens);
+  }
+  return result;
 }
 
-/**
- * I'm currently working on fetching tokens from npm (to take a break from writing tests lol) and was wondering how exactly do you get the pack destination?
-
-I referenced your code in diff.js so I tried using tmpDir.path from const tmpDir = await tmp.dir(); but I end up getting Error: ENOENT: no such file or directory, access '/var/folders/qr/qc0343sn2w5br6rls58p23mw0000gq/T/tmp-29969-sJgVacTGH1F8/package/color-component.json'. Is this because this function's directory is within diff-generator, not packages/tokens?
- */
+async function fetchTokens(tokenName, version, location) {
+  const link =
+    version !== "latest"
+      ? source + version.replace("@", "%40")
+      : source + location;
+  return (await fetch(`${link}/packages/tokens/${tokenName}`))
+    .json()
+    .then((tokens) => {
+      return tokens;
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+}
