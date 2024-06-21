@@ -264,28 +264,57 @@ const expectedSeveralRADDepU = {
     deleted: {},
     updated: {
       "thumbnail-border-color": {
-        $schema:
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/not-a-thumbnail.json",
+        $schema: {
+          "new-value":
+            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/not-a-thumbnail.json",
+          "original-value":
+            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+          path: "$schema",
+        },
       },
       "opacity-checkerboard-square-dark": {
         sets: {
           light: {
-            value: "{gray-500}",
+            value: {
+              "new-value": "{gray-500}",
+              "original-value": "{gray-200}",
+              path: "sets.light.value",
+            },
           },
           darkest: {
-            value: "{gray-900}",
+            value: {
+              "new-value": "{gray-900}",
+              "original-value": "{gray-800}",
+              path: "sets.darkest.value",
+            },
           },
         },
       },
       "color-slider-border-opacity": {
-        component: "not-a-color-slider",
+        component: {
+          "new-value": "not-a-color-slider",
+          "original-value": "color-slider",
+          path: "component",
+        },
       },
       "color-loupe-inner-border": {
-        uuid: "if a uuid ever change lol",
+        uuid: {
+          "new-value": "if a uuid ever change lol",
+          "original-value": "d2c4cb48-8a90-461d-95bc-d882ba01472b",
+          path: "uuid",
+        },
       },
       "drop-zone-background-color": {
-        component: "woohoo!",
-        value: "{fushcia pink}",
+        component: {
+          "new-value": "woohoo!",
+          "original-value": "drop-zone",
+          path: "component",
+        },
+        value: {
+          "new-value": "{fushcia pink}",
+          "original-value": "{accent-visual-color}",
+          path: "value",
+        },
       },
     },
   },
@@ -343,28 +372,57 @@ const expectedSeveralRADDepURev = {
     deleted: {},
     updated: {
       "thumbnail-border-color": {
-        $schema:
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/not-a-thumbnail.json",
+        $schema: {
+          "new-value":
+            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/not-a-thumbnail.json",
+          "original-value":
+            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+          path: "$schema",
+        },
       },
       "opacity-checkerboard-square-dark": {
         sets: {
           light: {
-            value: "{gray-500}",
+            value: {
+              "new-value": "{gray-500}",
+              "original-value": "{gray-200}",
+              path: "sets.light.value",
+            },
           },
           darkest: {
-            value: "{gray-900}",
+            value: {
+              "new-value": "{gray-900}",
+              "original-value": "{gray-800}",
+              path: "sets.darkest.value",
+            },
           },
         },
       },
       "color-slider-border-opacity": {
-        component: "not-a-color-slider",
+        component: {
+          "new-value": "not-a-color-slider",
+          "original-value": "color-slider",
+          path: "component",
+        },
       },
       "color-loupe-inner-border": {
-        uuid: "if a uuid ever change lol",
+        uuid: {
+          "new-value": "if a uuid ever change lol",
+          "original-value": "d2c4cb48-8a90-461d-95bc-d882ba01472b",
+          path: "uuid",
+        },
       },
       "drop-zone-background-color": {
-        component: "woohoo!",
-        value: "{fushcia pink}",
+        component: {
+          "new-value": "woohoo!",
+          "original-value": "drop-zone",
+          path: "component",
+        },
+        value: {
+          "new-value": "{fushcia pink}",
+          "original-value": "{accent-visual-color}",
+          path: "value",
+        },
       },
     },
   },

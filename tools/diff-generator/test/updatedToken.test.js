@@ -31,7 +31,13 @@ const expected = {
   added: {},
   deleted: {},
   updated: {
-    "swatch-border-color": { value: "{blue-200}" },
+    "swatch-border-color": {
+      value: {
+        "new-value": "{blue-200}",
+        path: "value",
+        "original-value": "{gray-900}",
+      },
+    },
   },
 };
 
@@ -40,9 +46,18 @@ const expectedUpdatedSeveralProperties = {
   deleted: {},
   updated: {
     "swatch-border-color": {
-      $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
-      value: "{blue-200}",
+      $schema: {
+        "new-value":
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        path: "$schema",
+        "original-value":
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+      },
+      value: {
+        "new-value": "{blue-200}",
+        path: "value",
+        "original-value": "{gray-900}",
+      },
     },
   },
 };
@@ -54,16 +69,34 @@ const expectedUpdatedSet = {
     "overlay-opacity": {
       sets: {
         darkest: {
-          value: "0.8",
+          value: {
+            "new-value": "0.8",
+            "original-value": "0.6",
+            path: "sets.darkest.value",
+          },
         },
         light: {
-          $schema:
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+          $schema: {
+            "new-value":
+              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+            "original-value":
+              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+            path: "sets.light.$schema",
+          },
         },
         wireframe: {
-          $schema:
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/wireframe.json",
-          value: "0",
+          $schema: {
+            "new-value":
+              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/wireframe.json",
+            "original-value":
+              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+            path: "sets.wireframe.$schema",
+          },
+          value: {
+            "new-value": "0",
+            "original-value": "0.4",
+            path: "sets.wireframe.value",
+          },
         },
       },
     },
@@ -75,22 +108,40 @@ const expectedSeveralUpdatedSet = {
   deleted: {},
   updated: {
     "help-text-top-to-workflow-icon-medium": {
-      $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token-set.json",
+      $schema: {
+        "new-value":
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token-set.json",
+        path: "$schema",
+        "original-value":
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+      },
       sets: {
         desktop: {
-          $schema:
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/changing-two-schemas.json",
+          $schema: {
+            "new-value":
+              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/changing-two-schemas.json",
+            "original-value":
+              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+            path: "sets.desktop.$schema",
+          },
         },
         mobile: {
-          value: "9px",
+          value: {
+            "new-value": "9px",
+            "original-value": "4px",
+            path: "sets.mobile.value",
+          },
         },
       },
     },
     "status-light-top-to-dot-large": {
       sets: {
         desktop: {
-          value: "20px",
+          value: {
+            "new-value": "20px",
+            "original-value": "15px",
+            path: "sets.desktop.value",
+          },
         },
       },
     },
@@ -104,16 +155,29 @@ const expectedUpdatedSetWithRename = {
     "help-text-top-to-workflow-icon-medium": {
       sets: {
         desktop: {
-          value: "7px",
+          value: {
+            "new-value": "7px",
+            "original-value": "3px",
+            path: "sets.desktop.value",
+          },
         },
       },
     },
     "i-like-fish-tacos": {
-      $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scaly-fish.json",
+      $schema: {
+        "new-value":
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scaly-fish.json",
+        "original-value":
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+        path: "$schema",
+      },
       sets: {
         mobile: {
-          value: "15px",
+          value: {
+            "new-value": "15px",
+            "original-value": "12px",
+            path: "sets.mobile.value",
+          },
         },
       },
     },

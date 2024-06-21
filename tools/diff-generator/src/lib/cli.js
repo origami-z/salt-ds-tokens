@@ -42,7 +42,7 @@ program
     "latest",
   )
   .option(
-    "-ntv, --new-token-version <updatedVersion>",
+    "-ntv, --new-token-version <newVersion>",
     "indicates which npm package version/github tag to pull new tokens from",
     "latest",
   )
@@ -54,9 +54,9 @@ program
     "-ntb, --new-token-branch <newBranch>",
     "indicates which branch to fetch updated token data from",
   )
-  .option("-t, --test <file...>", "indicates switch to testing mode")
+  .option("-t, --test <tokens...>", "indicates switch to testing mode")
   .option(
-    "-tn, --token-names <name...>",
+    "-tn, --token-names <tokens...>",
     "indicates specific tokens to compare",
   )
   .action(async (options) => {
@@ -146,13 +146,9 @@ const printStyleColored = (token, color, log) => {
  * @param {object} token - the current token
  * @param {object} log - the console.log object being used
  */
-const printStyleUpdated = (original, result, renamed, token, log) => {
-  const originalToken =
-    original[token] === undefined
-      ? original[renamed[token]["old-name"]] // if the token was renamed and updated, need to look in renamed to get token's old name
-      : original[token];
+const printStyleUpdated = (result, token, log) => {
   log(indent(yellow(`"${token}"`), 2));
-  printNestedChanges(result[token], "", originalToken, originalToken, log);
+  printNestedChanges(result[token], log);
 };
 
 /**
@@ -421,7 +417,7 @@ function printSection(
     if (textColor != white) {
       func(token, textColor, log);
     } else if (original !== undefined && renamed !== undefined) {
-      func(original, result, renamed, token, log);
+      func(result, token, log);
     } else {
       func(result, token, log);
     }
@@ -436,36 +432,23 @@ function printSection(
  * @param {object} originalToken - the original token
  * @param {object} log - the console.log object used
  */
-function printNestedChanges(
-  token,
-  properties,
-  originalToken,
-  curOriginalLevel,
-  log,
-) {
-  if (
-    typeof token !== "object" ||
-    typeof token === "string" ||
-    token === null
-  ) {
-    log(indent(yellow(properties.substring(1)), 3));
-    if (curOriginalLevel === token) {
-      if (
-        curOriginalLevel.includes(
-          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/",
-        )
-      ) {
+function printNestedChanges(token, log) {
+  if (token["path"] !== undefined) {
+    log(indent(yellow(token["path"]), 3));
+
+    if (token["original-value"] === undefined) {
+      if (token["path"].includes("$schema")) {
         log(indent(yellow(`"${token}"`), 4));
       } else {
         log(indent(yellow(`${token}`), 4));
       }
-    } else if (properties.substring(1) === "$schema") {
-      const newValue = token.split("/");
+    } else if (token["path"].includes("$schema")) {
+      const newValue = token["new-value"].split("/");
       const str =
-        indent(white(`"${curOriginalLevel}" -> \n`), 4) +
+        indent(white(`"${token["original-value"]}" -> \n`), 4) +
         indent(
           white(
-            `"${token.substring(0, token.length - newValue[newValue.length - 1].length)}`,
+            `"${token["new-value"].substring(0, token["new-value"].length - newValue[newValue.length - 1].length)}`,
           ) +
             yellow(
               `${newValue[newValue.length - 1].split(".")[0]}` +
@@ -475,24 +458,17 @@ function printNestedChanges(
         );
       log(str);
     } else {
-      log(indent(white(`${curOriginalLevel} -> `) + yellow(`${token}`), 4));
+      log(
+        indent(
+          white(`${token["original-value"]} -> `) +
+            yellow(`${token["new-value"]}`),
+          4,
+        ),
+      );
     }
     return;
   }
   Object.keys(token).forEach((property) => {
-    const nextProperties = properties + "." + property;
-    const keys = nextProperties.substring(1).split(".");
-    curOriginalLevel = originalToken;
-    keys.forEach((key) => {
-      curOriginalLevel =
-        curOriginalLevel[key] === undefined ? token : curOriginalLevel[key];
-    });
-    printNestedChanges(
-      token[property],
-      nextProperties,
-      originalToken,
-      curOriginalLevel,
-      log,
-    );
+    printNestedChanges(token[property], log);
   });
 }
