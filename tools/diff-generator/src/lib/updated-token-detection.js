@@ -57,5 +57,75 @@ export default function detectUpdatedTokens(
       updatedTokens.deleted[token] = tokenDiff;
     }
   });
+  Object.keys(updatedTokens.updated).forEach((token) => {
+    if (renamed[token] !== undefined) {
+      includeOldProperties(
+        updatedTokens.updated[token],
+        updatedTokens.updated[token],
+        token + "",
+        original,
+        original[renamed[token]["old-name"]],
+        renamed,
+      );
+    } else {
+      includeOldProperties(
+        updatedTokens.updated[token],
+        updatedTokens.updated[token],
+        token + "",
+        original,
+        original[token],
+        renamed,
+      );
+    }
+  });
   return updatedTokens;
+}
+
+function includeOldProperties(
+  token,
+  curTokenLevel,
+  properties,
+  originalToken,
+  curOriginalLevel,
+  renamed,
+) {
+  Object.keys(curTokenLevel).forEach((property) => {
+    if (typeof curTokenLevel[property] === "string") {
+      const newValue = curTokenLevel[property];
+      const path = !properties.includes(".")
+        ? property
+        : `${properties.substring(properties.indexOf(".") + 1)}.${property}`;
+      curTokenLevel[property] = JSON.parse(`{ 
+        "${"new-value"}": "${newValue}",
+        "path": "${path}",
+        "original-value": "${curOriginalLevel[property]}"
+        }`);
+      return;
+    }
+    const nextProperties = properties + "." + property;
+    const keys = nextProperties.split(".");
+    curOriginalLevel = originalToken;
+    curTokenLevel = token;
+    keys.forEach((key) => {
+      if (curOriginalLevel[key] === undefined) {
+        if (curOriginalLevel[renamed[key]["old-name"]] !== undefined) {
+          curOriginalLevel = curOriginalLevel[renamed[key]["old-name"]];
+        } else {
+          curOriginalLevel = originalToken;
+        }
+      } else {
+        curOriginalLevel = curOriginalLevel[key];
+      }
+      curTokenLevel =
+        curTokenLevel[key] === undefined ? token : curTokenLevel[key];
+    });
+    includeOldProperties(
+      token,
+      curTokenLevel,
+      nextProperties,
+      originalToken,
+      curOriginalLevel,
+      renamed,
+    );
+  });
 }
