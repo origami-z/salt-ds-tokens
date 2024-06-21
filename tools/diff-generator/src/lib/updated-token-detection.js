@@ -81,6 +81,15 @@ export default function detectUpdatedTokens(
   return updatedTokens;
 }
 
+/**
+ * Traverses original and result token to insert the original value, path to the value, and new value
+ * @param {object} token - the current token from updatedTokens
+ * @param {object} curTokenLevel - the current key
+ * @param {string} properties - a string containing the path to get to the value
+ * @param {object} originalToken - the original token
+ * @param {object} curOriginalLevel - the current key for original token
+ * @param {object} renamed - the renamed tokens
+ */
 function includeOldProperties(
   token,
   curTokenLevel,

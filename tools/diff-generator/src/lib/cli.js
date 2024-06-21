@@ -140,9 +140,7 @@ const printStyleColored = (token, color, log) => {
 
 /**
  * Styling for updated tokens
- * @param {object} original - the original token(s)
  * @param {object} result - the JSON object with the report results
- * @param {object} renamed - tokens that were renamed
  * @param {object} token - the current token
  * @param {object} log - the console.log object being used
  */
@@ -428,8 +426,6 @@ function printSection(
 /**
  * Traverse through the updated token's keys and prints a simple changelog
  * @param {object} token - the updated token
- * @param {object} properties - a string containing the keys traversed through until intended value, separated by periods (i.e. sets.light.value)
- * @param {object} originalToken - the original token
  * @param {object} log - the console.log object used
  */
 function printNestedChanges(token, log) {
