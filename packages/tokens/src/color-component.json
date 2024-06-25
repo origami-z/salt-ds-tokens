@@ -399,5 +399,10 @@
         "uuid": "d8f81d4f-b921-4a41-89c1-cdc79d40901a"
       }
     }
+  },
+  "coach-indicator-color": {
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{blue-800}",
+    "uuid": "bfd387b8-0ce0-45ff-8d66-fc5de2f4900c"
   }
 }
