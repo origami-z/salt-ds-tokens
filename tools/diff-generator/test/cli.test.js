@@ -171,3 +171,57 @@ test("check cli output for renamed, added, deleted, and deprecated tokens", asyn
     }
   });
 });
+
+test("check cli output for added non-schema property", async (t) => {
+  t.plan(1);
+  return new Promise((resolve, reject) => {
+    try {
+      nixt()
+        .expect(async () => {
+          try {
+            const expectedFileName = `${path}${outputPath}expected-non-schema-property.txt`;
+            await access(expectedFileName);
+            const expected = await readFile(expectedFileName, {
+              encoding: "utf8",
+            });
+            t.snapshot(expected.trim());
+          } catch (error) {
+            reject(error);
+          }
+        })
+        .run(
+          `pnpm tdiff report -t ${path}${schemaPath}basic-set-token.json ${path}${schemaPath}added-non-schema-property-token.json`,
+        )
+        .end(resolve);
+    } catch (error) {
+      reject(error);
+    }
+  });
+});
+
+test("check cli output for deleted non-schema property", async (t) => {
+  t.plan(1);
+  return new Promise((resolve, reject) => {
+    try {
+      nixt()
+        .expect(async () => {
+          try {
+            const expectedFileName = `${path}${outputPath}expected-deleted-property-token.txt`;
+            await access(expectedFileName);
+            const expected = await readFile(expectedFileName, {
+              encoding: "utf8",
+            });
+            t.snapshot(expected.trim());
+          } catch (error) {
+            reject(error);
+          }
+        })
+        .run(
+          `pnpm tdiff report -t ${path}${schemaPath}added-non-schema-property-token.json ${path}${schemaPath}basic-set-token.json`,
+        )
+        .end(resolve);
+    } catch (error) {
+      reject(error);
+    }
+  });
+});

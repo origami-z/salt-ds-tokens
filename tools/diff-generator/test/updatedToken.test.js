@@ -189,10 +189,19 @@ const expectedAddedProperty = {
     "celery-background-color-default": {
       sets: {
         "random-property": {
-          $schema:
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-          value: "{spinach-100}",
-          uuid: "1234",
+          $schema: {
+            "new-value":
+              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+            path: "sets.random-property.$schema",
+          },
+          value: {
+            "new-value": "{spinach-100}",
+            path: "sets.random-property.value",
+          },
+          uuid: {
+            "new-value": "1234",
+            path: "sets.random-property.uuid",
+          },
         },
       },
     },
@@ -207,10 +216,19 @@ const expectedDeletedProperty = {
     "celery-background-color-default": {
       sets: {
         "random-property": {
-          $schema:
-            "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-          value: "{spinach-100}",
-          uuid: "1234",
+          $schema: {
+            "new-value":
+              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+            path: "sets.random-property.$schema",
+          },
+          value: {
+            "new-value": "{spinach-100}",
+            path: "sets.random-property.value",
+          },
+          uuid: {
+            "new-value": "1234",
+            path: "sets.random-property.uuid",
+          },
         },
       },
     },
