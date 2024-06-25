@@ -434,9 +434,9 @@ function printNestedChanges(token, log) {
 
     if (token["original-value"] === undefined) {
       if (token["path"].includes("$schema")) {
-        log(indent(yellow(`"${token}"`), 4));
+        log(indent(yellow(`"${token["new-value"]}"`), 4));
       } else {
-        log(indent(yellow(`${token}`), 4));
+        log(indent(yellow(`${token["new-value"]}`), 4));
       }
     } else if (token["path"].includes("$schema")) {
       const newValue = token["new-value"].split("/");
