@@ -26,6 +26,7 @@ import severalUpdatedSetTokens from "./test-schemas/several-updated-set-tokens.j
 import severalRenamedUpdatedSetTokens from "./test-schemas/several-renamed-updated-set-tokens.json" with { type: "json" };
 import basicSetTokenProperty from "./test-schemas/basic-set-token-property.json" with { type: "json" };
 import addedPropertySetToken from "./test-schemas/added-property-set-token.json" with { type: "json" };
+import addedDeletedPropertySetToken from "./test-schemas/added-deleted-set-token-property.json" with { type: "json" };
 
 const expected = {
   added: {},
@@ -236,6 +237,52 @@ const expectedDeletedProperty = {
   updated: {},
 };
 
+const expectedAddedDeletedProperty = {
+  added: {
+    "celery-background-color-default": {
+      sets: {
+        "fun-times": {
+          $schema: {
+            "new-value":
+              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+            path: "sets.fun-times.$schema",
+          },
+          uuid: {
+            "new-value": "2345",
+            path: "sets.fun-times.uuid",
+          },
+          value: {
+            "new-value": "{fun}",
+            path: "sets.fun-times.value",
+          },
+        },
+      },
+    },
+  },
+  deleted: {
+    "celery-background-color-default": {
+      sets: {
+        darkest: {
+          $schema: {
+            "new-value":
+              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+            path: "sets.darkest.$schema",
+          },
+          uuid: {
+            "new-value": "a9ab7a59-9cab-47fb-876d-6f0af93dc5df",
+            path: "sets.darkest.uuid",
+          },
+          value: {
+            "new-value": "{celery-800}",
+            path: "sets.darkest.value",
+          },
+        },
+      },
+    },
+  },
+  updated: {},
+};
+
 test("basic test to check if updated token is detected", (t) => {
   const diff = detailedDiff(original, updatedToken);
   const renamed = detectRenamedTokens(original, updatedToken);
@@ -360,5 +407,33 @@ test("testing deleting a property to a token with sets", (t) => {
       deprecated,
     ),
     expectedDeletedProperty,
+  );
+});
+
+test("testing adding and deleting a property to a token with sets", (t) => {
+  const diff = detailedDiff(
+    basicSetTokenProperty,
+    addedDeletedPropertySetToken,
+  );
+  const renamed = detectRenamedTokens(
+    basicSetTokenProperty,
+    addedDeletedPropertySetToken,
+  );
+  const deprecated = detectDeprecatedTokens(renamed, diff);
+  const added = detectNewTokens(
+    renamed,
+    deprecated,
+    diff.added,
+    basicSetTokenProperty,
+  );
+  t.deepEqual(
+    detectUpdatedTokens(
+      renamed,
+      basicSetTokenProperty,
+      diff,
+      added,
+      deprecated,
+    ),
+    expectedAddedDeletedProperty,
   );
 });
