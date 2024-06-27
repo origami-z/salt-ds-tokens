@@ -39,12 +39,10 @@ program
   .option(
     "-otv, --old-token-version <oldVersion>",
     "indicates which npm package version/github tag to pull old tokens from",
-    "latest",
   )
   .option(
     "-ntv, --new-token-version <newVersion>",
     "indicates which npm package version/github tag to pull new tokens from",
-    "latest",
   )
   .option(
     "-otb, --old-token-branch <oldBranch>",
@@ -227,23 +225,20 @@ function printReport(original, result, log, options) {
       Object.keys(result.updated.deleted).length +
       Object.keys(result.updated.updated).length;
     log(white("\n**Tokens Changed (" + totalTokens + ")**"));
-    if (
-      options.oldTokenBranch !== undefined &&
-      options.newTokenBranch !== undefined
-    ) {
-      log(
-        white(`\n${options.oldTokenBranch} | `) +
-          yellow(`${options.newTokenBranch}`),
-      );
+    let originalSchema = "";
+    let updatedSchema = "";
+    if (options.oldTokenBranch !== undefined) {
+      originalSchema = white(`\n${options.oldTokenBranch} | `);
+    } else if (options.oldTokenVersion !== undefined) {
+      originalSchema = white(`\n${options.oldTokenVersion} | `);
     }
-    if (
-      options.oldTokenVersion !== undefined &&
-      options.newTokenVersion !== undefined
-    ) {
-      log(
-        white(`\n${options.oldTokenVersion} | `) +
-          yellow(`${options.newTokenVersion}`),
-      );
+    if (options.newTokenBranch !== undefined) {
+      updatedSchema = yellow(`${options.newTokenBranch}`);
+    } else if (options.newTokenVersion !== undefined) {
+      updatedSchema = yellow(`${options.newTokenVersion}`);
+    }
+    if (originalSchema !== "" && updatedSchema !== "") {
+      log(`${originalSchema}${updatedSchema}`);
     }
     log(
       white(

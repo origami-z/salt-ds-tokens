@@ -27,6 +27,7 @@ import severalRenamedUpdatedSetTokens from "./test-schemas/several-renamed-updat
 import basicSetTokenProperty from "./test-schemas/basic-set-token-property.json" with { type: "json" };
 import addedPropertySetToken from "./test-schemas/added-property-set-token.json" with { type: "json" };
 import addedDeletedPropertySetToken from "./test-schemas/added-deleted-set-token-property.json" with { type: "json" };
+import renamedAddedDeletedPropertySetToken from "./test-schemas/renamed-added-deleted-property-set-token.json" with { type: "json" };
 
 const expected = {
   added: {},
@@ -283,6 +284,52 @@ const expectedAddedDeletedProperty = {
   updated: {},
 };
 
+const expectedRenamedAddedDeletedProperty = {
+  added: {
+    "celery-background-color-default": {
+      sets: {
+        "added-property": {
+          $schema: {
+            "new-value":
+              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/some-property-type.json",
+            path: "sets.added-property.$schema",
+          },
+          uuid: {
+            "new-value": "1234",
+            path: "sets.added-property.uuid",
+          },
+          value: {
+            "new-value": "{celery-1100}",
+            path: "sets.added-property.value",
+          },
+        },
+      },
+    },
+  },
+  deleted: {
+    "celery-background-color-default": {
+      sets: {
+        darkest: {
+          $schema: {
+            "new-value":
+              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+            path: "sets.darkest.$schema",
+          },
+          uuid: {
+            "new-value": "a9ab7a59-9cab-47fb-876d-6f0af93dc5df",
+            path: "sets.darkest.uuid",
+          },
+          value: {
+            "new-value": "{celery-800}",
+            path: "sets.darkest.value",
+          },
+        },
+      },
+    },
+  },
+  updated: {},
+};
+
 test("basic test to check if updated token is detected", (t) => {
   const diff = detailedDiff(original, updatedToken);
   const renamed = detectRenamedTokens(original, updatedToken);
@@ -435,5 +482,34 @@ test("testing adding and deleting a property to a token with sets", (t) => {
       deprecated,
     ),
     expectedAddedDeletedProperty,
+  );
+});
+
+// will a token's properties be renamed? if so, do we want to display that? ask tomorrow
+test.skip("testing adding and deleting renamed properties to a token with sets", (t) => {
+  const diff = detailedDiff(
+    basicSetTokenProperty,
+    renamedAddedDeletedPropertySetToken,
+  );
+  const renamed = detectRenamedTokens(
+    basicSetTokenProperty,
+    renamedAddedDeletedPropertySetToken,
+  );
+  const deprecated = detectDeprecatedTokens(renamed, diff);
+  const added = detectNewTokens(
+    renamed,
+    deprecated,
+    diff.added,
+    basicSetTokenProperty,
+  );
+  t.deepEqual(
+    detectUpdatedTokens(
+      renamed,
+      basicSetTokenProperty,
+      diff,
+      added,
+      deprecated,
+    ),
+    expectedRenamedAddedDeletedProperty,
   );
 });
