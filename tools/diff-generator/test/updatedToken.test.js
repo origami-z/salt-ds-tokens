@@ -40,6 +40,13 @@ const expected = {
         "original-value": "{gray-900}",
       },
     },
+    "swatch-border-color": {
+      value: {
+        "new-value": "{blue-200}",
+        path: "value",
+        "original-value": "{gray-900}",
+      },
+    },
   },
 };
 
@@ -48,6 +55,18 @@ const expectedUpdatedSeveralProperties = {
   deleted: {},
   updated: {
     "swatch-border-color": {
+      $schema: {
+        "new-value":
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+        path: "$schema",
+        "original-value":
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+      },
+      value: {
+        "new-value": "{blue-200}",
+        path: "value",
+        "original-value": "{gray-900}",
+      },
       $schema: {
         "new-value":
           "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
@@ -76,6 +95,11 @@ const expectedUpdatedSet = {
             "original-value": "0.6",
             path: "sets.darkest.value",
           },
+          value: {
+            "new-value": "0.8",
+            "original-value": "0.6",
+            path: "sets.darkest.value",
+          },
         },
         light: {
           $schema: {
@@ -85,8 +109,27 @@ const expectedUpdatedSet = {
               "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
             path: "sets.light.$schema",
           },
+          $schema: {
+            "new-value":
+              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/color.json",
+            "original-value":
+              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+            path: "sets.light.$schema",
+          },
         },
         wireframe: {
+          $schema: {
+            "new-value":
+              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/wireframe.json",
+            "original-value":
+              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json",
+            path: "sets.wireframe.$schema",
+          },
+          value: {
+            "new-value": "0",
+            "original-value": "0.4",
+            path: "sets.wireframe.value",
+          },
           $schema: {
             "new-value":
               "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/wireframe.json",
@@ -117,8 +160,22 @@ const expectedSeveralUpdatedSet = {
         "original-value":
           "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
       },
+      $schema: {
+        "new-value":
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/token-set.json",
+        path: "$schema",
+        "original-value":
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+      },
       sets: {
         desktop: {
+          $schema: {
+            "new-value":
+              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/changing-two-schemas.json",
+            "original-value":
+              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
+            path: "sets.desktop.$schema",
+          },
           $schema: {
             "new-value":
               "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/changing-two-schemas.json",
@@ -133,12 +190,22 @@ const expectedSeveralUpdatedSet = {
             "original-value": "4px",
             path: "sets.mobile.value",
           },
+          value: {
+            "new-value": "9px",
+            "original-value": "4px",
+            path: "sets.mobile.value",
+          },
         },
       },
     },
     "status-light-top-to-dot-large": {
       sets: {
         desktop: {
+          value: {
+            "new-value": "20px",
+            "original-value": "15px",
+            path: "sets.desktop.value",
+          },
           value: {
             "new-value": "20px",
             "original-value": "15px",
@@ -162,6 +229,11 @@ const expectedUpdatedSetWithRename = {
             "original-value": "3px",
             path: "sets.desktop.value",
           },
+          value: {
+            "new-value": "7px",
+            "original-value": "3px",
+            path: "sets.desktop.value",
+          },
         },
       },
     },
@@ -173,8 +245,20 @@ const expectedUpdatedSetWithRename = {
           "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
         path: "$schema",
       },
+      $schema: {
+        "new-value":
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scaly-fish.json",
+        "original-value":
+          "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/scale-set.json",
+        path: "$schema",
+      },
       sets: {
         mobile: {
+          value: {
+            "new-value": "15px",
+            "original-value": "12px",
+            path: "sets.mobile.value",
+          },
           value: {
             "new-value": "15px",
             "original-value": "12px",
@@ -191,6 +275,19 @@ const expectedAddedProperty = {
     "celery-background-color-default": {
       sets: {
         "random-property": {
+          $schema: {
+            "new-value":
+              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+            path: "sets.random-property.$schema",
+          },
+          value: {
+            "new-value": "{spinach-100}",
+            path: "sets.random-property.value",
+          },
+          uuid: {
+            "new-value": "1234",
+            path: "sets.random-property.uuid",
+          },
           $schema: {
             "new-value":
               "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
