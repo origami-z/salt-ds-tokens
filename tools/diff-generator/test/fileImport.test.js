@@ -151,3 +151,30 @@ test("checking cli output between a release and a branch (@adobe/spectrum-tokens
     }
   });
 });
+
+test("checking cli output between a branch and a release (shirlsli/file-import-tests and @adobe/spectrum-tokens@12.26.0) for renamed, deprecated, added, deleted, and updated tokens", async (t) => {
+  t.plan(1);
+  return new Promise((resolve, reject) => {
+    try {
+      nixt()
+        .expect(async () => {
+          try {
+            const expectedFileName = `${path}${outputPath}expected-branch-release-compare.txt`;
+            await access(expectedFileName);
+            const expected = await readFile(expectedFileName, {
+              encoding: "utf8",
+            });
+            t.snapshot(expected.trim());
+          } catch (error) {
+            reject(error);
+          }
+        })
+        .run(
+          "pnpm tdiff report -y -otb shirlsli/file-import-tests -ntv @adobe/spectrum-tokens@12.26.0",
+        )
+        .end(resolve);
+    } catch (error) {
+      reject(error);
+    }
+  });
+});

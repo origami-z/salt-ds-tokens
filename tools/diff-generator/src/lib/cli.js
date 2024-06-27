@@ -163,7 +163,7 @@ async function cliCheck(originalFile, result, options) {
   );
   if (Object.keys(result.reverted).length > 0 && !options.y) {
     printSection(
-      "\nalarm_clock",
+      "alarm_clock",
       'Newly "Un-deprecated"',
       Object.keys(result.reverted).length,
       result.reverted,
@@ -189,7 +189,7 @@ async function cliCheck(originalFile, result, options) {
       .then((response) => {
         if (response.confirmation) {
           console.clear();
-          return printReport(originalFile, result, log);
+          return printReport(originalFile, result, log, options);
         } else {
           log(
             yellow(
