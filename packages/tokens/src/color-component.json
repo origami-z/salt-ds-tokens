@@ -401,6 +401,7 @@
     }
   },
   "coach-indicator-color": {
+    "component": "coach-indicator",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{blue-800}",
     "uuid": "bfd387b8-0ce0-45ff-8d66-fc5de2f4900c"
