@@ -1,5 +1,24 @@
 # @adobe/spectrum-tokens
 
+## 13.0.0-beta.39
+
+### Minor Changes
+
+- [#364](https://github.com/adobe/spectrum-tokens/pull/364) [`f96ffca`](https://github.com/adobe/spectrum-tokens/commit/f96ffca4990547f8ddc8341d141e0edc65b872d9) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Added coach-indicator s2 tokens
+
+  ## Token Diff
+
+  _Tokens added (8):_
+
+  - `coach-indicator-collapsed-gap`
+  - `coach-indicator-collapsed-ring-rounding-increment`
+  - `coach-indicator-collapsed-ring-thickness`
+  - `coach-indicator-color`
+  - `coach-indicator-expanded-gap`
+  - `coach-indicator-expanded-ring-rounding-increment`
+  - `coach-indicator-expanded-ring-thickness`
+  - `coach-indicator-opacity`
+
 ## 13.0.0-beta.38
 
 ### Minor Changes
