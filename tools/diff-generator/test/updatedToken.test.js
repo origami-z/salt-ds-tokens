@@ -27,11 +27,12 @@ import severalRenamedUpdatedSetTokens from "./test-schemas/several-renamed-updat
 import basicSetTokenProperty from "./test-schemas/basic-set-token-property.json" with { type: "json" };
 import addedPropertySetToken from "./test-schemas/added-property-set-token.json" with { type: "json" };
 import addedDeletedPropertySetToken from "./test-schemas/added-deleted-set-token-property.json" with { type: "json" };
-// import renamedAddedDeletedPropertySetToken from "./test-schemas/renamed-added-deleted-property-set-token.json" with { type: "json" };
+import renamedAddedDeletedPropertySetToken from "./test-schemas/renamed-added-deleted-property-set-token.json" with { type: "json" };
 
 const expected = {
   added: {},
   deleted: {},
+  renamed: {},
   updated: {
     "swatch-border-color": {
       value: {
@@ -53,6 +54,7 @@ const expected = {
 const expectedUpdatedSeveralProperties = {
   added: {},
   deleted: {},
+  renamed: {},
   updated: {
     "swatch-border-color": {
       $schema: {
@@ -86,6 +88,7 @@ const expectedUpdatedSeveralProperties = {
 const expectedUpdatedSet = {
   added: {},
   deleted: {},
+  renamed: {},
   updated: {
     "overlay-opacity": {
       sets: {
@@ -151,6 +154,7 @@ const expectedUpdatedSet = {
 const expectedSeveralUpdatedSet = {
   added: {},
   deleted: {},
+  renamed: {},
   updated: {
     "help-text-top-to-workflow-icon-medium": {
       $schema: {
@@ -220,6 +224,7 @@ const expectedSeveralUpdatedSet = {
 const expectedUpdatedSetWithRename = {
   added: {},
   deleted: {},
+  renamed: {},
   updated: {
     "help-text-top-to-workflow-icon-medium": {
       sets: {
@@ -306,6 +311,7 @@ const expectedAddedProperty = {
     },
   },
   deleted: {},
+  renamed: {},
   updated: {},
 };
 
@@ -332,6 +338,7 @@ const expectedDeletedProperty = {
       },
     },
   },
+  renamed: {},
   updated: {},
 };
 
@@ -378,6 +385,7 @@ const expectedAddedDeletedProperty = {
       },
     },
   },
+  renamed: {},
   updated: {},
 };
 
@@ -422,6 +430,11 @@ const expectedRenamedAddedDeletedProperty = {
           },
         },
       },
+    },
+  },
+  renamed: {
+    "i-like-waffle-fries": {
+      "old-name": "wireframe",
     },
   },
   updated: {},
@@ -583,30 +596,30 @@ test("testing adding and deleting a property to a token with sets", (t) => {
 });
 
 // will a token's properties be renamed? if so, do we want to display that? ask tomorrow
-// test.skip("testing adding and deleting renamed properties to a token with sets", (t) => {
-//   const diff = detailedDiff(
-//     basicSetTokenProperty,
-//     renamedAddedDeletedPropertySetToken,
-//   );
-//   const renamed = detectRenamedTokens(
-//     basicSetTokenProperty,
-//     renamedAddedDeletedPropertySetToken,
-//   );
-//   const deprecated = detectDeprecatedTokens(renamed, diff);
-//   const added = detectNewTokens(
-//     renamed,
-//     deprecated,
-//     diff.added,
-//     basicSetTokenProperty,
-//   );
-//   t.deepEqual(
-//     detectUpdatedTokens(
-//       renamed,
-//       basicSetTokenProperty,
-//       diff,
-//       added,
-//       deprecated,
-//     ),
-//     expectedRenamedAddedDeletedProperty,
-//   );
-// });
+test("testing adding and deleting renamed properties to a token with sets", (t) => {
+  const diff = detailedDiff(
+    basicSetTokenProperty,
+    renamedAddedDeletedPropertySetToken,
+  );
+  const renamed = detectRenamedTokens(
+    basicSetTokenProperty,
+    renamedAddedDeletedPropertySetToken,
+  );
+  const deprecated = detectDeprecatedTokens(renamed, diff);
+  const added = detectNewTokens(
+    renamed,
+    deprecated,
+    diff.added,
+    basicSetTokenProperty,
+  );
+  t.deepEqual(
+    detectUpdatedTokens(
+      renamed,
+      basicSetTokenProperty,
+      diff,
+      added,
+      deprecated,
+    ),
+    expectedRenamedAddedDeletedProperty,
+  );
+});
