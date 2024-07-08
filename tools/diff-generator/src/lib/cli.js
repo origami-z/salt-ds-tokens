@@ -103,10 +103,10 @@ function indent(text, amount) {
  * @param {object} token - the current token
  * @param {object} log - the console.log object being used
  */
-const printStyleRenamed = (result, token, log) => {
+const printStyleRenamed = (result, token, log, i) => {
   const str =
     white(`"${result[token]["old-name"]}" -> `) + yellow(`"${token}"`);
-  log(indent(str, 1));
+  log(indent(str, i));
 };
 
 /**
@@ -115,13 +115,13 @@ const printStyleRenamed = (result, token, log) => {
  * @param {object} token - the current token
  * @param {object} log - the console.log object being used
  */
-const printStyleDeprecated = (result, token, log) => {
+const printStyleDeprecated = (result, token, log, i) => {
   log(
     indent(
       yellow(`"${token}"`) +
         white(": ") +
         yellow(`"${result[token]["deprecated_comment"]}"`),
-      1,
+      i,
     ),
   );
 };
@@ -142,8 +142,8 @@ const printStyleColored = (token, color, log) => {
  * @param {object} token - the current token
  * @param {object} log - the console.log object being used
  */
-const printStyleUpdated = (result, token, log) => {
-  log(indent(yellow(`"${token}"`), 2));
+const printStyleUpdated = (result, token, log, i) => {
+  log(indent(yellow(`"${token}"`), i));
   printNestedChanges(result[token], log);
 };
 
@@ -223,7 +223,8 @@ function printReport(original, result, log, options) {
       Object.keys(result.deleted).length +
       Object.keys(result.updated.added).length +
       Object.keys(result.updated.deleted).length +
-      Object.keys(result.updated.updated).length;
+      Object.keys(result.updated.updated).length +
+      Object.keys(result.updated.renamed).length;
     log(white("\n**Tokens Changed (" + totalTokens + ")**"));
     let originalSchema = "";
     let updatedSchema = "";
@@ -253,6 +254,7 @@ function printReport(original, result, log, options) {
         result.renamed,
         log,
         printStyleRenamed,
+        1,
       );
     }
     if (Object.keys(result.deprecated).length > 0) {
@@ -263,6 +265,7 @@ function printReport(original, result, log, options) {
         result.deprecated,
         log,
         printStyleDeprecated,
+        1,
       );
     }
     if (Object.keys(result.reverted).length > 0) {
@@ -301,9 +304,21 @@ function printReport(original, result, log, options) {
     const totalUpdatedTokens =
       Object.keys(result.updated.added).length +
       Object.keys(result.updated.deleted).length +
-      Object.keys(result.updated.updated).length;
+      Object.keys(result.updated.updated).length +
+      Object.keys(result.updated.renamed).length;
     if (totalUpdatedTokens > 0) {
       printTitle("new", "Updated", totalUpdatedTokens, log);
+      if (Object.keys(result.updated.renamed).length > 0) {
+        printSection(
+          "new",
+          "Renamed Properties",
+          Object.keys(result.updated.renamed).length,
+          result.updated.renamed,
+          log,
+          printStyleRenamed,
+          2,
+        );
+      }
       if (Object.keys(result.updated.added).length > 0) {
         printSection(
           "new",
@@ -312,9 +327,7 @@ function printReport(original, result, log, options) {
           result.updated.added,
           log,
           printStyleUpdated,
-          white,
-          result.renamed,
-          original,
+          2,
         );
       }
       if (Object.keys(result.updated.deleted).length > 0) {
@@ -325,9 +338,7 @@ function printReport(original, result, log, options) {
           result.updated.deleted,
           log,
           printStyleUpdated,
-          white,
-          result.renamed,
-          original,
+          2,
         );
       }
       if (Object.keys(result.updated.updated).length > 0) {
@@ -338,9 +349,7 @@ function printReport(original, result, log, options) {
           result.updated.updated,
           log,
           printStyleUpdated,
-          white,
-          result.renamed,
-          original,
+          2,
         );
       }
     }
@@ -382,8 +391,6 @@ function printTitle(emojiName, title, numTokens, log, amount) {
  * @param {object} log - the console.log object being used
  * @param {object} func - the styling function that will be used
  * @param {object} color - the intended text color
- * @param {object} renamed - the renamed tokens
- * @param {object} original - the original token (json object)
  */
 function printSection(
   emojiName,
@@ -392,27 +399,23 @@ function printSection(
   result,
   log,
   func,
-  color,
-  renamed,
-  original,
+  colorOrIndent,
 ) {
-  const textColor = color || white;
   if (
     title === "Added Properties" ||
     title === "Deleted Properties" ||
-    title === "Updated Properties"
+    title === "Updated Properties" ||
+    title === "Renamed Properties"
   ) {
     printTitle(emojiName, title, numTokens, log, 1);
   } else {
     printTitle(emojiName, title, numTokens, log, 0);
   }
   Object.keys(result).forEach((token) => {
-    if (textColor != white) {
-      func(token, textColor, log);
-    } else if (original !== undefined && renamed !== undefined) {
-      func(result, token, log);
+    if (typeof colorOrIndent !== "number") {
+      func(token, colorOrIndent, log);
     } else {
-      func(result, token, log);
+      func(result, token, log, colorOrIndent);
     }
   });
   log("\n");

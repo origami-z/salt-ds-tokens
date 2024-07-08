@@ -225,3 +225,30 @@ test("check cli output for deleted non-schema property", async (t) => {
     }
   });
 });
+
+test("check cli output for renamed property", async (t) => {
+  t.plan(1);
+  return new Promise((resolve, reject) => {
+    try {
+      nixt()
+        .expect(async () => {
+          try {
+            const expectedFileName = `${path}${outputPath}expected-renamed-property-token.txt`;
+            await access(expectedFileName);
+            const expected = await readFile(expectedFileName, {
+              encoding: "utf8",
+            });
+            t.snapshot(expected.trim());
+          } catch (error) {
+            reject(error);
+          }
+        })
+        .run(
+          `pnpm tdiff report -t ${path}${schemaPath}basic-set-token-property.json ${path}${schemaPath}renamed-added-deleted-property-set-token.json`,
+        )
+        .end(resolve);
+    } catch (error) {
+      reject(error);
+    }
+  });
+});
