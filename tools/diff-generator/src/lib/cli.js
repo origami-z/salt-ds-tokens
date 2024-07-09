@@ -192,7 +192,7 @@ async function cliCheck(originalFile, result, options) {
       .then((response) => {
         if (response.confirmation) {
           console.clear();
-          return printReport(originalFile, result, log, options);
+          return printReport(result, log, options);
         } else {
           log(
             yellow(
@@ -205,7 +205,7 @@ async function cliCheck(originalFile, result, options) {
         }
       });
   } else {
-    return printReport(originalFile, result, log, options);
+    return printReport(result, log, options);
   }
 }
 
