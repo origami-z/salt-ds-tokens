@@ -217,154 +217,154 @@ async function cliCheck(originalFile, result, options) {
  * @returns {int} exit code
  */
 function printReport(result, log, options) {
-  // try {
-  const totalTokens =
-    Object.keys(result.renamed).length +
-    Object.keys(result.deprecated).length +
-    Object.keys(result.reverted).length +
-    Object.keys(result.added).length +
-    Object.keys(result.deleted).length +
-    Object.keys(result.updated.added).length +
-    Object.keys(result.updated.deleted).length +
-    Object.keys(result.updated.updated).length +
-    Object.keys(result.updated.renamed).length;
-  log(white("\n**Tokens Changed (" + totalTokens + ")**"));
-  let originalSchema = "";
-  let updatedSchema = "";
-  if (options.oldTokenBranch !== undefined) {
-    originalSchema = white(`\n${options.oldTokenBranch} | `);
-  } else if (options.oldTokenVersion !== undefined) {
-    originalSchema = white(`\n${options.oldTokenVersion} | `);
-  }
-  if (options.newTokenBranch !== undefined) {
-    updatedSchema = yellow(`${options.newTokenBranch}`);
-  } else if (options.newTokenVersion !== undefined) {
-    updatedSchema = yellow(`${options.newTokenVersion}`);
-  }
-  if (originalSchema !== "" && updatedSchema !== "") {
-    log(`${originalSchema}${updatedSchema}`);
-  }
-  log(
-    white(
-      "-------------------------------------------------------------------------------------------\n",
-    ),
-  );
-  if (Object.keys(result.renamed).length > 0) {
-    printSection(
-      "memo",
-      "Renamed",
-      Object.keys(result.renamed).length,
-      result.renamed,
-      log,
-      printStyleRenamed,
-      1,
+  try {
+    const totalTokens =
+      Object.keys(result.renamed).length +
+      Object.keys(result.deprecated).length +
+      Object.keys(result.reverted).length +
+      Object.keys(result.added).length +
+      Object.keys(result.deleted).length +
+      Object.keys(result.updated.added).length +
+      Object.keys(result.updated.deleted).length +
+      Object.keys(result.updated.updated).length +
+      Object.keys(result.updated.renamed).length;
+    log(white("\n**Tokens Changed (" + totalTokens + ")**"));
+    let originalSchema = "";
+    let updatedSchema = "";
+    if (options.oldTokenBranch !== undefined) {
+      originalSchema = white(`\n${options.oldTokenBranch} | `);
+    } else if (options.oldTokenVersion !== undefined) {
+      originalSchema = white(`\n${options.oldTokenVersion} | `);
+    }
+    if (options.newTokenBranch !== undefined) {
+      updatedSchema = yellow(`${options.newTokenBranch}`);
+    } else if (options.newTokenVersion !== undefined) {
+      updatedSchema = yellow(`${options.newTokenVersion}`);
+    }
+    if (originalSchema !== "" && updatedSchema !== "") {
+      log(`${originalSchema}${updatedSchema}`);
+    }
+    log(
+      white(
+        "-------------------------------------------------------------------------------------------\n",
+      ),
     );
-  }
-  if (Object.keys(result.deprecated).length > 0) {
-    printSection(
-      "clock3",
-      "Newly Deprecated",
-      Object.keys(result.deprecated).length,
-      result.deprecated,
-      log,
-      printStyleDeprecated,
-      1,
-    );
-  }
-  if (Object.keys(result.reverted).length > 0) {
-    printSection(
-      "alarm_clock",
-      'Newly "Un-deprecated"',
-      Object.keys(result.reverted).length,
-      result.reverted,
-      log,
-      printStyleColored,
-      yellow,
-    );
-  }
-  if (Object.keys(result.added).length > 0) {
-    printSection(
-      "arrow_up_small",
-      "Added",
-      Object.keys(result.added).length,
-      result.added,
-      log,
-      printStyleColored,
-      green,
-    );
-  }
-  if (Object.keys(result.deleted).length > 0) {
-    printSection(
-      "arrow_down_small",
-      "Deleted",
-      Object.keys(result.deleted).length,
-      result.deleted,
-      log,
-      printStyleColored,
-      red,
-    );
-  }
-  const totalUpdatedTokens =
-    Object.keys(result.updated.added).length +
-    Object.keys(result.updated.deleted).length +
-    Object.keys(result.updated.updated).length +
-    Object.keys(result.updated.renamed).length;
-  if (totalUpdatedTokens > 0) {
-    printTitle("new", "Updated", totalUpdatedTokens, log);
-    if (Object.keys(result.updated.renamed).length > 0) {
+    if (Object.keys(result.renamed).length > 0) {
       printSection(
-        "new",
-        "Renamed Properties",
-        Object.keys(result.updated.renamed).length,
-        result.updated.renamed,
+        "memo",
+        "Renamed",
+        Object.keys(result.renamed).length,
+        result.renamed,
         log,
         printStyleRenamed,
-        2,
+        1,
       );
     }
-    if (Object.keys(result.updated.added).length > 0) {
+    if (Object.keys(result.deprecated).length > 0) {
       printSection(
-        "new",
-        "Added Properties",
-        Object.keys(result.updated.added).length,
-        result.updated.added,
+        "clock3",
+        "Newly Deprecated",
+        Object.keys(result.deprecated).length,
+        result.deprecated,
         log,
-        printStyleUpdated,
-        2,
+        printStyleDeprecated,
+        1,
       );
     }
-    if (Object.keys(result.updated.deleted).length > 0) {
+    if (Object.keys(result.reverted).length > 0) {
       printSection(
-        "new",
-        "Deleted Properties",
-        Object.keys(result.updated.deleted).length,
-        result.updated.deleted,
+        "alarm_clock",
+        'Newly "Un-deprecated"',
+        Object.keys(result.reverted).length,
+        result.reverted,
         log,
-        printStyleUpdated,
-        2,
+        printStyleColored,
+        yellow,
       );
     }
-    if (Object.keys(result.updated.updated).length > 0) {
+    if (Object.keys(result.added).length > 0) {
       printSection(
-        "new",
-        "Updated Properties",
-        Object.keys(result.updated.updated).length,
-        result.updated.updated,
+        "arrow_up_small",
+        "Added",
+        Object.keys(result.added).length,
+        result.added,
         log,
-        printStyleUpdated,
-        2,
+        printStyleColored,
+        green,
       );
     }
+    if (Object.keys(result.deleted).length > 0) {
+      printSection(
+        "arrow_down_small",
+        "Deleted",
+        Object.keys(result.deleted).length,
+        result.deleted,
+        log,
+        printStyleColored,
+        red,
+      );
+    }
+    const totalUpdatedTokens =
+      Object.keys(result.updated.added).length +
+      Object.keys(result.updated.deleted).length +
+      Object.keys(result.updated.updated).length +
+      Object.keys(result.updated.renamed).length;
+    if (totalUpdatedTokens > 0) {
+      printTitle("new", "Updated", totalUpdatedTokens, log);
+      if (Object.keys(result.updated.renamed).length > 0) {
+        printSection(
+          "new",
+          "Renamed Properties",
+          Object.keys(result.updated.renamed).length,
+          result.updated.renamed,
+          log,
+          printStyleRenamed,
+          2,
+        );
+      }
+      if (Object.keys(result.updated.added).length > 0) {
+        printSection(
+          "new",
+          "Added Properties",
+          Object.keys(result.updated.added).length,
+          result.updated.added,
+          log,
+          printStyleUpdated,
+          2,
+        );
+      }
+      if (Object.keys(result.updated.deleted).length > 0) {
+        printSection(
+          "new",
+          "Deleted Properties",
+          Object.keys(result.updated.deleted).length,
+          result.updated.deleted,
+          log,
+          printStyleUpdated,
+          2,
+        );
+      }
+      if (Object.keys(result.updated.updated).length > 0) {
+        printSection(
+          "new",
+          "Updated Properties",
+          Object.keys(result.updated.updated).length,
+          result.updated.updated,
+          log,
+          printStyleUpdated,
+          2,
+        );
+      }
+    }
+  } catch {
+    return console.error(
+      red(
+        new Error(
+          `either could not format and print the result or failed along the way\n`,
+        ),
+      ),
+    );
   }
-  // } catch {
-  //   return console.error(
-  //     red(
-  //       new Error(
-  //         `either could not format and print the result or failed along the way\n`,
-  //       ),
-  //     ),
-  //   );
-  // }
   return 0;
 }
 
