@@ -9,7 +9,8 @@
   "module": "index.js",
   "exports": {
     ".": "./index.js",
-    "./token-diff.js": "./token-diff.js"
+    "./token-diff.js": "./src/components/token-diff.js",
+    "./nav-bar.js": "./src/nav-bar.ts"
   },
   "scripts": {
     "analyze": "cem analyze --litelement",
@@ -19,6 +20,8 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@spectrum-web-components/sidenav": "^0.43.0",
+    "@spectrum-web-components/theme": "^0.42.2",
     "lit": "^3.1.4"
   },
   "devDependencies": {

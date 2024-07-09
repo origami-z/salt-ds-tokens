@@ -14,11 +14,13 @@
 
   <script type="module">
     import { html, render } from 'lit';
-    import '../token-diff.js';
+    import '../src/components/token-diff.js';
+    import '../src/nav-bar.js';
 
     const header = 'Hello owc World!';
     render(
       html`
+        <nav-bar></nav-bar>
         <token-diff .header=${header}>
           some light-dom
         </token-diff>
