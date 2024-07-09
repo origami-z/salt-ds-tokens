@@ -28,6 +28,7 @@ import basicSetTokenProperty from "./test-schemas/basic-set-token-property.json"
 import addedPropertySetToken from "./test-schemas/added-property-set-token.json" with { type: "json" };
 import addedDeletedPropertySetToken from "./test-schemas/added-deleted-set-token-property.json" with { type: "json" };
 import renamedAddedDeletedPropertySetToken from "./test-schemas/renamed-added-deleted-property-set-token.json" with { type: "json" };
+import addedInnerValueToken from "./test-schemas/added-inner-value-token.json" with { type: "json" };
 
 const expected = {
   added: {},
@@ -440,6 +441,89 @@ const expectedRenamedAddedDeletedProperty = {
   updated: {},
 };
 
+const expectedAddedInnerValue = {
+  added: {
+    "celery-background-color-default": {
+      sets: {
+        dark: {
+          "new-property": {
+            "new-value": "this is a new property",
+            path: "sets.dark.new-property",
+          },
+        },
+      },
+    },
+  },
+  deleted: {
+    "celery-background-color-default": {
+      sets: {
+        darkest: {
+          $schema: {
+            "new-value":
+              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+            path: "sets.darkest.$schema",
+          },
+          value: {
+            "new-value": "{celery-800}",
+            path: "sets.darkest.value",
+          },
+          uuid: {
+            "new-value": "a9ab7a59-9cab-47fb-876d-6f0af93dc5df",
+            path: "sets.darkest.uuid",
+          },
+        },
+      },
+    },
+  },
+  renamed: {},
+  updated: {},
+};
+
+const expectedDeletedInnerValue = {
+  added: {
+    "celery-background-color-default": {
+      sets: {
+        darkest: {
+          $schema: {
+            "new-value":
+              "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+            path: "sets.darkest.$schema",
+          },
+          value: {
+            "new-value": "{celery-800}",
+            path: "sets.darkest.value",
+          },
+          uuid: {
+            "new-value": "a9ab7a59-9cab-47fb-876d-6f0af93dc5df",
+            path: "sets.darkest.uuid",
+          },
+        },
+      },
+    },
+  },
+  deleted: {
+    "celery-background-color-default": {
+      sets: {
+        dark: {
+          "new-property": {
+            "new-value": "this is a new property",
+            path: "sets.dark.new-property",
+          },
+        },
+      },
+    },
+  },
+  renamed: {},
+  updated: {},
+};
+
+const expectedNothing = {
+  added: {},
+  deleted: {},
+  renamed: {},
+  updated: {},
+};
+
 test("basic test to check if updated token is detected", (t) => {
   const diff = detailedDiff(original, updatedToken);
   const renamed = detectRenamedTokens(original, updatedToken);
@@ -595,7 +679,6 @@ test("testing adding and deleting a property to a token with sets", (t) => {
   );
 });
 
-// will a token's properties be renamed? if so, do we want to display that? ask tomorrow
 test("testing adding and deleting renamed properties to a token with sets", (t) => {
   const diff = detailedDiff(
     basicSetTokenProperty,
@@ -621,5 +704,74 @@ test("testing adding and deleting renamed properties to a token with sets", (t) 
       deprecated,
     ),
     expectedRenamedAddedDeletedProperty,
+  );
+});
+
+test("testing against itself", (t) => {
+  const diff = detailedDiff(basicSetTokenProperty, basicSetTokenProperty);
+  const renamed = detectRenamedTokens(
+    basicSetTokenProperty,
+    basicSetTokenProperty,
+  );
+  const deprecated = detectDeprecatedTokens(renamed, diff);
+  const added = detectNewTokens(
+    renamed,
+    deprecated,
+    diff.added,
+    basicSetTokenProperty,
+  );
+  t.deepEqual(
+    detectUpdatedTokens(
+      renamed,
+      basicSetTokenProperty,
+      diff,
+      added,
+      deprecated,
+    ),
+    expectedNothing,
+  );
+});
+
+test("testing adding inner value", (t) => {
+  const diff = detailedDiff(basicSetTokenProperty, addedInnerValueToken);
+  const renamed = detectRenamedTokens(
+    basicSetTokenProperty,
+    addedInnerValueToken,
+  );
+  const deprecated = detectDeprecatedTokens(renamed, diff);
+  const added = detectNewTokens(
+    renamed,
+    deprecated,
+    diff.added,
+    basicSetTokenProperty,
+  );
+  t.deepEqual(
+    detectUpdatedTokens(
+      renamed,
+      basicSetTokenProperty,
+      diff,
+      added,
+      deprecated,
+    ),
+    expectedAddedInnerValue,
+  );
+});
+
+test("testing deleting inner value", (t) => {
+  const diff = detailedDiff(addedInnerValueToken, basicSetTokenProperty);
+  const renamed = detectRenamedTokens(
+    addedInnerValueToken,
+    basicSetTokenProperty,
+  );
+  const deprecated = detectDeprecatedTokens(renamed, diff);
+  const added = detectNewTokens(
+    renamed,
+    deprecated,
+    diff.added,
+    addedInnerValueToken,
+  );
+  t.deepEqual(
+    detectUpdatedTokens(renamed, addedInnerValueToken, diff, added, deprecated),
+    expectedDeletedInnerValue,
   );
 });
