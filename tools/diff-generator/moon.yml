@@ -24,5 +24,7 @@ tasks:
     command:
       - ava
       - --watch
+      - c8
+      - ava
     local: true
     platform: node

@@ -1,9 +1,8 @@
 {
-  "name": "diff-generator",
+  "name": "@adobe/token-diff-generator",
   "version": "0.0.1",
   "description": "Creates diffs for tokens",
   "type": "module",
-  "private": true,
   "scripts": {
     "test": "c8 ava"
   },

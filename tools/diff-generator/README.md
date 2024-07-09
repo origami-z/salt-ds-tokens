@@ -9,7 +9,7 @@ The token diff generator library and cli is a npm package containing the CLI and
 Installing the package is done preferably with pnpm.
 
 ```
-pnpm i @adobe/spectrum-tokens/token-diff-generator
+pnpm i @adobe/token-diff-generator
 ```
 
 ## Imports
@@ -17,7 +17,7 @@ pnpm i @adobe/spectrum-tokens/token-diff-generator
 Import the token diff generator as a module per ES6 standards.
 
 ```
-import tokenDiff from “@adobe/spectrum-tokens/token-diff-generator”;
+import tokenDiff from “@adobe/token-diff-generator”;
 ```
 
 ## Token diff generator library
@@ -33,7 +33,7 @@ This is where the token diff generator comes in. It goes through the changes det
 The most basic usage case is calling tokenDiff with two JSON objects, one for the original token(s) and the other for the updated token(s).
 
 ```
-import tokenDiff from “@adobe/spectrum-tokens/token-diff-generator”;
+import tokenDiff from “@adobe/token-diff-generator”;
 
 const report = tokenDiff(originalSchema, updatedSchema);
 ```
@@ -41,8 +41,8 @@ const report = tokenDiff(originalSchema, updatedSchema);
 If you are interested in comparing tokens locally between different versions or branches, you can use the following code snippet.
 
 ```
-import tokenDiff from “@adobe/spectrum-tokens/token-diff-generator”;
-import fileImport from “@adobe/spectrum-tokens/token-diff-generator”;
+import tokenDiff from “@adobe/token-diff-generator”;
+import fileImport from “@adobe/token-diff-generator”;
 
 const [originalSchema, updatedSchema] = await Promise.all([
               fileImport(tokenNames, originalVersion, originalBranch),
