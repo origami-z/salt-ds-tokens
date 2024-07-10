@@ -19,7 +19,7 @@ importers:
         version: 2.27.1
       "@commitlint/cli":
         specifier: ^19.2.2
-        version: 19.2.2(@types/node@20.12.7)(typescript@5.4.5)
+        version: 19.2.2(@types/node@20.12.7)(typescript@5.5.3)
       "@commitlint/config-conventional":
         specifier: ^19.2.2
         version: 19.2.2
@@ -83,6 +83,27 @@ importers:
 
   docs/token-diff:
     dependencies:
+      "@spectrum-web-components/action-button":
+        specifier: ^0.42.2
+        version: 0.42.2
+      "@spectrum-web-components/action-group":
+        specifier: ^0.43.0
+        version: 0.43.0
+      "@spectrum-web-components/card":
+        specifier: ^0.43.0
+        version: 0.43.0
+      "@spectrum-web-components/icon":
+        specifier: ^0.43.0
+        version: 0.43.0
+      "@spectrum-web-components/icons":
+        specifier: ^0.43.0
+        version: 0.43.0
+      "@spectrum-web-components/menu":
+        specifier: ^0.43.0
+        version: 0.43.0
+      "@spectrum-web-components/picker":
+        specifier: ^0.43.0
+        version: 0.43.0
       "@spectrum-web-components/sidenav":
         specifier: ^0.43.0
         version: 0.43.0
@@ -92,25 +113,25 @@ importers:
       lit:
         specifier: ^3.1.4
         version: 3.1.4
-      sp-sidenav-heading.js:
-        specifier: link:@spectrum-web-components/sidenav/sp-sidenav-heading.js
-        version: link:@spectrum-web-components/sidenav/sp-sidenav-heading.js
-      sp-sidenav-item.js:
-        specifier: link:@spectrum-web-components/sidenav/sp-sidenav-item.js
-        version: link:@spectrum-web-components/sidenav/sp-sidenav-item.js
-      sp-sidenav.js:
-        specifier: link:@spectrum-web-components/sidenav/sp-sidenav.js
-        version: link:@spectrum-web-components/sidenav/sp-sidenav.js
     devDependencies:
       "@custom-elements-manifest/analyzer":
         specifier: ^0.10.3
         version: 0.10.3
       "@open-wc/eslint-config":
         specifier: ^12.0.3
-        version: 12.0.3(@babel/core@7.24.7)(eslint-plugin-html@7.1.0)(eslint-plugin-import@2.29.1(eslint@8.57.0))(eslint-plugin-lit-a11y@4.1.3(eslint@8.57.0))(eslint-plugin-lit@1.14.0(eslint@8.57.0))(eslint-plugin-no-only-tests@3.1.0)(eslint-plugin-wc@1.5.0(eslint@8.57.0))(eslint@8.57.0)
+        version: 12.0.3(@babel/core@7.24.7)(eslint-plugin-html@7.1.0)(eslint-plugin-import@2.29.1(@typescript-eslint/parser@7.16.0(eslint@8.57.0)(typescript@5.5.3))(eslint@8.57.0))(eslint-plugin-lit-a11y@4.1.3(eslint@8.57.0))(eslint-plugin-lit@1.14.0(eslint@8.57.0))(eslint-plugin-no-only-tests@3.1.0)(eslint-plugin-wc@1.5.0(eslint@8.57.0))(eslint@8.57.0)
+      "@typescript-eslint/eslint-plugin":
+        specifier: ^7.16.0
+        version: 7.16.0(@typescript-eslint/parser@7.16.0(eslint@8.57.0)(typescript@5.5.3))(eslint@8.57.0)(typescript@5.5.3)
+      "@typescript-eslint/parser":
+        specifier: ^7.16.0
+        version: 7.16.0(eslint@8.57.0)(typescript@5.5.3)
       "@web/dev-server":
         specifier: ^0.4.6
         version: 0.4.6
+      concurrently:
+        specifier: ^8.2.2
+        version: 8.2.2
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
@@ -126,6 +147,12 @@ importers:
       prettier:
         specifier: ^3.3.2
         version: 3.3.2
+      tslib:
+        specifier: ^2.6.3
+        version: 2.6.3
+      typescript:
+        specifier: ^5.5.3
+        version: 5.5.3
 
   docs/visualizer:
     dependencies:
@@ -1594,6 +1621,24 @@ packages:
         integrity: sha512-DtuqVNlit/zZO4MahSxRc/LbkufCWawAK+p15Shh1yPvGRCItkXa6UqtTtlmEBYvGpk0JvLhRvkPCxLdrDze3w==,
       }
 
+  "@spectrum-web-components/action-button@0.43.0":
+    resolution:
+      {
+        integrity: sha512-6FF/GNDG37kPxesmpDSwWtdGutsTqVHu1+YJ3+xEY+1b3vha9i54FqWkRY+r7u0y1VQ3IE1WgcJl5GeZAPDcZQ==,
+      }
+
+  "@spectrum-web-components/action-group@0.43.0":
+    resolution:
+      {
+        integrity: sha512-CO7PmNWX0Tdg8UEZ/PY5rm4tYRrI5spuF9qDVFh1r8+0RNuo9ZDLbSKzszO2AF4joZoXIzDEPtYrNx86ZoBd6w==,
+      }
+
+  "@spectrum-web-components/asset@0.43.0":
+    resolution:
+      {
+        integrity: sha512-2unRHUYPQhy3VTTCNF3cTv/KYe4WjQPtYIuhxcI70fGhDeuVvQ9vnybwo8Bcr5sE/sY1sGlN3jTMmPnNrKgqQw==,
+      }
+
   "@spectrum-web-components/base@0.42.2":
     resolution:
       {
@@ -1618,10 +1663,28 @@ packages:
         integrity: sha512-DwMaJAHV8CgHsjUMOfMaV6W4mCU6WMX7Oey2peNwHp552C6ZWkmX9RwXL+e6A3X9wxYiiUM4VlJr7YA+y/DNCw==,
       }
 
+  "@spectrum-web-components/button@0.43.0":
+    resolution:
+      {
+        integrity: sha512-zfQWo6iqw14NIvLZoaYyS3wQ54bblRvB4OERqx0ilCc+hIJZu/MnBboToFd8stVjVs53y8GOAyCEwrq2CWPY2g==,
+      }
+
+  "@spectrum-web-components/card@0.43.0":
+    resolution:
+      {
+        integrity: sha512-zfe4kcyHZhdMWNuFYAfe+ayJV/7VtqML0gSWvl69P/96kTAZ2wH47s4SIrABu4bQW9VniuD7JN24GFIH8ErKLg==,
+      }
+
   "@spectrum-web-components/checkbox@0.42.2":
     resolution:
       {
         integrity: sha512-iaJCxB/2mv9f+6Ch7qJC+qaqIzMys8hnmOaBGPyssmlqQjYgDsxv0nXUPGUGpgNJ0LlLC03xg6LhXlu4fUa63A==,
+      }
+
+  "@spectrum-web-components/checkbox@0.43.0":
+    resolution:
+      {
+        integrity: sha512-9YCHdbVnSGTmgs+iImTExoqvXhBhE0lUww/CkWAVkbH9k/cr/J37JwxawieQLWKpFCg71aMzZX522MmwWsIXow==,
       }
 
   "@spectrum-web-components/clear-button@0.42.2":
@@ -1630,10 +1693,28 @@ packages:
         integrity: sha512-tTRCYDq2PHc+DLUkmTwQvskgGhsfFBiMc/zVJ/zy1/21cMy462nCYK/kJtEjOlV7GdKXTIzEFbwUxQrJ7gzh6Q==,
       }
 
+  "@spectrum-web-components/clear-button@0.43.0":
+    resolution:
+      {
+        integrity: sha512-IwM5cZyBfABOxaTL8Z0+0zM+tdX1ndnhEa5i4/p69dadB84Hb5/30/nQXm865YYiRvYVqxsQ7D+Twx4o8pvzqw==,
+      }
+
   "@spectrum-web-components/close-button@0.42.2":
     resolution:
       {
         integrity: sha512-wucYSZKXefwgUosQag3yk/+sPTyhxkZzmg6h7AeMHAXMhQN7w9bgUY29ar2tE5rVMBQRcPZsQ+vEoLZ7vPq3wg==,
+      }
+
+  "@spectrum-web-components/close-button@0.43.0":
+    resolution:
+      {
+        integrity: sha512-KAQjl4x8bO1hvoWbg33ayzh/9Oyw1+fqdQJV0FqWQnPDfpOx8UtFy/N5QqaYLN+S2yJt92nrtDImeGUIMaQulQ==,
+      }
+
+  "@spectrum-web-components/divider@0.43.0":
+    resolution:
+      {
+        integrity: sha512-5jVnNcEfXjdKMPDclTo2Tqhi+0EdVc3MKEox7akzUJM2ZcxSF2dBTbK1EVIsbZmz5sdzXEdCs/cZ7JJtoRoEsA==,
       }
 
   "@spectrum-web-components/field-group@0.42.2":
@@ -1690,6 +1771,18 @@ packages:
         integrity: sha512-QphXWO0Ir2XjtPb/IATVS+/KUWBVJj4D2XndxvH0tJ9H3wMBX+WK+5ztaCDKDB6HNDJYjh9W+L3rj9o+kuJKEg==,
       }
 
+  "@spectrum-web-components/icons-workflow@0.43.0":
+    resolution:
+      {
+        integrity: sha512-dP9RklJDQvwiJFxMQupGp/Fnp2jz2yWEBh6tLFUCUuIjpNzSRDrPhZjFBUAX6AxItYhP0IgGk5Ab+OURdqlEig==,
+      }
+
+  "@spectrum-web-components/icons@0.43.0":
+    resolution:
+      {
+        integrity: sha512-siDM4/cuJ0nu9E/asDwj6h1rrn/QRM44g75lkKeKbvso2E9opBXAkni13fRTgdrTyH1L7m1CJVTOmnMU3tfeEg==,
+      }
+
   "@spectrum-web-components/iconset@0.42.2":
     resolution:
       {
@@ -1714,6 +1807,18 @@ packages:
         integrity: sha512-H0s6+tb9ajHvfZEt/86wr01dhUK44eWjAXolG/Afu1iJ4MkeIOw1MXf51msXVII80Wj+lf4a0qDzfpugIDCG0w==,
       }
 
+  "@spectrum-web-components/menu@0.43.0":
+    resolution:
+      {
+        integrity: sha512-UqS5c+7kNknHrfyVSl1ThIxpLoXmvYo3lCAu0MKgDO6R0ourNBVzgfKgHXj7SdhakgJSTtcmTnwXriIvY/p4uA==,
+      }
+
+  "@spectrum-web-components/modal@0.43.0":
+    resolution:
+      {
+        integrity: sha512-mNhPnn+zjvBEz6Fm4dpl4OHv+qq5yw5GZq6G8ka/oNVmk2ZVT6XoLPhezHYqnyycGqiiqXeWom5Mmfzdcp+muw==,
+      }
+
   "@spectrum-web-components/number-field@0.42.2":
     resolution:
       {
@@ -1726,16 +1831,46 @@ packages:
         integrity: sha512-uLisZaTyLOjtymTIdOHXdE4bbwjSEq8mtyiW7O69fJY7lyvaqt3bMP+xKAAd3JIubgGoS2OxQi0Wwi6RsK5Rlw==,
       }
 
+  "@spectrum-web-components/overlay@0.43.0":
+    resolution:
+      {
+        integrity: sha512-RHYsfQR3CBDt2Ise/hmsnvoJVltibIImEgUJ/RiQECzz3uvCYLdkhtfHz5kxD3vWjmluWuD+m7Vrf0V71BCU+w==,
+      }
+
+  "@spectrum-web-components/picker@0.43.0":
+    resolution:
+      {
+        integrity: sha512-CAjruaUuCWYEW9jFzEBKR3EDFvCoXkn0EFqdBLmH0NAag7mYVgJqA1mPE9d9PIkMURB3cbg2/bffYxMEWJ28Dw==,
+      }
+
   "@spectrum-web-components/popover@0.42.2":
     resolution:
       {
         integrity: sha512-kvqftomKwOcUA7t4zajsl+SmNoUQ9bm9zpGnXXEaX/MIY9xeCEvLzrl7ItL/A3CAysEddimb13kV27kgmhgLxg==,
       }
 
+  "@spectrum-web-components/popover@0.43.0":
+    resolution:
+      {
+        integrity: sha512-EF4hRgQe0SliPk0U9RJuMFUXudyMS9dGR/Lmm3r5DwZoJ8UI2r8XKLgZjdz4vchxLGLS6yuXVgW3BdCr/H194Q==,
+      }
+
   "@spectrum-web-components/progress-circle@0.42.2":
     resolution:
       {
         integrity: sha512-1u39HoHXTc7WsdBuqnr02ScJeloQaZzUI92qVkOmU7zUDFmYz+jVsQNumQjAhkqP3RoLJypWu/sjYBfhWiaN1g==,
+      }
+
+  "@spectrum-web-components/progress-circle@0.43.0":
+    resolution:
+      {
+        integrity: sha512-6n23MCRM705EnJAeLtKAghzjcCKly7wyq9i+aNtmw1SiSR7dAguWA9VP0zIjYMpFr50GEn4tQGDhisWcy9ze6g==,
+      }
+
+  "@spectrum-web-components/quick-actions@0.43.0":
+    resolution:
+      {
+        integrity: sha512-xnYOwEFyJDuIjH3N3aYkvWfTNy+5evD1WsprJCrsSgGEJPtkMNdiPp22/LmPa63ZB5EQRAJpDtfc1MMiLu1wGw==,
       }
 
   "@spectrum-web-components/reactive-controllers@0.42.2":
@@ -1786,6 +1921,12 @@ packages:
         integrity: sha512-2L1UrHvdwqacNFj7Fa5ITtOZpGFsaXeSnNP/qh8yonk+3WoBaVzgKfR5Rbv68e95ck+VYhHueHrtDq049lTJVw==,
       }
 
+  "@spectrum-web-components/styles@0.43.0":
+    resolution:
+      {
+        integrity: sha512-9VtUlFfAb9BwFBSnU/cuToDgJlXndH+Tt/pVuJ+F0u111dh7y5lmE9y+C/u6OlUwZ8MaIK2iaHMmGFvjEjzCgg==,
+      }
+
   "@spectrum-web-components/switch@0.42.2":
     resolution:
       {
@@ -1804,6 +1945,12 @@ packages:
         integrity: sha512-4Kc7AZPtcYRXyrbM3hwVEKjv9IgScPzdnpN9aj8y1TEHY2lv9vbiAdPH57CoqTd4qjXFGT/h832jE3Qxjw2Q+A==,
       }
 
+  "@spectrum-web-components/theme@0.43.0":
+    resolution:
+      {
+        integrity: sha512-22T+ivfMHpf3jPkAfkl1VenBivJ2EdXEOV+NJa+Pev5Ong9evzdmarfK+1J4HOOFKTdLLR3fOCVbVCf5kJvelQ==,
+      }
+
   "@spectrum-web-components/toast@0.42.2":
     resolution:
       {
@@ -1814,6 +1961,24 @@ packages:
     resolution:
       {
         integrity: sha512-fViMfRKjGG3+dwzn/Hm7x69gqCz0+cNmyayGrb2iWWDlXJoiA2N5HMLY4zfPSM6BXnzaz15xod1xgebmr0O34Q==,
+      }
+
+  "@spectrum-web-components/tooltip@0.43.0":
+    resolution:
+      {
+        integrity: sha512-xPQjZFoc6OzgNmY/UtB5bfaH5+jeNdjm8Kkm9z+SicWdpIQckVbtYXmx9BzWRorP3GHAvdtewWkJqROEaJmEhA==,
+      }
+
+  "@spectrum-web-components/tray@0.43.0":
+    resolution:
+      {
+        integrity: sha512-+zaoe2Qw3ye0xweUJmI9nlBo9DB9Ph1FfPDmyw5Qn/HiyfgJ2gIzFuZfNZaOq7ubcWynvX9tvYZ8GvQcwMGGzw==,
+      }
+
+  "@spectrum-web-components/underlay@0.43.0":
+    resolution:
+      {
+        integrity: sha512-Mup47GmKDWlF+ApnadvSCY9H3mbcsaPIruAWw+jBO76K1yryYMzlQGgBZqgCZvrKy5QxRwGOiR6VSp0zOJ90Lg==,
       }
 
   "@swc/counter@0.1.3":
@@ -2031,6 +2196,88 @@ packages:
       {
         integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==,
       }
+
+  "@typescript-eslint/eslint-plugin@7.16.0":
+    resolution:
+      {
+        integrity: sha512-py1miT6iQpJcs1BiJjm54AMzeuMPBSPuKPlnT8HlfudbcS5rYeX5jajpLf3mrdRh9dA/Ec2FVUY0ifeVNDIhZw==,
+      }
+    engines: { node: ^18.18.0 || >=20.0.0 }
+    peerDependencies:
+      "@typescript-eslint/parser": ^7.0.0
+      eslint: ^8.56.0
+      typescript: "*"
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
+  "@typescript-eslint/parser@7.16.0":
+    resolution:
+      {
+        integrity: sha512-ar9E+k7CU8rWi2e5ErzQiC93KKEFAXA2Kky0scAlPcxYblLt8+XZuHUZwlyfXILyQa95P6lQg+eZgh/dDs3+Vw==,
+      }
+    engines: { node: ^18.18.0 || >=20.0.0 }
+    peerDependencies:
+      eslint: ^8.56.0
+      typescript: "*"
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
+  "@typescript-eslint/scope-manager@7.16.0":
+    resolution:
+      {
+        integrity: sha512-8gVv3kW6n01Q6TrI1cmTZ9YMFi3ucDT7i7aI5lEikk2ebk1AEjrwX8MDTdaX5D7fPXMBLvnsaa0IFTAu+jcfOw==,
+      }
+    engines: { node: ^18.18.0 || >=20.0.0 }
+
+  "@typescript-eslint/type-utils@7.16.0":
+    resolution:
+      {
+        integrity: sha512-j0fuUswUjDHfqV/UdW6mLtOQQseORqfdmoBNDFOqs9rvNVR2e+cmu6zJu/Ku4SDuqiJko6YnhwcL8x45r8Oqxg==,
+      }
+    engines: { node: ^18.18.0 || >=20.0.0 }
+    peerDependencies:
+      eslint: ^8.56.0
+      typescript: "*"
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
+  "@typescript-eslint/types@7.16.0":
+    resolution:
+      {
+        integrity: sha512-fecuH15Y+TzlUutvUl9Cc2XJxqdLr7+93SQIbcZfd4XRGGKoxyljK27b+kxKamjRkU7FYC6RrbSCg0ALcZn/xw==,
+      }
+    engines: { node: ^18.18.0 || >=20.0.0 }
+
+  "@typescript-eslint/typescript-estree@7.16.0":
+    resolution:
+      {
+        integrity: sha512-a5NTvk51ZndFuOLCh5OaJBELYc2O3Zqxfl3Js78VFE1zE46J2AaVuW+rEbVkQznjkmlzWsUI15BG5tQMixzZLw==,
+      }
+    engines: { node: ^18.18.0 || >=20.0.0 }
+    peerDependencies:
+      typescript: "*"
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
+  "@typescript-eslint/utils@7.16.0":
+    resolution:
+      {
+        integrity: sha512-PqP4kP3hb4r7Jav+NiRCntlVzhxBNWq6ZQ+zQwII1y/G/1gdIPeYDCKr2+dH6049yJQsWZiHU6RlwvIFBXXGNA==,
+      }
+    engines: { node: ^18.18.0 || >=20.0.0 }
+    peerDependencies:
+      eslint: ^8.56.0
+
+  "@typescript-eslint/visitor-keys@7.16.0":
+    resolution:
+      {
+        integrity: sha512-rMo01uPy9C7XxG7AFsxa8zLnWXTF8N3PYclekWSrurvhwiw1eW88mrKiAYe6s53AUY57nTRz8dJsuuXdkAhzCg==,
+      }
+    engines: { node: ^18.18.0 || >=20.0.0 }
 
   "@ungap/structured-clone@1.2.0":
     resolution:
@@ -2908,6 +3155,14 @@ packages:
       }
     engines: { node: ">=10.18.0 <11 || >=12.14.0 <13 || >=14" }
 
+  concurrently@8.2.2:
+    resolution:
+      {
+        integrity: sha512-1dP4gpXFhei8IOtlXRE/T/4H88ElHgTiUzh71YUmtjTEHMSRS2Z/fgOxHSxxusGHogsRfxNq1vyAwxSC+EVyDg==,
+      }
+    engines: { node: ^14.13.0 || >=16.0.0 }
+    hasBin: true
+
   confusing-browser-globals@1.0.11:
     resolution:
       {
@@ -3089,6 +3344,13 @@ packages:
       {
         integrity: sha512-68s5jYdlvasItOJnCuI2Q9s4q98g0pCyL3HrcKJu8KNugUl8ahgmZYg38ysLTgQjjXX3H8CJLkAvWrclWfcalw==,
       }
+
+  date-fns@2.30.0:
+    resolution:
+      {
+        integrity: sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==,
+      }
+    engines: { node: ">=0.11" }
 
   date-time@3.1.0:
     resolution:
@@ -6584,6 +6846,12 @@ packages:
       }
     engines: { node: ">=0.10.0" }
 
+  spawn-command@0.0.2:
+    resolution:
+      {
+        integrity: sha512-zC8zGoGkmc8J9ndvml8Xksr1Amk9qBujgbF0JAIWO7kXr43w0h/0GJNM/Vustixu+YE8N/MTrQ7N31FvHUACxQ==,
+      }
+
   spawndamnit@2.0.0:
     resolution:
       {
@@ -6815,6 +7083,13 @@ packages:
       }
     engines: { node: ">=8" }
 
+  supports-color@8.1.1:
+    resolution:
+      {
+        integrity: sha512-MpUEN2OodtUzxvKQl72cUF7RQ5EiHsGvSsVG0ia9c5RbWGL2CI4C7EpPS8UTBIplnlzZiNuV56w+FuNxy3ty2Q==,
+      }
+    engines: { node: ">=10" }
+
   supports-preserve-symlinks-flag@1.0.0:
     resolution:
       {
@@ -6958,6 +7233,13 @@ packages:
       }
     engines: { node: ">=18" }
 
+  tree-kill@1.2.2:
+    resolution:
+      {
+        integrity: sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==,
+      }
+    hasBin: true
+
   trim-newlines@3.0.1:
     resolution:
       {
@@ -6965,16 +7247,25 @@ packages:
       }
     engines: { node: ">=8" }
 
+  ts-api-utils@1.3.0:
+    resolution:
+      {
+        integrity: sha512-UQMIo7pb8WRomKR1/+MFVLTroIvDVtMX3K6OUir8ynLyzB8Jeriont2bTAtmNPa1ekAgN7YPDyf6V+ygrdU+eQ==,
+      }
+    engines: { node: ">=16" }
+    peerDependencies:
+      typescript: ">=4.2.0"
+
   tsconfig-paths@3.15.0:
     resolution:
       {
         integrity: sha512-2Ac2RgzDe/cn48GvOe3M+o82pEFewD3UPbyoUHHdKasHwJKjds4fLXWf/Ux5kATBKN20oaFGu+jbElp1pos0mg==,
       }
 
-  tslib@2.6.2:
+  tslib@2.6.3:
     resolution:
       {
-        integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==,
+        integrity: sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==,
       }
 
   tsscmp@1.0.6:
@@ -7073,6 +7364,14 @@ packages:
     resolution:
       {
         integrity: sha512-vcI4UpRgg81oIRUFwR0WSIHKt11nJ7SAVlYNIu+QpqeyXP+gpQJy/Z4+F0aGxSE4MqwjyXvW/TzgkLAx2AGHwQ==,
+      }
+    engines: { node: ">=14.17" }
+    hasBin: true
+
+  typescript@5.5.3:
+    resolution:
+      {
+        integrity: sha512-/hreyEujaB0w76zKo6717l3L0o/qEUtRgdvUBvlkhoWeOVMjMuHNHk0BRBzikzuGDqNmPQbg5ifMEqsHLiIUcQ==,
       }
     engines: { node: ">=14.17" }
     hasBin: true
@@ -7831,11 +8130,11 @@ snapshots:
       human-id: 1.0.2
       prettier: 2.8.8
 
-  "@commitlint/cli@19.2.2(@types/node@20.12.7)(typescript@5.4.5)":
+  "@commitlint/cli@19.2.2(@types/node@20.12.7)(typescript@5.5.3)":
     dependencies:
       "@commitlint/format": 19.0.3
       "@commitlint/lint": 19.2.2
-      "@commitlint/load": 19.2.0(@types/node@20.12.7)(typescript@5.4.5)
+      "@commitlint/load": 19.2.0(@types/node@20.12.7)(typescript@5.5.3)
       "@commitlint/read": 19.2.1
       "@commitlint/types": 19.0.3
       execa: 8.0.1
@@ -7882,15 +8181,15 @@ snapshots:
       "@commitlint/rules": 19.0.3
       "@commitlint/types": 19.0.3
 
-  "@commitlint/load@19.2.0(@types/node@20.12.7)(typescript@5.4.5)":
+  "@commitlint/load@19.2.0(@types/node@20.12.7)(typescript@5.5.3)":
     dependencies:
       "@commitlint/config-validator": 19.0.3
       "@commitlint/execute-rule": 19.0.0
       "@commitlint/resolve-extends": 19.1.0
       "@commitlint/types": 19.0.3
       chalk: 5.3.0
-      cosmiconfig: 9.0.0(typescript@5.4.5)
-      cosmiconfig-typescript-loader: 5.0.0(@types/node@20.12.7)(cosmiconfig@9.0.0(typescript@5.4.5))(typescript@5.4.5)
+      cosmiconfig: 9.0.0(typescript@5.5.3)
+      cosmiconfig-typescript-loader: 5.0.0(@types/node@20.12.7)(cosmiconfig@9.0.0(typescript@5.5.3))(typescript@5.5.3)
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
@@ -8241,14 +8540,14 @@ snapshots:
       "@nodelib/fs.scandir": 2.1.5
       fastq: 1.17.1
 
-  "@open-wc/eslint-config@12.0.3(@babel/core@7.24.7)(eslint-plugin-html@7.1.0)(eslint-plugin-import@2.29.1(eslint@8.57.0))(eslint-plugin-lit-a11y@4.1.3(eslint@8.57.0))(eslint-plugin-lit@1.14.0(eslint@8.57.0))(eslint-plugin-no-only-tests@3.1.0)(eslint-plugin-wc@1.5.0(eslint@8.57.0))(eslint@8.57.0)":
+  "@open-wc/eslint-config@12.0.3(@babel/core@7.24.7)(eslint-plugin-html@7.1.0)(eslint-plugin-import@2.29.1(@typescript-eslint/parser@7.16.0(eslint@8.57.0)(typescript@5.5.3))(eslint@8.57.0))(eslint-plugin-lit-a11y@4.1.3(eslint@8.57.0))(eslint-plugin-lit@1.14.0(eslint@8.57.0))(eslint-plugin-no-only-tests@3.1.0)(eslint-plugin-wc@1.5.0(eslint@8.57.0))(eslint@8.57.0)":
     dependencies:
       "@babel/eslint-parser": 7.24.7(@babel/core@7.24.7)(eslint@8.57.0)
       "@babel/plugin-syntax-import-assertions": 7.24.7(@babel/core@7.24.7)
       eslint: 8.57.0
-      eslint-config-airbnb-base: 15.0.0(eslint-plugin-import@2.29.1(eslint@8.57.0))(eslint@8.57.0)
+      eslint-config-airbnb-base: 15.0.0(eslint-plugin-import@2.29.1(@typescript-eslint/parser@7.16.0(eslint@8.57.0)(typescript@5.5.3))(eslint@8.57.0))(eslint@8.57.0)
       eslint-plugin-html: 7.1.0
-      eslint-plugin-import: 2.29.1(eslint@8.57.0)
+      eslint-plugin-import: 2.29.1(@typescript-eslint/parser@7.16.0(eslint@8.57.0)(typescript@5.5.3))(eslint@8.57.0)
       eslint-plugin-import-exports-imports-resolver: 1.0.1
       eslint-plugin-lit: 1.14.0(eslint@8.57.0)
       eslint-plugin-lit-a11y: 4.1.3(eslint@8.57.0)
@@ -8373,6 +8672,26 @@ snapshots:
       "@spectrum-web-components/icons-ui": 0.42.2
       "@spectrum-web-components/shared": 0.42.2
 
+  "@spectrum-web-components/action-button@0.43.0":
+    dependencies:
+      "@spectrum-web-components/base": 0.43.0
+      "@spectrum-web-components/button": 0.43.0
+      "@spectrum-web-components/icon": 0.43.0
+      "@spectrum-web-components/icons-ui": 0.43.0
+      "@spectrum-web-components/shared": 0.43.0
+
+  "@spectrum-web-components/action-group@0.43.0":
+    dependencies:
+      "@lit-labs/observers": 2.0.2
+      "@spectrum-web-components/action-button": 0.43.0
+      "@spectrum-web-components/base": 0.43.0
+      "@spectrum-web-components/icons-workflow": 0.43.0
+      "@spectrum-web-components/reactive-controllers": 0.43.0
+
+  "@spectrum-web-components/asset@0.43.0":
+    dependencies:
+      "@spectrum-web-components/base": 0.43.0
+
   "@spectrum-web-components/base@0.42.2":
     dependencies:
       lit: 2.8.0
@@ -8396,6 +8715,27 @@ snapshots:
       "@spectrum-web-components/progress-circle": 0.42.2
       "@spectrum-web-components/shared": 0.42.2
 
+  "@spectrum-web-components/button@0.43.0":
+    dependencies:
+      "@spectrum-web-components/base": 0.43.0
+      "@spectrum-web-components/clear-button": 0.43.0
+      "@spectrum-web-components/close-button": 0.43.0
+      "@spectrum-web-components/icon": 0.43.0
+      "@spectrum-web-components/icons-ui": 0.43.0
+      "@spectrum-web-components/progress-circle": 0.43.0
+      "@spectrum-web-components/shared": 0.43.0
+
+  "@spectrum-web-components/card@0.43.0":
+    dependencies:
+      "@spectrum-web-components/asset": 0.43.0
+      "@spectrum-web-components/base": 0.43.0
+      "@spectrum-web-components/checkbox": 0.43.0
+      "@spectrum-web-components/divider": 0.43.0
+      "@spectrum-web-components/icons-workflow": 0.43.0
+      "@spectrum-web-components/quick-actions": 0.43.0
+      "@spectrum-web-components/shared": 0.43.0
+      "@spectrum-web-components/styles": 0.43.0
+
   "@spectrum-web-components/checkbox@0.42.2":
     dependencies:
       "@spectrum-web-components/base": 0.42.2
@@ -8403,13 +8743,32 @@ snapshots:
       "@spectrum-web-components/icons-ui": 0.42.2
       "@spectrum-web-components/shared": 0.42.2
 
+  "@spectrum-web-components/checkbox@0.43.0":
+    dependencies:
+      "@spectrum-web-components/base": 0.43.0
+      "@spectrum-web-components/icon": 0.43.0
+      "@spectrum-web-components/icons-ui": 0.43.0
+      "@spectrum-web-components/shared": 0.43.0
+
   "@spectrum-web-components/clear-button@0.42.2":
     dependencies:
       "@spectrum-web-components/base": 0.42.2
 
+  "@spectrum-web-components/clear-button@0.43.0":
+    dependencies:
+      "@spectrum-web-components/base": 0.43.0
+
   "@spectrum-web-components/close-button@0.42.2":
     dependencies:
       "@spectrum-web-components/base": 0.42.2
+
+  "@spectrum-web-components/close-button@0.43.0":
+    dependencies:
+      "@spectrum-web-components/base": 0.43.0
+
+  "@spectrum-web-components/divider@0.43.0":
+    dependencies:
+      "@spectrum-web-components/base": 0.43.0
 
   "@spectrum-web-components/field-group@0.42.2":
     dependencies:
@@ -8465,6 +8824,16 @@ snapshots:
       "@spectrum-web-components/base": 0.42.2
       "@spectrum-web-components/icon": 0.42.2
 
+  "@spectrum-web-components/icons-workflow@0.43.0":
+    dependencies:
+      "@spectrum-web-components/base": 0.43.0
+      "@spectrum-web-components/icon": 0.43.0
+
+  "@spectrum-web-components/icons@0.43.0":
+    dependencies:
+      "@spectrum-web-components/base": 0.43.0
+      "@spectrum-web-components/iconset": 0.43.0
+
   "@spectrum-web-components/iconset@0.42.2":
     dependencies:
       "@spectrum-web-components/base": 0.42.2
@@ -8482,6 +8851,23 @@ snapshots:
     dependencies:
       "@spectrum-web-components/base": 0.42.2
       "@spectrum-web-components/shared": 0.42.2
+
+  "@spectrum-web-components/menu@0.43.0":
+    dependencies:
+      "@lit-labs/observers": 2.0.2
+      "@spectrum-web-components/action-button": 0.43.0
+      "@spectrum-web-components/base": 0.43.0
+      "@spectrum-web-components/divider": 0.43.0
+      "@spectrum-web-components/icon": 0.43.0
+      "@spectrum-web-components/icons-ui": 0.43.0
+      "@spectrum-web-components/overlay": 0.43.0
+      "@spectrum-web-components/popover": 0.43.0
+      "@spectrum-web-components/reactive-controllers": 0.43.0
+      "@spectrum-web-components/shared": 0.43.0
+
+  "@spectrum-web-components/modal@0.43.0":
+    dependencies:
+      "@spectrum-web-components/base": 0.43.0
 
   "@spectrum-web-components/number-field@0.42.2":
     dependencies:
@@ -8504,15 +8890,56 @@ snapshots:
       "@spectrum-web-components/shared": 0.42.2
       "@spectrum-web-components/theme": 0.42.2
 
+  "@spectrum-web-components/overlay@0.43.0":
+    dependencies:
+      "@floating-ui/dom": 1.6.3
+      "@floating-ui/utils": 0.2.1
+      "@spectrum-web-components/action-button": 0.43.0
+      "@spectrum-web-components/base": 0.43.0
+      "@spectrum-web-components/reactive-controllers": 0.43.0
+      "@spectrum-web-components/shared": 0.43.0
+      "@spectrum-web-components/theme": 0.43.0
+
+  "@spectrum-web-components/picker@0.43.0":
+    dependencies:
+      "@spectrum-web-components/base": 0.43.0
+      "@spectrum-web-components/button": 0.43.0
+      "@spectrum-web-components/field-label": 0.43.0
+      "@spectrum-web-components/icon": 0.43.0
+      "@spectrum-web-components/icons-ui": 0.43.0
+      "@spectrum-web-components/icons-workflow": 0.43.0
+      "@spectrum-web-components/menu": 0.43.0
+      "@spectrum-web-components/overlay": 0.43.0
+      "@spectrum-web-components/popover": 0.43.0
+      "@spectrum-web-components/progress-circle": 0.43.0
+      "@spectrum-web-components/reactive-controllers": 0.43.0
+      "@spectrum-web-components/shared": 0.43.0
+      "@spectrum-web-components/tooltip": 0.43.0
+      "@spectrum-web-components/tray": 0.43.0
+
   "@spectrum-web-components/popover@0.42.2":
     dependencies:
       "@spectrum-web-components/base": 0.42.2
       "@spectrum-web-components/overlay": 0.42.2
 
+  "@spectrum-web-components/popover@0.43.0":
+    dependencies:
+      "@spectrum-web-components/base": 0.43.0
+      "@spectrum-web-components/overlay": 0.43.0
+
   "@spectrum-web-components/progress-circle@0.42.2":
     dependencies:
       "@spectrum-web-components/base": 0.42.2
       "@spectrum-web-components/shared": 0.42.2
+
+  "@spectrum-web-components/progress-circle@0.43.0":
+    dependencies:
+      "@spectrum-web-components/base": 0.43.0
+      "@spectrum-web-components/shared": 0.43.0
+
+  "@spectrum-web-components/quick-actions@0.43.0":
+    dependencies:
+      "@spectrum-web-components/base": 0.43.0
 
   "@spectrum-web-components/reactive-controllers@0.42.2":
     dependencies:
@@ -8563,6 +8990,10 @@ snapshots:
     dependencies:
       "@spectrum-web-components/base": 0.42.2
 
+  "@spectrum-web-components/styles@0.43.0":
+    dependencies:
+      "@spectrum-web-components/base": 0.43.0
+
   "@spectrum-web-components/switch@0.42.2":
     dependencies:
       "@spectrum-web-components/base": 0.42.2
@@ -8582,6 +9013,11 @@ snapshots:
       "@spectrum-web-components/base": 0.42.2
       "@spectrum-web-components/styles": 0.42.2
 
+  "@spectrum-web-components/theme@0.43.0":
+    dependencies:
+      "@spectrum-web-components/base": 0.43.0
+      "@spectrum-web-components/styles": 0.43.0
+
   "@spectrum-web-components/toast@0.42.2":
     dependencies:
       "@spectrum-web-components/base": 0.42.2
@@ -8597,16 +9033,35 @@ snapshots:
       "@spectrum-web-components/reactive-controllers": 0.42.2
       "@spectrum-web-components/shared": 0.42.2
 
+  "@spectrum-web-components/tooltip@0.43.0":
+    dependencies:
+      "@spectrum-web-components/base": 0.43.0
+      "@spectrum-web-components/overlay": 0.43.0
+      "@spectrum-web-components/reactive-controllers": 0.43.0
+      "@spectrum-web-components/shared": 0.43.0
+
+  "@spectrum-web-components/tray@0.43.0":
+    dependencies:
+      "@spectrum-web-components/base": 0.43.0
+      "@spectrum-web-components/modal": 0.43.0
+      "@spectrum-web-components/reactive-controllers": 0.43.0
+      "@spectrum-web-components/shared": 0.43.0
+      "@spectrum-web-components/underlay": 0.43.0
+
+  "@spectrum-web-components/underlay@0.43.0":
+    dependencies:
+      "@spectrum-web-components/base": 0.43.0
+
   "@swc/counter@0.1.3": {}
 
   "@swc/helpers@0.5.10":
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   "@swc/helpers@0.5.5":
     dependencies:
       "@swc/counter": 0.1.3
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   "@thepassle/axobject-query@4.0.0":
     dependencies:
@@ -8723,6 +9178,87 @@ snapshots:
   "@types/ws@7.4.7":
     dependencies:
       "@types/node": 20.12.7
+
+  "@typescript-eslint/eslint-plugin@7.16.0(@typescript-eslint/parser@7.16.0(eslint@8.57.0)(typescript@5.5.3))(eslint@8.57.0)(typescript@5.5.3)":
+    dependencies:
+      "@eslint-community/regexpp": 4.11.0
+      "@typescript-eslint/parser": 7.16.0(eslint@8.57.0)(typescript@5.5.3)
+      "@typescript-eslint/scope-manager": 7.16.0
+      "@typescript-eslint/type-utils": 7.16.0(eslint@8.57.0)(typescript@5.5.3)
+      "@typescript-eslint/utils": 7.16.0(eslint@8.57.0)(typescript@5.5.3)
+      "@typescript-eslint/visitor-keys": 7.16.0
+      eslint: 8.57.0
+      graphemer: 1.4.0
+      ignore: 5.3.1
+      natural-compare: 1.4.0
+      ts-api-utils: 1.3.0(typescript@5.5.3)
+    optionalDependencies:
+      typescript: 5.5.3
+    transitivePeerDependencies:
+      - supports-color
+
+  "@typescript-eslint/parser@7.16.0(eslint@8.57.0)(typescript@5.5.3)":
+    dependencies:
+      "@typescript-eslint/scope-manager": 7.16.0
+      "@typescript-eslint/types": 7.16.0
+      "@typescript-eslint/typescript-estree": 7.16.0(typescript@5.5.3)
+      "@typescript-eslint/visitor-keys": 7.16.0
+      debug: 4.3.4
+      eslint: 8.57.0
+    optionalDependencies:
+      typescript: 5.5.3
+    transitivePeerDependencies:
+      - supports-color
+
+  "@typescript-eslint/scope-manager@7.16.0":
+    dependencies:
+      "@typescript-eslint/types": 7.16.0
+      "@typescript-eslint/visitor-keys": 7.16.0
+
+  "@typescript-eslint/type-utils@7.16.0(eslint@8.57.0)(typescript@5.5.3)":
+    dependencies:
+      "@typescript-eslint/typescript-estree": 7.16.0(typescript@5.5.3)
+      "@typescript-eslint/utils": 7.16.0(eslint@8.57.0)(typescript@5.5.3)
+      debug: 4.3.4
+      eslint: 8.57.0
+      ts-api-utils: 1.3.0(typescript@5.5.3)
+    optionalDependencies:
+      typescript: 5.5.3
+    transitivePeerDependencies:
+      - supports-color
+
+  "@typescript-eslint/types@7.16.0": {}
+
+  "@typescript-eslint/typescript-estree@7.16.0(typescript@5.5.3)":
+    dependencies:
+      "@typescript-eslint/types": 7.16.0
+      "@typescript-eslint/visitor-keys": 7.16.0
+      debug: 4.3.4
+      globby: 11.1.0
+      is-glob: 4.0.3
+      minimatch: 9.0.4
+      semver: 7.6.0
+      ts-api-utils: 1.3.0(typescript@5.5.3)
+    optionalDependencies:
+      typescript: 5.5.3
+    transitivePeerDependencies:
+      - supports-color
+
+  "@typescript-eslint/utils@7.16.0(eslint@8.57.0)(typescript@5.5.3)":
+    dependencies:
+      "@eslint-community/eslint-utils": 4.4.0(eslint@8.57.0)
+      "@typescript-eslint/scope-manager": 7.16.0
+      "@typescript-eslint/types": 7.16.0
+      "@typescript-eslint/typescript-estree": 7.16.0(typescript@5.5.3)
+      eslint: 8.57.0
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
+
+  "@typescript-eslint/visitor-keys@7.16.0":
+    dependencies:
+      "@typescript-eslint/types": 7.16.0
+      eslint-visitor-keys: 3.4.3
 
   "@ungap/structured-clone@1.2.0": {}
 
@@ -9127,7 +9663,7 @@ snapshots:
   camel-case@4.1.2:
     dependencies:
       pascal-case: 3.1.2
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   camelcase-keys@6.2.2:
     dependencies:
@@ -9146,7 +9682,7 @@ snapshots:
   capital-case@1.0.4:
     dependencies:
       no-case: 3.0.4
-      tslib: 2.6.2
+      tslib: 2.6.3
       upper-case-first: 2.0.2
 
   cbor@9.0.2:
@@ -9183,7 +9719,7 @@ snapshots:
       path-case: 3.0.4
       sentence-case: 3.0.4
       snake-case: 3.0.4
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   char-regex@1.0.2: {}
 
@@ -9338,6 +9874,18 @@ snapshots:
       semver: 7.6.0
       well-known-symbols: 2.0.0
 
+  concurrently@8.2.2:
+    dependencies:
+      chalk: 4.1.2
+      date-fns: 2.30.0
+      lodash: 4.17.21
+      rxjs: 7.8.1
+      shell-quote: 1.8.1
+      spawn-command: 0.0.2
+      supports-color: 8.1.1
+      tree-kill: 1.2.2
+      yargs: 17.7.2
+
   confusing-browser-globals@1.0.11: {}
 
   console-control-strings@1.1.0: {}
@@ -9345,7 +9893,7 @@ snapshots:
   constant-case@3.0.4:
     dependencies:
       no-case: 3.0.4
-      tslib: 2.6.2
+      tslib: 2.6.3
       upper-case: 2.0.2
 
   content-disposition@0.5.4:
@@ -9378,21 +9926,21 @@ snapshots:
       depd: 2.0.0
       keygrip: 1.1.0
 
-  cosmiconfig-typescript-loader@5.0.0(@types/node@20.12.7)(cosmiconfig@9.0.0(typescript@5.4.5))(typescript@5.4.5):
+  cosmiconfig-typescript-loader@5.0.0(@types/node@20.12.7)(cosmiconfig@9.0.0(typescript@5.5.3))(typescript@5.5.3):
     dependencies:
       "@types/node": 20.12.7
-      cosmiconfig: 9.0.0(typescript@5.4.5)
+      cosmiconfig: 9.0.0(typescript@5.5.3)
       jiti: 1.21.0
-      typescript: 5.4.5
+      typescript: 5.5.3
 
-  cosmiconfig@9.0.0(typescript@5.4.5):
+  cosmiconfig@9.0.0(typescript@5.5.3):
     dependencies:
       env-paths: 2.2.1
       import-fresh: 3.3.0
       js-yaml: 4.1.0
       parse-json: 5.2.0
     optionalDependencies:
-      typescript: 5.4.5
+      typescript: 5.5.3
 
   cross-spawn@5.1.0:
     dependencies:
@@ -9446,6 +9994,10 @@ snapshots:
       is-data-view: 1.0.1
 
   dataloader@1.4.0: {}
+
+  date-fns@2.30.0:
+    dependencies:
+      "@babel/runtime": 7.24.4
 
   date-time@3.1.0:
     dependencies:
@@ -9553,7 +10105,7 @@ snapshots:
   dot-case@3.0.4:
     dependencies:
       no-case: 3.0.4
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   dot-prop@5.3.0:
     dependencies:
@@ -9711,11 +10263,11 @@ snapshots:
 
   escape-string-regexp@5.0.0: {}
 
-  eslint-config-airbnb-base@15.0.0(eslint-plugin-import@2.29.1(eslint@8.57.0))(eslint@8.57.0):
+  eslint-config-airbnb-base@15.0.0(eslint-plugin-import@2.29.1(@typescript-eslint/parser@7.16.0(eslint@8.57.0)(typescript@5.5.3))(eslint@8.57.0))(eslint@8.57.0):
     dependencies:
       confusing-browser-globals: 1.0.11
       eslint: 8.57.0
-      eslint-plugin-import: 2.29.1(eslint@8.57.0)
+      eslint-plugin-import: 2.29.1(@typescript-eslint/parser@7.16.0(eslint@8.57.0)(typescript@5.5.3))(eslint@8.57.0)
       object.assign: 4.1.5
       object.entries: 1.1.8
       semver: 6.3.1
@@ -9732,10 +10284,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.8.1(eslint-import-resolver-node@0.3.9)(eslint@8.57.0):
+  eslint-module-utils@2.8.1(@typescript-eslint/parser@7.16.0(eslint@8.57.0)(typescript@5.5.3))(eslint-import-resolver-node@0.3.9)(eslint@8.57.0):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
+      "@typescript-eslint/parser": 7.16.0(eslint@8.57.0)(typescript@5.5.3)
       eslint: 8.57.0
       eslint-import-resolver-node: 0.3.9
     transitivePeerDependencies:
@@ -9750,7 +10303,7 @@ snapshots:
       resolve.exports: 1.1.1
       resolve.imports: 1.2.7
 
-  eslint-plugin-import@2.29.1(eslint@8.57.0):
+  eslint-plugin-import@2.29.1(@typescript-eslint/parser@7.16.0(eslint@8.57.0)(typescript@5.5.3))(eslint@8.57.0):
     dependencies:
       array-includes: 3.1.8
       array.prototype.findlastindex: 1.2.5
@@ -9760,7 +10313,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 8.57.0
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.8.1(eslint-import-resolver-node@0.3.9)(eslint@8.57.0)
+      eslint-module-utils: 2.8.1(@typescript-eslint/parser@7.16.0(eslint@8.57.0)(typescript@5.5.3))(eslint-import-resolver-node@0.3.9)(eslint@8.57.0)
       hasown: 2.0.2
       is-core-module: 2.13.1
       is-glob: 4.0.3
@@ -9770,6 +10323,8 @@ snapshots:
       object.values: 1.2.0
       semver: 6.3.1
       tsconfig-paths: 3.15.0
+    optionalDependencies:
+      "@typescript-eslint/parser": 7.16.0(eslint@8.57.0)(typescript@5.5.3)
     transitivePeerDependencies:
       - eslint-import-resolver-typescript
       - eslint-import-resolver-webpack
@@ -10201,7 +10756,7 @@ snapshots:
   header-case@2.0.4:
     dependencies:
       capital-case: 1.0.4
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   hosted-git-info@2.8.9: {}
 
@@ -10764,7 +11319,7 @@ snapshots:
 
   lower-case@2.0.2:
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   lru-cache@10.2.0: {}
 
@@ -10945,7 +11500,7 @@ snapshots:
   no-case@3.0.4:
     dependencies:
       lower-case: 2.0.2
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   node-emoji@2.1.3:
     dependencies:
@@ -11131,7 +11686,7 @@ snapshots:
   param-case@3.0.4:
     dependencies:
       dot-case: 3.0.4
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   parent-module@1.0.1:
     dependencies:
@@ -11163,12 +11718,12 @@ snapshots:
   pascal-case@3.1.2:
     dependencies:
       no-case: 3.0.4
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   path-case@3.0.4:
     dependencies:
       dot-case: 3.0.4
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   path-exists@4.0.0: {}
 
@@ -11405,7 +11960,7 @@ snapshots:
 
   rxjs@7.8.1:
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   safe-array-concat@1.1.2:
     dependencies:
@@ -11439,7 +11994,7 @@ snapshots:
   sentence-case@3.0.4:
     dependencies:
       no-case: 3.0.4
-      tslib: 2.6.2
+      tslib: 2.6.3
       upper-case-first: 2.0.2
 
   serialize-error@7.0.1:
@@ -11523,9 +12078,11 @@ snapshots:
   snake-case@3.0.4:
     dependencies:
       dot-case: 3.0.4
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   source-map-js@1.2.0: {}
+
+  spawn-command@0.0.2: {}
 
   spawndamnit@2.0.0:
     dependencies:
@@ -11663,6 +12220,10 @@ snapshots:
     dependencies:
       has-flag: 4.0.0
 
+  supports-color@8.1.1:
+    dependencies:
+      has-flag: 4.0.0
+
   supports-preserve-symlinks-flag@1.0.0: {}
 
   table-layout@1.0.2:
@@ -11744,7 +12305,13 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
+  tree-kill@1.2.2: {}
+
   trim-newlines@3.0.1: {}
+
+  ts-api-utils@1.3.0(typescript@5.5.3):
+    dependencies:
+      typescript: 5.5.3
 
   tsconfig-paths@3.15.0:
     dependencies:
@@ -11753,7 +12320,7 @@ snapshots:
       minimist: 1.2.8
       strip-bom: 3.0.0
 
-  tslib@2.6.2: {}
+  tslib@2.6.3: {}
 
   tsscmp@1.0.6: {}
 
@@ -11820,6 +12387,8 @@ snapshots:
 
   typescript@5.4.5: {}
 
+  typescript@5.5.3: {}
+
   typical@4.0.0: {}
 
   typical@5.2.0: {}
@@ -11851,11 +12420,11 @@ snapshots:
 
   upper-case-first@2.0.2:
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   upper-case@2.0.2:
     dependencies:
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   uri-js@4.4.1:
     dependencies:

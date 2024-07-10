@@ -1,55 +1,99 @@
-/*
-Copyright 2024 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
-*/
-
+import { html, css, LitElement, TemplateResult } from 'lit';
 import '@spectrum-web-components/sidenav/sp-sidenav.js';
 import '@spectrum-web-components/sidenav/sp-sidenav-item.js';
-import { html, css, LitElement, TemplateResult } from 'lit';
+import '@spectrum-web-components/theme/sp-theme.js';
+import '@spectrum-web-components/theme/src/themes.js';
 
 export class NavBar extends LitElement {
-    static styles = css`
+  static styles = css`
+    /* @font-face {
+      font-family: 'Adobe Clean';
+      src: url('assets/AdobeClean-Regular.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+    } */
     :host {
       display: block;
       padding: 25px;
       color: var(--token-diff-text-color, #000);
+      /* font-family: 'Adobe Clean'; */
+      width: fit-content;
+    }
+    .logo-text {
+      display: flex;
+      color: #000;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 111%; /* 22.2px */
+      float: right;
+      padding-left: 10px;
+      padding-top: 15px;
+    }
+    .logo-section {
+      display: flex;
+      align-items: center;
+      padding-bottom: 15px;
+    }
+    .entire-bar {
+      background-color: '#F8F8F8';
+      height: 100vh;
     }
   `;
 
-    static properties = {
-        header: { type: String },
-        counter: { type: Number },
-    };
+  // url('assets/AdobeClean-Black.otf') format('opentype'),
+  // url('assets/AdobeClean-BlackIt.otf') format('opentype'),
+  // url('assets/AdobeClean-Bold.otf') format('opentype'),
+  // url('assets/AdobeClean-BoldCond.otf') format('opentype'),
+  // url('assets/AdobeClean-BoldCondIt.otf') format('opentype'),
+  // url('assets/AdobeClean-BoldIt.otf') format('opentype'),
+  // url('assets/AdobeClean-BoldSemiCn.otf') format('opentype'),
+  // url('assets/AdobeClean-BoldSemiCnIt.otf') format('opentype'),
+  // url('assets/AdobeClean-Cond.otf') format('opentype'),
+  // url('assets/AdobeClean-CondIt.otf') format('opentype'),
+  // url('assets/AdobeClean-ExtraBold.otf') format('opentype'),
+  // url('assets/AdobeClean-ExtraBoldIt.otf') format('opentype'),
+  // url('assets/AdobeClean-It.otf') format('opentype'),
+  // url('assets/AdobeClean-Light.otf') format('opentype'),
+  // url('assets/AdobeClean-LightIt.otf') format('opentype'),
+  // url('assets/AdobeClean-Medium.otf') format('opentype'),
 
-    constructor() {
-        super();
-    }
+  // url('assets/AdobeClean-SemiCn.otf') format('opentype'),
+  //         url('assets/AdobeClean-SemiCnIt.otf') format('opentype'),
+  //         url('assets/AdobeClean-SemiLight.otf') format('opentype'),
+  //         url('assets/AdobeClean-SemiLightIt.otf') format('opentype');
 
-    //   __increment() {
-    //     this.counter += 1;
-    //   }
-
-    protected override render(): TemplateResult {
-        return (
-            html`
-                <div>
-                    <img src="../images/adobe_logo.png" /> 
-                    <h2>Spectrum Tokens</h2>
-                </div>
-                <sp-sidenav defaultValue="Token diff generator" variant="multilevel">
-                    <sp-sidenav-item value="Token diff generator" href="/components/TokenDiff"
-                        label="Token diff generator"></sp-sidenav-item>
-                    <sp-sidenav-item value="Getting started" href="/components/GettingStarted"
-                        label="Getting started"></sp-sidenav-item>
-                </sp-sidenav>
-            `
-        );
-    }
+  protected override render(): TemplateResult {
+    return html`
+      <div class="entire-bar">
+        <a class="logo-section" href="/demo/">
+          <img class="logo" src="/src/assets/adobe_logo.svg" alt="adobe logo" />
+          <div class="logo-text">
+            <sp-theme theme="spectrum" color="light" scale="medium">
+              <div
+                class="spectrum-Typography spectrum-Heading--sizeXXL logo-section"
+              >
+                Spectrum <br />
+                Tokens
+              </div>
+            </sp-theme>
+          </div>
+        </a>
+        <sp-theme scale="medium" color="light">
+          <sp-sidenav defaultValue="Token diff generator" variant="multilevel">
+            <sp-sidenav-item
+              value="Token diff generator"
+              href="./TokenDiff"
+              label="Token diff generator"
+            ></sp-sidenav-item>
+            <sp-sidenav-item
+              value="Getting started"
+              href="/components/GettingStarted"
+              label="Getting started"
+            ></sp-sidenav-item>
+          </sp-sidenav>
+        </sp-theme>
+      </div>
+    `;
+  }
 }

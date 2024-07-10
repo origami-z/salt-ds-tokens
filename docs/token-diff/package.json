@@ -5,21 +5,29 @@
   "author": "token-diff",
   "version": "0.0.0",
   "type": "module",
-  "main": "index.js",
-  "module": "index.js",
+  "main": "dist/src/index.js",
+  "module": "dist/src/index.js",
   "exports": {
-    ".": "./index.js",
-    "./token-diff.js": "./src/components/token-diff.js",
-    "./nav-bar.js": "./src/nav-bar.ts"
+    ".": "./dist/src/index.js",
+    "./token-diff.js": "./dist/src/token-diff.js"
   },
   "scripts": {
     "analyze": "cem analyze --litelement",
-    "start": "web-dev-server",
-    "lint": "eslint --ext .js,.html . --ignore-path .gitignore && prettier \"**/*.js\" --check --ignore-path .gitignore",
-    "format": "eslint --ext .js,.html . --fix --ignore-path .gitignore && prettier \"**/*.js\" --write --ignore-path .gitignore",
+    "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"web-dev-server\"",
+    "build": "tsc && npm run analyze -- --exclude dist",
+    "prepublish": "tsc && npm run analyze -- --exclude dist",
+    "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
+    "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore",
     "prepare": "husky"
   },
   "dependencies": {
+    "@spectrum-web-components/action-button": "^0.42.2",
+    "@spectrum-web-components/action-group": "^0.43.0",
+    "@spectrum-web-components/card": "^0.43.0",
+    "@spectrum-web-components/icon": "^0.43.0",
+    "@spectrum-web-components/icons": "^0.43.0",
+    "@spectrum-web-components/menu": "^0.43.0",
+    "@spectrum-web-components/picker": "^0.43.0",
     "@spectrum-web-components/sidenav": "^0.43.0",
     "@spectrum-web-components/theme": "^0.42.2",
     "lit": "^3.1.4"
@@ -27,26 +35,49 @@
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.10.3",
     "@open-wc/eslint-config": "^12.0.3",
+    "@typescript-eslint/eslint-plugin": "^7.16.0",
+    "@typescript-eslint/parser": "^7.16.0",
     "@web/dev-server": "^0.4.6",
+    "concurrently": "^8.2.2",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.7",
-    "prettier": "^3.3.2"
+    "prettier": "^3.3.2",
+    "tslib": "^2.6.3",
+    "typescript": "^5.5.3"
   },
   "customElements": "custom-elements.json",
   "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
     "extends": [
       "@open-wc",
       "prettier"
-    ]
+    ],
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "rules": {
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error"
+      ],
+      "import/no-unresolved": "off",
+      "import/extensions": [
+        "error",
+        "always",
+        {
+          "ignorePackages": true
+        }
+      ]
+    }
   },
   "prettier": {
     "singleQuote": true,
     "arrowParens": "avoid"
   },
   "lint-staged": {
-    "*.js": [
+    "*.ts": [
       "eslint --fix",
       "prettier --write"
     ]
