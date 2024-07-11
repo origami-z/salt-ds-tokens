@@ -17,7 +17,8 @@ export class NavBar extends LitElement {
       padding: 25px;
       color: var(--token-diff-text-color, #000);
       /* font-family: 'Adobe Clean'; */
-      width: fit-content;
+      overflow-y: hidden;
+      min-width: fit-content;
     }
     .logo-text {
       display: flex;
@@ -86,7 +87,7 @@ export class NavBar extends LitElement {
           <sp-sidenav defaultValue="Token diff generator" variant="multilevel">
             <sp-sidenav-item
               value="Token diff generator"
-              href="./TokenDiff"
+              href="/demo/"
               label="Token diff generator"
             ></sp-sidenav-item>
             <sp-sidenav-item

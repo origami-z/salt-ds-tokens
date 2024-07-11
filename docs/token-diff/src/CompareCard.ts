@@ -1,4 +1,4 @@
-import { html, css, LitElement } from 'lit';
+import { html, css, LitElement, TemplateResult } from 'lit';
 import '@spectrum-web-components/action-group/sp-action-group.js';
 import '@spectrum-web-components/action-button/sp-action-button.js';
 import '@spectrum-web-components/picker/sp-picker.js';
@@ -10,8 +10,8 @@ import '@spectrum-web-components/icons-workflow/icons/sp-icon-branch-circle.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-box.js';
 import '@spectrum-web-components/theme/sp-theme.js';
 import '@spectrum-web-components/theme/src/themes.js';
-
 import { property } from 'lit/decorators.js';
+import { githubAPIKey } from '../github-api-key.js';
 
 interface Branch {
   name: string;
@@ -93,55 +93,93 @@ export class CompareCard extends LitElement {
   constructor(heading: string) {
     super();
     this.heading = heading;
-    this.__fetchSchemaOptions(this.toggle);
+    this.__fetchBranchTagOptions('Github branch');
+    this.__fetchBranchTagOptions('Package release');
   }
 
   __setGithubBranchToggle() {
     this.toggle = 'Github branch';
-    this.__fetchSchemaOptions(this.toggle);
   }
 
   __setReleaseToggle() {
     this.toggle = 'Package release';
-    this.__fetchSchemaOptions(this.toggle);
   }
 
-  async __fetchSchemaOptions(type: string) {
-    const oldOptions = this.branchTagOptions;
-    this.branchTagOptions = [];
+  async __fetchBranchTagOptions(type: string) {
+    let oldOptions = [];
+    if (this.toggle === 'Github branch') {
+      oldOptions = this.branchOptions;
+      this.branchOptions = [];
+    } else {
+      oldOptions = this.tagOptions;
+      this.tagOptions = [];
+    }
     if (type === 'Github branch') {
       const url = 'https://api.github.com/repos/adobe/spectrum-tokens/branches';
-      await fetch(url).then(async response => {
+      await fetch(url, {
+        method: 'GET',
+        headers: {
+          Authorization: `token ${githubAPIKey}`,
+        },
+      }).then(async response => {
         const branches = await response.json();
-        this.__updateOptions(branches, oldOptions);
+        this.__updateOptions(branches, this.branchOptions, oldOptions);
       });
-      this.requestUpdate('options', oldOptions);
     } else {
       const url = 'https://api.github.com/repos/adobe/spectrum-tokens/tags';
-      await fetch(url).then(async response => {
+      await fetch(url, {
+        method: 'GET',
+        headers: {
+          Authorization: `token ${githubAPIKey}`,
+        },
+      }).then(async response => {
         const tags = await response.json();
-        this.__updateOptions(tags, oldOptions);
+        this.__updateOptions(tags, this.tagOptions, oldOptions);
       });
     }
   }
 
-  __updateOptions(jsonObject: Branch | Tag, oldBranchTagOptions: string[]) {
+  __updateOptions(
+    jsonObject: Branch | Tag,
+    branchOrTagArr: string[],
+    oldBranchTagOptions: string[],
+  ) {
     Object.values(jsonObject).forEach((entry: Branch | Tag) => {
       const { name } = entry; // ??? i thought i would need to call entry.name lol why does this work
-      this.branchTagOptions.push(name);
+      branchOrTagArr.push(name);
     });
     this.requestUpdate('options', oldBranchTagOptions);
+  }
+
+  __createMenuItem(options: string[]) {
+    return options.map(option =>
+      this.toggle === 'Github branch'
+        ? html`
+            <sp-menu-item value=${option}>
+              <sp-icon-branch-circle slot="icon"></sp-icon-branch-circle>
+              ${option}
+            </sp-menu-item>
+          `
+        : html`
+            <sp-menu-item value=${option}>
+              <sp-icon-box slot="icon"></sp-icon-box>
+              ${option}
+            </sp-menu-item>
+          `,
+    );
   }
 
   @property({ type: String }) heading = 'Version A';
 
   @property({ type: String }) toggle = 'Github branch';
 
-  @property({ type: Array }) branchTagOptions: string[] = [];
+  @property({ type: Array }) branchOptions: string[] = [];
+
+  @property({ type: Array }) tagOptions: string[] = [];
 
   @property({ type: Array }) schemaOptions: string[] = []; // use fileImport function from token diff generator
 
-  render() {
+  protected override render(): TemplateResult {
     return html`
       <div class="card">
         <div class="container">
@@ -161,44 +199,32 @@ export class CompareCard extends LitElement {
             </sp-action-group>
             <sp-picker
               class="picker section"
-              label=${this.branchTagOptions[0]}
-              value=${this.branchTagOptions[0]}
+              label=${this.toggle === 'Github branch'
+                ? this.branchOptions[0]
+                : this.tagOptions[0]}
+              value=${this.toggle === 'Github branch'
+                ? this.branchOptions[0]
+                : this.tagOptions[0]}
             >
-              ${this.branchTagOptions.map(option =>
-                this.toggle === 'Github branch'
-                  ? html`
-                      <sp-menu-item value=${option}>
-                        <sp-icon-branch-circle
-                          slot="icon"
-                        ></sp-icon-branch-circle>
-                        ${option}
-                      </sp-menu-item>
-                    `
-                  : html`
-                      <sp-menu-item value=${option}>
-                        <sp-icon-box slot="icon"></sp-icon-box>
-                        ${option}
-                      </sp-menu-item>
-                    `,
-              )}
+              ${this.toggle === 'Github branch'
+                ? this.__createMenuItem(this.branchOptions)
+                : this.__createMenuItem(this.tagOptions)}
             </sp-picker>
             <sp-field-label for="schemaSelection" size="m"
               >Schema</sp-field-label
             >
             <sp-picker
               class="picker"
-              label=${this.branchTagOptions[0]}
-              value=${this.branchTagOptions[0]}
+              label=${this.toggle === 'Github branch'
+                ? this.branchOptions[0]
+                : this.tagOptions[0]}
+              value=${this.toggle === 'Github branch'
+                ? this.branchOptions[0]
+                : this.tagOptions[0]}
             >
-              ${this.branchTagOptions.map(option =>
-                this.toggle === 'Github branch'
-                  ? html`
-                      <sp-menu-item value=${option}> ${option} </sp-menu-item>
-                    `
-                  : html`
-                      <sp-menu-item value=${option}> ${option} </sp-menu-item>
-                    `,
-              )}
+              ${this.toggle === 'Github branch'
+                ? this.__createMenuItem(this.branchOptions)
+                : this.__createMenuItem(this.tagOptions)}
             </sp-picker>
           </sp-theme>
         </div>

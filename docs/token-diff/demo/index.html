@@ -9,6 +9,8 @@
     <style>
       body {
         background: #fafafa;
+        margin: 0;
+        overflow-y: hidden;
       }
       .page {
         display: flex;
@@ -24,13 +26,11 @@
       import { html, render } from 'lit';
       import '../dist/src/token-diff.js';
       import '../dist/src/nav-bar.js';
-      import '../dist/src/compare-card.js';
 
-      const header = 'Hello owc World!';
       render(
         html`
           <div class="page">
-            <nav-bar></nav-bar>
+            <nav-bar class="side-bar"></nav-bar>
             <token-diff></token-diff>
           </div>
         `,

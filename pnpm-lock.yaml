@@ -89,6 +89,9 @@ importers:
       "@spectrum-web-components/action-group":
         specifier: ^0.43.0
         version: 0.43.0
+      "@spectrum-web-components/button":
+        specifier: ^0.42.2
+        version: 0.42.2
       "@spectrum-web-components/card":
         specifier: ^0.43.0
         version: 0.43.0
@@ -119,6 +122,9 @@ importers:
       lit:
         specifier: ^3.1.4
         version: 3.1.4
+      tslib:
+        specifier: ^2.6.3
+        version: 2.6.3
     devDependencies:
       "@custom-elements-manifest/analyzer":
         specifier: ^0.10.3
@@ -153,9 +159,6 @@ importers:
       prettier:
         specifier: ^3.3.2
         version: 3.3.2
-      tslib:
-        specifier: ^2.6.3
-        version: 2.6.3
       typescript:
         specifier: ^5.5.3
         version: 5.5.3
