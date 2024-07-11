@@ -39,6 +39,9 @@ export class NavBar extends LitElement {
       background-color: '#F8F8F8';
       height: 100vh;
     }
+    img {
+      vertical-align: middle;
+    }
   `;
 
   // url('assets/AdobeClean-Black.otf') format('opentype'),

@@ -29,6 +29,9 @@ export class TokenDiff extends LitElement {
       font-weight: 400;
       line-height: 27px; /* 150% */
     }
+    .container {
+      display: flex;
+    }
   `;
 
   @property({ type: String }) header = 'Hey there';
@@ -46,13 +49,16 @@ export class TokenDiff extends LitElement {
           <div class="title spectrum-Typography spectrum-Heading--sizeXXL">
             Token diff generator
           </div>
+          <div class="text">
+            WARNING: Will either be inaccurate or will throw an error if used
+            for releases or branches that use tokens from before
+            @adobe/spectrum-tokens@12.26.0!
+          </div>
+          <div class="container">
+            <compare-card heading="Version A"></compare-card>
+            <compare-card heading="Version B"></compare-card>
+          </div>
         </sp-theme>
-        <div class="text">
-          WARNING: Will either be inaccurate or will throw an error if used for
-          releases or branches that use tokens from before
-          @adobe/spectrum-tokens@12.26.0!
-        </div>
-        <compare-card></compare-card>
       </div>
     `;
   }

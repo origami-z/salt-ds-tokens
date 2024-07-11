@@ -5,6 +5,9 @@ import '@spectrum-web-components/picker/sp-picker.js';
 import '@spectrum-web-components/menu/sp-menu-item.js';
 import '@spectrum-web-components/icons/sp-icons-medium.js';
 import '@spectrum-web-components/icon/sp-icon.js';
+import '@spectrum-web-components/field-label/sp-field-label.js';
+import '@spectrum-web-components/icons-workflow/icons/sp-icon-branch-circle.js';
+import '@spectrum-web-components/icons-workflow/icons/sp-icon-box.js';
 import '@spectrum-web-components/theme/sp-theme.js';
 import '@spectrum-web-components/theme/src/themes.js';
 
@@ -17,6 +20,17 @@ interface Branch {
     url: string;
   };
   protected: boolean;
+}
+
+interface Tag {
+  commit: {
+    sha: string;
+    url: string;
+  };
+  name: string;
+  node_id: string;
+  tarball_url: string;
+  zipball_url: string;
 }
 
 export class CompareCard extends LitElement {
@@ -52,62 +66,88 @@ export class CompareCard extends LitElement {
       padding-bottom: 24px;
     }
     .section {
-      margin-bottom: 8px;
+      margin-bottom: 15px;
+    }
+    .picker-item {
+      display: flex;
+      height: fit-content;
+      margin: 0;
+    }
+    img {
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+    .picker {
+      width: 341px;
     }
   `;
 
   static properties = {
-    version: { type: String },
+    heading: { type: String },
     toggle: { type: String },
+    icon: { type: String },
+    branchTagOptions: { type: Array },
+    schemaOptions: { type: Array },
   };
 
-  constructor() {
+  constructor(heading: string) {
     super();
+    this.heading = heading;
     this.__fetchSchemaOptions(this.toggle);
   }
 
   __setGithubBranchToggle() {
     this.toggle = 'Github branch';
-    this.icon = '/src/assets/github_branch_icon.svg';
     this.__fetchSchemaOptions(this.toggle);
   }
 
   __setReleaseToggle() {
     this.toggle = 'Package release';
-    this.icon = '/src/assets/release_icon.svg';
     this.__fetchSchemaOptions(this.toggle);
   }
 
   async __fetchSchemaOptions(type: string) {
-    this.options = [];
+    const oldOptions = this.branchTagOptions;
+    this.branchTagOptions = [];
     if (type === 'Github branch') {
       const url = 'https://api.github.com/repos/adobe/spectrum-tokens/branches';
       await fetch(url).then(async response => {
         const branches = await response.json();
-        branches.forEach((branch: Branch) => {
-          const { name } = branch;
-          this.options.push(name);
-        });
-        console.log(this.options);
+        this.__updateOptions(branches, oldOptions);
+      });
+      this.requestUpdate('options', oldOptions);
+    } else {
+      const url = 'https://api.github.com/repos/adobe/spectrum-tokens/tags';
+      await fetch(url).then(async response => {
+        const tags = await response.json();
+        this.__updateOptions(tags, oldOptions);
       });
     }
   }
 
-  @property({ type: String }) version = 'A';
+  __updateOptions(jsonObject: Branch | Tag, oldBranchTagOptions: string[]) {
+    Object.values(jsonObject).forEach((entry: Branch | Tag) => {
+      const { name } = entry; // ??? i thought i would need to call entry.name lol why does this work
+      this.branchTagOptions.push(name);
+    });
+    this.requestUpdate('options', oldBranchTagOptions);
+  }
+
+  @property({ type: String }) heading = 'Version A';
 
   @property({ type: String }) toggle = 'Github branch';
 
-  @property({ type: String }) icon = '/src/assets/github_branch_icon.svg';
+  @property({ type: Array }) branchTagOptions: string[] = [];
 
-  @property({ type: Array }) options: string[] = [];
+  @property({ type: Array }) schemaOptions: string[] = []; // use fileImport function from token diff generator
 
   render() {
     return html`
       <div class="card">
         <div class="container">
-          <div class="label section">Version ${this.version}</div>
+          <div class="label section">${this.heading}</div>
           <sp-theme scale="medium" color="light">
-            <sp-action-group compact class="section">
+            <sp-action-group compact selects="single" class="section">
               <sp-action-button
                 toggles
                 selected
@@ -119,14 +159,45 @@ export class CompareCard extends LitElement {
                 Package release
               </sp-action-button>
             </sp-action-group>
-            <sp-picker label="What would you like to do?" value="item-2">
-              ${this.options.map(
-                option => html`
-                  <sp-menu-item value=${option}>
-                    <img src=${this.icon} alt="github branch icon" />
-                    ${option}
-                  </sp-menu-item>
-                `,
+            <sp-picker
+              class="picker section"
+              label=${this.branchTagOptions[0]}
+              value=${this.branchTagOptions[0]}
+            >
+              ${this.branchTagOptions.map(option =>
+                this.toggle === 'Github branch'
+                  ? html`
+                      <sp-menu-item value=${option}>
+                        <sp-icon-branch-circle
+                          slot="icon"
+                        ></sp-icon-branch-circle>
+                        ${option}
+                      </sp-menu-item>
+                    `
+                  : html`
+                      <sp-menu-item value=${option}>
+                        <sp-icon-box slot="icon"></sp-icon-box>
+                        ${option}
+                      </sp-menu-item>
+                    `,
+              )}
+            </sp-picker>
+            <sp-field-label for="schemaSelection" size="m"
+              >Schema</sp-field-label
+            >
+            <sp-picker
+              class="picker"
+              label=${this.branchTagOptions[0]}
+              value=${this.branchTagOptions[0]}
+            >
+              ${this.branchTagOptions.map(option =>
+                this.toggle === 'Github branch'
+                  ? html`
+                      <sp-menu-item value=${option}> ${option} </sp-menu-item>
+                    `
+                  : html`
+                      <sp-menu-item value=${option}> ${option} </sp-menu-item>
+                    `,
               )}
             </sp-picker>
           </sp-theme>

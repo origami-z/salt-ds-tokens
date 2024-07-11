@@ -92,10 +92,16 @@ importers:
       "@spectrum-web-components/card":
         specifier: ^0.43.0
         version: 0.43.0
+      "@spectrum-web-components/field-label":
+        specifier: ^0.43.0
+        version: 0.43.0
       "@spectrum-web-components/icon":
         specifier: ^0.43.0
         version: 0.43.0
       "@spectrum-web-components/icons":
+        specifier: ^0.43.0
+        version: 0.43.0
+      "@spectrum-web-components/icons-workflow":
         specifier: ^0.43.0
         version: 0.43.0
       "@spectrum-web-components/menu":
