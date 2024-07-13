@@ -46,9 +46,49 @@ export class TokenDiff extends LitElement {
     }
   `;
 
-  @property({ type: String }) header = 'Hey there';
+  @property({ type: String }) originalBranchOrTag = "";
+  @property({ type: String }) updatedBranchOrTag = "";
+  @property({ type: String }) originalSchema = "";
+  @property({ type: String }) updatedSchema = "";
+  @property({ type: String }) originalVers = "";
+  @property({ type: String }) updatedVers = "";
 
-  @property({ type: Number }) counter = 5;
+  __originalCardListener(e: CustomEvent) {
+    this.__updatedProperty(true, e.detail);
+  }
+
+  __updatedProperty(original: boolean, newValue: string) {
+    const key = Object.keys(newValue)[0];
+    if (original) {
+      if (key !== "schema") {
+        this.originalBranchOrTag = Object.values(newValue)[0];
+        this.originalVers = key === "branch" ? "branch" : "tag";
+      } else {
+        this.originalSchema = Object.values(newValue)[0];
+      }
+    } else {
+      if (key !== "schema") {
+        this.updatedBranchOrTag = Object.values(newValue)[0];
+        this.updatedVers = key === "branch" ? "branch" : "tag";
+      } else {
+        this.updatedSchema = Object.values(newValue)[0];
+      }
+    }
+  }
+
+  __updatedCardListener(e: CustomEvent) {
+    this.__updatedProperty(false, e.detail);
+  }
+
+  __generateReport() {
+    // call token diff generator library
+    console.log("originalVers: " + this.originalVers);
+    console.log("updatedVerse: " + this.updatedVers);
+    console.log("originalBranch: " + this.originalBranchOrTag);
+    console.log("originalSchema: " + this.originalSchema);
+    console.log("updatedBranch: " + this.updatedBranchOrTag);
+    console.log("updatedSchema: " + this.updatedSchema);
+  }
 
   protected override render(): TemplateResult {
     return html`
@@ -63,11 +103,11 @@ export class TokenDiff extends LitElement {
             @adobe/spectrum-tokens@12.26.0!
           </div>
           <div class="page">
-            <compare-card heading="Version A"></compare-card>
-            <compare-card heading="Version B"></compare-card>
+            <compare-card @selection=${this.__originalCardListener} heading="Version A"></compare-card>
+            <compare-card @selection=${this.__updatedCardListener} heading="Version B"></compare-card>
           </div>
           <div class="page compare-button">
-            <sp-button variant="accent" size="m">
+            <sp-button @click=${this.__generateReport} variant="accent" size="m">
               <sp-icon-compare slot="icon"></sp-icon-compare>
               Compare
             </sp-button>
