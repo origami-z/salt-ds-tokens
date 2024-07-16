@@ -17,6 +17,7 @@ export class TokenDiff extends LitElement {
       flex: auto;
       top: 0;
       overflow-x: auto;
+      height: 100vh;
     }
     .title {
       color: #000;
@@ -25,7 +26,6 @@ export class TokenDiff extends LitElement {
       font-style: normal;
       font-weight: 900;
       line-height: 66.7px; /* 115% */
-      margin-left: 52px;
       margin-top: 15px;
     }
     .warning-text {
@@ -34,12 +34,13 @@ export class TokenDiff extends LitElement {
       font-style: normal;
       font-weight: 400;
       line-height: 27px; /* 150% */
-      margin-left: 52px;
       margin-bottom: 40px;
     }
     .page {
       display: flex;
       justify-content: center;
+      margin-left: 100px;
+      margin-right: 100px;
     }
     .compare-button {
       margin-top: 40px;

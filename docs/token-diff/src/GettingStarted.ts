@@ -7,12 +7,12 @@ import '@spectrum-web-components/button/sp-button.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-compare.js';
 import './compare-card.js';
 import './code-panel.js';
-import '@spectrum-web-components/table/sp-table.js';
-import '@spectrum-web-components/table/sp-table-body.js';
-import '@spectrum-web-components/table/sp-table-cell.js';
-import '@spectrum-web-components/table/sp-table-head.js';
-import '@spectrum-web-components/table/sp-table-head-cell.js';
-import '@spectrum-web-components/table/sp-table-row.js';
+// import '@spectrum-web-components/table/sp-table.js';
+// import '@spectrum-web-components/table/sp-table-body.js';
+// import '@spectrum-web-components/table/sp-table-cell.js';
+// import '@spectrum-web-components/table/sp-table-head.js';
+// import '@spectrum-web-components/table/sp-table-head-cell.js';
+// import '@spectrum-web-components/table/sp-table-row.js';
 
 export class GettingStarted extends LitElement {
   static styles = css`
@@ -24,7 +24,7 @@ export class GettingStarted extends LitElement {
       flex: auto;
       top: 0;
       overflow-x: auto;
-      margin-left: 100px;
+      justify-content: center;
     }
     .title {
       color: #000;
@@ -33,7 +33,6 @@ export class GettingStarted extends LitElement {
       font-style: normal;
       font-weight: 900;
       line-height: 66.7px; /* 115% */
-      margin-left: 100px;
       margin-top: 15px;
     }
     .subtitle {
@@ -43,7 +42,6 @@ export class GettingStarted extends LitElement {
       font-style: normal;
       font-weight: 900;
       line-height: 66.7px; /* 115% */
-      margin-left: 100px;
       margin-top: 15px;
     }
     .text {
@@ -52,13 +50,13 @@ export class GettingStarted extends LitElement {
       font-style: normal;
       font-weight: 400;
       line-height: 27px; /* 150% */
-      margin-left: 100px;
-      margin-right: 100px;
       margin-bottom: 10px;
     }
     .page {
       display: flex;
       justify-content: center;
+      margin-left: 100px;
+      margin-right: 100px;
     }
     .compare-button {
       margin-top: 40px;
@@ -189,40 +187,6 @@ const report = tokenDiff(originalSchema, updatedSchema);"
           >
             Options
           </div>
-          <sp-table>
-            <sp-table-head>
-              <sp-table-head-cell>Column Title</sp-table-head-cell>
-              <sp-table-head-cell>Column Title</sp-table-head-cell>
-              <sp-table-head-cell>Column Title</sp-table-head-cell>
-            </sp-table-head>
-            <sp-table-body>
-              <sp-table-row>
-                <sp-table-cell>Row Item Alpha</sp-table-cell>
-                <sp-table-cell>Row Item Alpha</sp-table-cell>
-                <sp-table-cell>Row Item Alpha</sp-table-cell>
-              </sp-table-row>
-              <sp-table-row>
-                <sp-table-cell>Row Item Bravo</sp-table-cell>
-                <sp-table-cell>Row Item Bravo</sp-table-cell>
-                <sp-table-cell>Row Item Bravo</sp-table-cell>
-              </sp-table-row>
-              <sp-table-row>
-                <sp-table-cell>Row Item Charlie</sp-table-cell>
-                <sp-table-cell>Row Item Charlie</sp-table-cell>
-                <sp-table-cell>Row Item Charlie</sp-table-cell>
-              </sp-table-row>
-              <sp-table-row>
-                <sp-table-cell>Row Item Delta</sp-table-cell>
-                <sp-table-cell>Row Item Delta</sp-table-cell>
-                <sp-table-cell>Row Item Delta</sp-table-cell>
-              </sp-table-row>
-              <sp-table-row>
-                <sp-table-cell>Row Item Echo</sp-table-cell>
-                <sp-table-cell>Row Item Echo</sp-table-cell>
-                <sp-table-cell>Row Item Echo</sp-table-cell>
-              </sp-table-row>
-            </sp-table-body>
-          </sp-table>
         </sp-theme>
       </div>
     `;

@@ -34,6 +34,7 @@
     "@spectrum-web-components/sidenav": "^0.43.0",
     "@spectrum-web-components/tabs": "^0.44.0",
     "@spectrum-web-components/theme": "^0.42.2",
+    "@vaadin/router": "^1.7.5",
     "lit": "^3.1.4",
     "sp-table-body.js": "link:@spectrum-web-components/table/sp-table-body.js",
     "sp-table-cell.js": "link:@spectrum-web-components/table/sp-table-cell.js",

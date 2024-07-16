@@ -10,33 +10,31 @@ import './compare-card.js';
 export class CodePanel extends LitElement {
   static styles = css`
     :host {
-      display: flex;
+      /* display: flex; */
       color: var(--token-diff-text-color, #000);
       top: 0;
       overflow-x: auto;
-      margin-left: 100px;
-      margin-right: 100px;
     }
     .page {
-      display: flex;
-      justify-content: center;
+      /* display: flex; */
       background-color: #f8f8f8;
       border-radius: 10px;
       padding: 10px 25px;
       width: 100%;
+      text-align: left;
     }
     pre {
-        margin: 0;
-        height: fit-content;
-        display: flex;
-        justify-content: flex-start;
+      display: block;
+      margin: 0;
+      height: fit-content;
+      display: flex;
     }
     code {
-        position: relative;
-        left: 0;
-        text-align: left;
-        width: fit-content;
-        align-content: flex-start;
+      display: block;
+      left: 0;
+      text-align: left;
+      width: fit-content;
+      /* align-content: flex-start; */
     }
   `;
 
@@ -46,6 +44,11 @@ export class CodePanel extends LitElement {
   }
 
   @property({ type: String }) codeSnippet = '';
+
+  firstUpdated() {
+    console.log(this.codeSnippet);
+    this.codeSnippet = this.codeSnippet.trim();
+  }
 
   protected override render(): TemplateResult {
     return html`
