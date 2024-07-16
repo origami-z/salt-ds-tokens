@@ -60,10 +60,7 @@ export class CompareCard extends LitElement {
       line-height: 18px; /* 128.571% */
     }
     .container {
-      padding-left: 24px;
-      padding-right: 24px;
-      padding-top: 24px;
-      padding-bottom: 24px;
+      padding: 24px;
     }
     .section {
       margin-bottom: 15px;
@@ -167,7 +164,7 @@ export class CompareCard extends LitElement {
     oldBranchTagOptions: string[],
   ) {
     Object.values(jsonObject).forEach((entry: Branch | Tag) => {
-      const { name } = entry; // ??? i thought i would need to call entry.name lol why does this work
+      const { name } = entry;
       branchOrTagArr.push(name);
     });
     this.requestUpdate('branchOrTagArr', oldBranchTagOptions);

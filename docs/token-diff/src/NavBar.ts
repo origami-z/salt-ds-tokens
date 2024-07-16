@@ -6,17 +6,10 @@ import '@spectrum-web-components/theme/src/themes.js';
 
 export class NavBar extends LitElement {
   static styles = css`
-    /* @font-face {
-      font-family: 'Adobe Clean';
-      src: url('assets/AdobeClean-Regular.otf') format('opentype');
-      font-weight: normal;
-      font-style: normal;
-    } */
     :host {
       display: block;
       padding: 25px;
       color: var(--token-diff-text-color, #000);
-      /* font-family: 'Adobe Clean'; */
       overflow-y: hidden;
       min-width: fit-content;
     }
@@ -45,28 +38,6 @@ export class NavBar extends LitElement {
     }
   `;
 
-  // url('assets/AdobeClean-Black.otf') format('opentype'),
-  // url('assets/AdobeClean-BlackIt.otf') format('opentype'),
-  // url('assets/AdobeClean-Bold.otf') format('opentype'),
-  // url('assets/AdobeClean-BoldCond.otf') format('opentype'),
-  // url('assets/AdobeClean-BoldCondIt.otf') format('opentype'),
-  // url('assets/AdobeClean-BoldIt.otf') format('opentype'),
-  // url('assets/AdobeClean-BoldSemiCn.otf') format('opentype'),
-  // url('assets/AdobeClean-BoldSemiCnIt.otf') format('opentype'),
-  // url('assets/AdobeClean-Cond.otf') format('opentype'),
-  // url('assets/AdobeClean-CondIt.otf') format('opentype'),
-  // url('assets/AdobeClean-ExtraBold.otf') format('opentype'),
-  // url('assets/AdobeClean-ExtraBoldIt.otf') format('opentype'),
-  // url('assets/AdobeClean-It.otf') format('opentype'),
-  // url('assets/AdobeClean-Light.otf') format('opentype'),
-  // url('assets/AdobeClean-LightIt.otf') format('opentype'),
-  // url('assets/AdobeClean-Medium.otf') format('opentype'),
-
-  // url('assets/AdobeClean-SemiCn.otf') format('opentype'),
-  //         url('assets/AdobeClean-SemiCnIt.otf') format('opentype'),
-  //         url('assets/AdobeClean-SemiLight.otf') format('opentype'),
-  //         url('assets/AdobeClean-SemiLightIt.otf') format('opentype');
-
   protected override render(): TemplateResult {
     return html`
       <div class="entire-bar">
@@ -92,7 +63,7 @@ export class NavBar extends LitElement {
             ></sp-sidenav-item>
             <sp-sidenav-item
               value="Getting started"
-              href="/components/GettingStarted"
+              href="/getting-started"
               label="Getting started"
             ></sp-sidenav-item>
           </sp-sidenav>

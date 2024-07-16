@@ -94,7 +94,7 @@ export class TokenDiff extends LitElement {
     return html`
       <div class="page">
         <sp-theme theme="spectrum" color="light" scale="medium">
-          <div class="title spectrum-Typography spectrum-Heading--sizeXXL">
+          <div class="title spectrum-Typography spectrum-Heading--sizeXXL spectrum-Heading--serif">
             Token diff generator
           </div>
           <div class="warning-text">

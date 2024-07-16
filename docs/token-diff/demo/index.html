@@ -26,15 +26,16 @@
       import { html, render } from 'lit';
       import '../dist/src/token-diff.js';
       import '../dist/src/nav-bar.js';
+      import '../dist/src/getting-started.js';
 
       render(
         html`
           <div class="page">
             <nav-bar class="side-bar"></nav-bar>
-            <token-diff></token-diff>
+            <getting-started></getting-started>
           </div>
         `,
-        document.querySelector('#demo'), // is this where you change it?
+        document.querySelector('#demo'),
       );
     </script>
   </body>
