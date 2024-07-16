@@ -5,6 +5,9 @@ import '@spectrum-web-components/theme/src/themes.js';
 import '@spectrum-web-components/card/sp-card.js';
 import '@spectrum-web-components/button/sp-button.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-compare.js';
+import '@spectrum-web-components/tabs/sp-tabs.js';
+import '@spectrum-web-components/tabs/sp-tab.js';
+import '@spectrum-web-components/tabs/sp-tab-panel.js';
 import './compare-card.js';
 
 export class CodePanel extends LitElement {
@@ -38,26 +41,63 @@ export class CodePanel extends LitElement {
     }
   `;
 
-  constructor(codeSnippet: string) {
+  constructor(codeSnippet: string, tagOptions: string[]) {
     super();
     this.codeSnippet = codeSnippet;
+    this.tagOptions = tagOptions;
   }
 
   @property({ type: String }) codeSnippet = '';
+  @property({ type: Array }) tagOptions: string[] = [];
 
   firstUpdated() {
     console.log(this.codeSnippet);
     this.codeSnippet = this.codeSnippet.trim();
   }
 
+  __addTabs() {
+    return html`
+      <sp-tabs selected=${this.tagOptions[0]} quiet>
+        ${this.tagOptions.map(label => {
+          return this.__newTab(label);
+        })}
+        ${this.tagOptions.map(label => {
+          return this.__newPanel(label);
+        })}
+      </sp-tabs>
+    `;
+  }
+
+  __newTab(label: string) {
+    return html` <sp-tab label=${label} value=${label}></sp-tab> `;
+  }
+
+  __newPanel(label: string) {
+    return html`
+      <sp-tab-panel value=${label}>
+        <pre>
+              <code>
+               ${`${label} ${this.codeSnippet}`}
+              </code>
+              </pre>
+      </sp-tab-panel>
+    `;
+  }
+
+  __regularCodeSnippetDisplay() {
+    return html` <pre>
+          <code>
+            ${this.codeSnippet}
+          </code>
+        </pre>`;
+  }
+
   protected override render(): TemplateResult {
     return html`
       <div class="page">
-        <pre>
-        <code>
-            ${this.codeSnippet}
-        </code>
-      </pre>
+        ${this.tagOptions.length > 0
+          ? this.__addTabs()
+          : this.__regularCodeSnippetDisplay()}
       </div>
     `;
   }

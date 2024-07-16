@@ -89,7 +89,7 @@ export class GettingStarted extends LitElement {
             will also work.
           </p>
           <code-panel
-            codeSnippet="pnpm i @adobe/token-diff-generator"
+            codeSnippet="i @adobe/token-diff-generator" .tagOptions=${["pnpm", "npm", "yarn"]}
           ></code-panel>
           <div
             class="subtitle spectrum-Typography spectrum-Heading--sizeXXL spectrum-Heading--serif"
@@ -100,7 +100,7 @@ export class GettingStarted extends LitElement {
             Import the token diff generator as a module per ES6 standards.
           </p>
           <code-panel
-            codeSnippet="import tokenDiff from '@adobe/token-diff-generator';"
+            codeSnippet="import tokenDiff from '@adobe/token-diff-generator';" .tagOptions=${[]}
           ></code-panel>
           <div
             class="subtitle spectrum-Typography spectrum-Heading--sizeXXL spectrum-Heading--serif"
@@ -138,9 +138,9 @@ export class GettingStarted extends LitElement {
             token(s).
           </p>
           <code-panel
-            codeSnippet="import tokenDiff from “@adobe/token-diff-generator”;
+            codeSnippet="import tokenDiff from “@adobe/token-diff-generator”; 
           
-          const report = tokenDiff(originalSchema, updatedSchema);"
+          const report = tokenDiff(originalSchema, updatedSchema);" .tagOptions=${[]}
           ></code-panel>
           <p class="text spectrum-Typography spectrum-Heading--sizeXXL">
             If you are interested in comparing tokens locally between different
@@ -155,7 +155,7 @@ const [originalSchema, updatedSchema] = await Promise.all([
               fileImport(tokenNames, updatedVersion, updatedBranch),
             ]);
 
-const report = tokenDiff(originalSchema, updatedSchema);"
+const report = tokenDiff(originalSchema, updatedSchema);" .tagOptions=${[]}
           ></code-panel>
           <p class="text spectrum-Typography spectrum-Heading--sizeXXL">
             Both of these examples output a JSON object containing the changes
@@ -181,7 +181,7 @@ const report = tokenDiff(originalSchema, updatedSchema);"
             There currently is only one command to run in the CLI. It generates
             a diff report for two inputted schema.
           </p>
-          <code-panel codeSnippet="tdiff report"></code-panel>
+          <code-panel codeSnippet="tdiff report" .tagOptions=${[]}></code-panel>
           <div
             class="subtitle spectrum-Typography spectrum-Heading--sizeXXL spectrum-Heading--serif"
           >
