@@ -18,7 +18,11 @@
         width: 100vw;
       }
     </style>
-    <link rel="stylesheet" href="node_modules/@spectrum-css/typography/dist/index.css"/>
+    <script
+      src="https://use.typekit.net/mge7bvf.js"
+      type="text/javascript"
+      async=""
+    ></script>
   </head>
   <body>
     <div id="demo"></div>
@@ -31,9 +35,7 @@
       import '../dist/src/page-container.js';
 
       render(
-        html`
-          <page-container></page-container>
-        `,
+        html` <page-container></page-container> `,
         document.querySelector('#demo'),
       );
     </script>
