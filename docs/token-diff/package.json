@@ -37,6 +37,7 @@
     "@spectrum-web-components/overlay": "^0.42.5",
     "@spectrum-web-components/picker": "^0.43.0",
     "@spectrum-web-components/sidenav": "^0.43.0",
+    "@spectrum-web-components/styles": "^0.44.0",
     "@spectrum-web-components/table": "0.43.0",
     "@spectrum-web-components/tabs": "^0.44.0",
     "@spectrum-web-components/theme": "^0.42.2",
@@ -95,7 +96,6 @@
   },
   "lint-staged": {
     "*.ts": [
-      "eslint --fix",
       "prettier --write"
     ]
   }

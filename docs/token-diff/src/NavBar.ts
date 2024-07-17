@@ -36,6 +36,9 @@ export class NavBar extends LitElement {
     img {
       vertical-align: middle;
     }
+    a {
+      text-decoration: none;
+    }
   `;
 
   protected override render(): TemplateResult {

@@ -9,7 +9,7 @@ import '@spectrum-web-components/tabs/sp-tabs.js';
 import '@spectrum-web-components/tabs/sp-tab.js';
 import '@spectrum-web-components/tabs/sp-tab-panel.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-copy.js';
-import '@spectrum-web-components/overlay/sp-overlay.js';
+// import '@spectrum-web-components/overlay/sp-overlay.js';
 // import '@spectrum-web-components/toast/sp-toast.js';
 import './compare-card.js';
 
@@ -26,11 +26,11 @@ export class CodePanel extends LitElement {
       padding: 10px 25px;
       /* text-align: left; */
     }
-    pre {
+    /* pre {
       margin: 0;
       height: fit-content;
       display: flex;
-    }
+    } */
     code {
       left: 0;
       text-align: left;
@@ -93,11 +93,7 @@ export class CodePanel extends LitElement {
   }
 
   __regularCodeSnippetDisplay(code: string) {
-    return html` <pre>
-          <code>
-            ${code}
-          </code>
-        </pre>`;
+    return html` <pre><code>${code}</code></pre> `;
   }
 
   __changeMessage() {
