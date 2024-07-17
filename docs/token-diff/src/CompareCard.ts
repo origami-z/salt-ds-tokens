@@ -3,8 +3,6 @@ import '@spectrum-web-components/action-group/sp-action-group.js';
 import '@spectrum-web-components/action-button/sp-action-button.js';
 import '@spectrum-web-components/picker/sp-picker.js';
 import '@spectrum-web-components/menu/sp-menu-item.js';
-import '@spectrum-web-components/icons/sp-icons-medium.js';
-import '@spectrum-web-components/icon/sp-icon.js';
 import '@spectrum-web-components/field-label/sp-field-label.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-branch-circle.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-box.js';
@@ -175,7 +173,7 @@ export class CompareCard extends LitElement {
       option => html`
         <sp-menu-item
           value=${option}
-          @click=${(e: PointerEvent) => {
+          @click=${() => {
             if (showIcons) {
               this.branchOrTag = option;
               this.__handleSelection(this.branchOrTag);

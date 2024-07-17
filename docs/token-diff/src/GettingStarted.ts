@@ -1,5 +1,4 @@
 import { html, css, LitElement, TemplateResult } from 'lit';
-import { property } from 'lit/decorators.js';
 import '@spectrum-web-components/theme/sp-theme.js';
 import '@spectrum-web-components/theme/src/themes.js';
 import '@spectrum-web-components/card/sp-card.js';
@@ -7,12 +6,13 @@ import '@spectrum-web-components/button/sp-button.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-compare.js';
 import './compare-card.js';
 import './code-panel.js';
-// import '@spectrum-web-components/table/sp-table.js';
-// import '@spectrum-web-components/table/sp-table-body.js';
-// import '@spectrum-web-components/table/sp-table-cell.js';
-// import '@spectrum-web-components/table/sp-table-head.js';
-// import '@spectrum-web-components/table/sp-table-head-cell.js';
-// import '@spectrum-web-components/table/sp-table-row.js';
+import '@spectrum-web-components/table/sp-table.js';
+import '@spectrum-web-components/table/sp-table-body.js';
+import '@spectrum-web-components/table/sp-table-cell.js';
+import '@spectrum-web-components/table/sp-table-head.js';
+import '@spectrum-web-components/table/sp-table-head-cell.js';
+import '@spectrum-web-components/table/sp-table-row.js';
+import '@spectrum-css/typography/dist/index.css' with { type: 'css' };
 
 export class GettingStarted extends LitElement {
   static styles = css`
@@ -23,7 +23,6 @@ export class GettingStarted extends LitElement {
       background-color: white;
       flex: auto;
       top: 0;
-      overflow-x: auto;
       justify-content: center;
     }
     .title {
@@ -51,17 +50,24 @@ export class GettingStarted extends LitElement {
       font-weight: 400;
       line-height: 27px; /* 150% */
       margin-bottom: 10px;
+      margin-top: 10px;
     }
     .page {
       display: flex;
       justify-content: center;
       margin-left: 100px;
       margin-right: 100px;
+      margin-bottom: 15px;
     }
-    .compare-button {
-      margin-top: 40px;
+    .section {
+      padding-bottom: 10px;
+      padding-top: 10px;
     }
   `;
+
+  __copyListener(e: CustomEvent) {
+    const selected = e.detail;
+  }
 
   protected override render(): TemplateResult {
     return html`
@@ -80,7 +86,7 @@ export class GettingStarted extends LitElement {
             Spectrum Tokens monorepo.
           </p>
           <div
-            class="subtitle spectrum-Typography spectrum-Heading--sizeXXL spectrum-Heading--serif"
+            class="subtitle spectrum-Typography spectrum-Heading--sizeXL spectrum-Heading--serif"
           >
             Installation
           </div>
@@ -89,7 +95,8 @@ export class GettingStarted extends LitElement {
             will also work.
           </p>
           <code-panel
-            codeSnippet="i @adobe/token-diff-generator" .tagOptions=${["pnpm", "npm", "yarn"]}
+            codeSnippet="i @adobe/token-diff-generator"
+            .tagOptions=${['pnpm', 'npm', 'yarn']}
           ></code-panel>
           <div
             class="subtitle spectrum-Typography spectrum-Heading--sizeXXL spectrum-Heading--serif"
@@ -100,7 +107,8 @@ export class GettingStarted extends LitElement {
             Import the token diff generator as a module per ES6 standards.
           </p>
           <code-panel
-            codeSnippet="import tokenDiff from '@adobe/token-diff-generator';" .tagOptions=${[]}
+            codeSnippet="import tokenDiff from '@adobe/token-diff-generator';"
+            .tagOptions=${[]}
           ></code-panel>
           <div
             class="subtitle spectrum-Typography spectrum-Heading--sizeXXL spectrum-Heading--serif"
@@ -140,7 +148,8 @@ export class GettingStarted extends LitElement {
           <code-panel
             codeSnippet="import tokenDiff from “@adobe/token-diff-generator”; 
           
-          const report = tokenDiff(originalSchema, updatedSchema);" .tagOptions=${[]}
+          const report = tokenDiff(originalSchema, updatedSchema);"
+            .tagOptions=${[]}
           ></code-panel>
           <p class="text spectrum-Typography spectrum-Heading--sizeXXL">
             If you are interested in comparing tokens locally between different
@@ -155,7 +164,8 @@ const [originalSchema, updatedSchema] = await Promise.all([
               fileImport(tokenNames, updatedVersion, updatedBranch),
             ]);
 
-const report = tokenDiff(originalSchema, updatedSchema);" .tagOptions=${[]}
+const report = tokenDiff(originalSchema, updatedSchema);"
+            .tagOptions=${[]}
           ></code-panel>
           <p class="text spectrum-Typography spectrum-Heading--sizeXXL">
             Both of these examples output a JSON object containing the changes
@@ -186,6 +196,116 @@ const report = tokenDiff(originalSchema, updatedSchema);" .tagOptions=${[]}
             class="subtitle spectrum-Typography spectrum-Heading--sizeXXL spectrum-Heading--serif"
           >
             Options
+          </div>
+          <sp-table>
+            <sp-table-head>
+              <sp-table-head-cell>Shorthand</sp-table-head-cell>
+              <sp-table-head-cell>Name</sp-table-head-cell>
+              <sp-table-head-cell>Argument(s)</sp-table-head-cell>
+              <sp-table-head-cell>Description</sp-table-head-cell>
+            </sp-table-head>
+            <sp-table-body>
+              <sp-table-row>
+                <sp-table-cell><code>-y</code></sp-table-cell>
+                <sp-table-cell><code>-y</code></sp-table-cell>
+                <sp-table-cell><code>null</code></sp-table-cell>
+                <sp-table-cell
+                  >answers yes to removing deprecated status of
+                  token(s)</sp-table-cell
+                >
+              </sp-table-row>
+              <sp-table-row>
+                <sp-table-cell><code>-otv</code></sp-table-cell>
+                <sp-table-cell><code>--old-token-version</code></sp-table-cell>
+                <sp-table-cell><code>${`<oldVersion>`}</code></sp-table-cell>
+                <sp-table-cell
+                  >npm package version/github tag to pull old tokens
+                  from</sp-table-cell
+                >
+              </sp-table-row>
+              <sp-table-row>
+                <sp-table-cell><code>-ntv</code></sp-table-cell>
+                <sp-table-cell><code>--new-token-version</code></sp-table-cell>
+                <sp-table-cell><code>${`<newVersion>`}</code></sp-table-cell>
+                <sp-table-cell
+                  >npm package version/github tag to pull new tokens
+                  from</sp-table-cell
+                >
+              </sp-table-row>
+              <sp-table-row>
+                <sp-table-cell><code>-otb</code></sp-table-cell>
+                <sp-table-cell><code>--old-token-branch</code></sp-table-cell>
+                <sp-table-cell><code>${`<oldBranch>`}</code></sp-table-cell>
+                <sp-table-cell
+                  >branch to fetch old token data from</sp-table-cell
+                >
+              </sp-table-row>
+              <sp-table-row>
+                <sp-table-cell><code>-ntb</code></sp-table-cell>
+                <sp-table-cell><code>--new-token-branch</code></sp-table-cell>
+                <sp-table-cell><code>${`<newBranch>`}</code></sp-table-cell>
+                <sp-table-cell
+                  >branch to fetch new token data from</sp-table-cell
+                >
+              </sp-table-row>
+              <sp-table-row>
+                <sp-table-cell><code>-t</code></sp-table-cell>
+                <sp-table-cell><code>--test</code></sp-table-cell>
+                <sp-table-cell><code>${`<tokens...>`}</code></sp-table-cell>
+                <sp-table-cell
+                  >indicates test mode and runs only on tokens passed
+                  in</sp-table-cell
+                >
+              </sp-table-row>
+              <sp-table-row>
+                <sp-table-cell><code>-tn</code></sp-table-cell>
+                <sp-table-cell><code>--token-names</code></sp-table-cell>
+                <sp-table-cell><code>${`<tokens...>`}</code></sp-table-cell>
+                <sp-table-cell
+                  >indicates specific tokens to compare</sp-table-cell
+                >
+              </sp-table-row>
+            </sp-table-body>
+          </sp-table>
+          <div
+            class="subtitle spectrum-Typography spectrum-Heading--sizeXXL spectrum-Heading--serif"
+          >
+            Usage examples
+          </div>
+          <p class="text spectrum-Typography spectrum-Heading--sizeXXL">
+            An example of using the cli involves running the
+            <code>report</code> command with two branches and/or releases.
+          </p>
+          <div class="section">
+            <code-panel
+              codeSnippet="tdiff report -otb shirlsli/diff-generator-cli-tests -ntb shirlsli/file-import-tests"
+              .tagOptions=${[]}
+            >
+            </code-panel>
+          </div>
+          <div class="section">
+            <code-panel
+              class="section"
+              codeSnippet="tdiff report -otv @adobe/spectrum-tokens@12.26.0 -ntv @adobe/spectrum-tokens@12.26.0"
+              .tagOptions=${[]}
+            >
+            </code-panel>
+          </div>
+          <div class="section">
+            <code-panel
+              class="section"
+              codeSnippet="tdiff report -otv @adobe/spectrum-tokens@12.26.0 -ntb shirlsli/file-import-tests"
+              .tagOptions=${[]}
+            >
+            </code-panel>
+          </div>
+          <div class="section">
+            <code-panel
+              class="section"
+              codeSnippet="tdiff report -otb shirlsli/diff-generator-cli-tests -ntv @adobe/spectrum-tokens@12.26.0"
+              .tagOptions=${[]}
+            >
+            </code-panel>
           </div>
         </sp-theme>
       </div>
