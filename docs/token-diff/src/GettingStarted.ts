@@ -12,10 +12,16 @@ import '@spectrum-web-components/table/sp-table-cell.js';
 import '@spectrum-web-components/table/sp-table-head.js';
 import '@spectrum-web-components/table/sp-table-head-cell.js';
 import '@spectrum-web-components/table/sp-table-row.js';
+import spectrumHeadingStyles from '@spectrum-web-components/styles/heading.js';
+import spectrumBodyStyles from '@spectrum-web-components/styles/body.js';
 import spectrumTypographyStyles from '@spectrum-web-components/styles/typography.js';
+// import '@spectrum-css/typography/dist/index.css';
 
 export class GettingStarted extends LitElement {
   static styles = [
+    ...spectrumHeadingStyles,
+    ...spectrumBodyStyles,
+    ...spectrumTypographyStyles,
     css`
       :host {
         display: flex;
@@ -65,7 +71,6 @@ export class GettingStarted extends LitElement {
         padding-top: 10px;
       }
     `,
-    ...spectrumTypographyStyles,
   ];
 
   __copyListener(e: CustomEvent) {
@@ -74,7 +79,7 @@ export class GettingStarted extends LitElement {
 
   protected override render(): TemplateResult {
     return html`
-      <div class="page">
+      <div class="page spectrum-Typography">
         <sp-theme theme="spectrum" color="light" scale="medium">
           <div
             class="title spectrum-Typography spectrum-Heading--sizeXXL spectrum-Heading--serif"

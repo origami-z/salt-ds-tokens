@@ -18,6 +18,7 @@ export class TokenDiff extends LitElement {
       top: 0;
       overflow-x: auto;
       height: 100vh;
+      overflow-y: hidden;
     }
     .title {
       color: #000;
@@ -47,12 +48,12 @@ export class TokenDiff extends LitElement {
     }
   `;
 
-  @property({ type: String }) originalBranchOrTag = "";
-  @property({ type: String }) updatedBranchOrTag = "";
-  @property({ type: String }) originalSchema = "";
-  @property({ type: String }) updatedSchema = "";
-  @property({ type: String }) originalVers = "";
-  @property({ type: String }) updatedVers = "";
+  @property({ type: String }) originalBranchOrTag = '';
+  @property({ type: String }) updatedBranchOrTag = '';
+  @property({ type: String }) originalSchema = '';
+  @property({ type: String }) updatedSchema = '';
+  @property({ type: String }) originalVers = '';
+  @property({ type: String }) updatedVers = '';
 
   __originalCardListener(e: CustomEvent) {
     this.__updatedProperty(true, e.detail);
@@ -61,16 +62,16 @@ export class TokenDiff extends LitElement {
   __updatedProperty(original: boolean, newValue: string) {
     const key = Object.keys(newValue)[0];
     if (original) {
-      if (key !== "schema") {
+      if (key !== 'schema') {
         this.originalBranchOrTag = Object.values(newValue)[0];
-        this.originalVers = key === "branch" ? "branch" : "tag";
+        this.originalVers = key === 'branch' ? 'branch' : 'tag';
       } else {
         this.originalSchema = Object.values(newValue)[0];
       }
     } else {
-      if (key !== "schema") {
+      if (key !== 'schema') {
         this.updatedBranchOrTag = Object.values(newValue)[0];
-        this.updatedVers = key === "branch" ? "branch" : "tag";
+        this.updatedVers = key === 'branch' ? 'branch' : 'tag';
       } else {
         this.updatedSchema = Object.values(newValue)[0];
       }
@@ -83,19 +84,21 @@ export class TokenDiff extends LitElement {
 
   __generateReport() {
     // call token diff generator library
-    console.log("originalVers: " + this.originalVers);
-    console.log("updatedVerse: " + this.updatedVers);
-    console.log("originalBranch: " + this.originalBranchOrTag);
-    console.log("originalSchema: " + this.originalSchema);
-    console.log("updatedBranch: " + this.updatedBranchOrTag);
-    console.log("updatedSchema: " + this.updatedSchema);
+    console.log('originalVers: ' + this.originalVers);
+    console.log('updatedVerse: ' + this.updatedVers);
+    console.log('originalBranch: ' + this.originalBranchOrTag);
+    console.log('originalSchema: ' + this.originalSchema);
+    console.log('updatedBranch: ' + this.updatedBranchOrTag);
+    console.log('updatedSchema: ' + this.updatedSchema);
   }
 
   protected override render(): TemplateResult {
     return html`
       <div class="page">
         <sp-theme theme="spectrum" color="light" scale="medium">
-          <div class="title spectrum-Typography spectrum-Heading--sizeXXL spectrum-Heading--serif">
+          <div
+            class="title spectrum-Typography spectrum-Heading--sizeXXL spectrum-Heading--serif"
+          >
             Token diff generator
           </div>
           <div class="warning-text">
@@ -104,11 +107,21 @@ export class TokenDiff extends LitElement {
             @adobe/spectrum-tokens@12.26.0!
           </div>
           <div class="page">
-            <compare-card @selection=${this.__originalCardListener} heading="Version A"></compare-card>
-            <compare-card @selection=${this.__updatedCardListener} heading="Version B"></compare-card>
+            <compare-card
+              @selection=${this.__originalCardListener}
+              heading="Version A"
+            ></compare-card>
+            <compare-card
+              @selection=${this.__updatedCardListener}
+              heading="Version B"
+            ></compare-card>
           </div>
           <div class="page compare-button">
-            <sp-button @click=${this.__generateReport} variant="accent" size="m">
+            <sp-button
+              @click=${this.__generateReport}
+              variant="accent"
+              size="m"
+            >
               <sp-icon-compare slot="icon"></sp-icon-compare>
               Compare
             </sp-button>
