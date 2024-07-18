@@ -99,16 +99,19 @@ importers:
         specifier: ^5.1.5
         version: 5.1.5(@spectrum-css/tokens@13.2.0)
       "@spectrum-web-components/action-button":
-        specifier: ^0.42.2
-        version: 0.42.5
+        specifier: 0.43.0
+        version: 0.43.0
       "@spectrum-web-components/action-group":
         specifier: ^0.43.0
         version: 0.43.0
       "@spectrum-web-components/button":
-        specifier: ^0.42.2
-        version: 0.42.5
+        specifier: 0.43.0
+        version: 0.43.0
       "@spectrum-web-components/card":
         specifier: ^0.43.0
+        version: 0.43.0
+      "@spectrum-web-components/dialog":
+        specifier: 0.43.0
         version: 0.43.0
       "@spectrum-web-components/field-label":
         specifier: ^0.43.0
@@ -117,14 +120,14 @@ importers:
         specifier: 0.43.0
         version: 0.43.0
       "@spectrum-web-components/icons-workflow":
-        specifier: ^0.43.0
+        specifier: 0.43.0
         version: 0.43.0
       "@spectrum-web-components/menu":
         specifier: ^0.43.0
         version: 0.43.0
       "@spectrum-web-components/overlay":
-        specifier: ^0.42.5
-        version: 0.42.5
+        specifier: 0.43.0
+        version: 0.43.0
       "@spectrum-web-components/picker":
         specifier: ^0.43.0
         version: 0.43.0
@@ -132,41 +135,26 @@ importers:
         specifier: ^0.43.0
         version: 0.43.0
       "@spectrum-web-components/styles":
-        specifier: ^0.44.0
-        version: 0.44.0
+        specifier: 0.43.0
+        version: 0.43.0
       "@spectrum-web-components/table":
         specifier: 0.43.0
         version: 0.43.0
       "@spectrum-web-components/tabs":
-        specifier: ^0.44.0
-        version: 0.44.0
+        specifier: 0.43.0
+        version: 0.43.0
       "@spectrum-web-components/theme":
-        specifier: ^0.42.2
-        version: 0.42.5
+        specifier: 0.43.0
+        version: 0.43.0
+      "@spectrum-web-components/underlay":
+        specifier: 0.43.0
+        version: 0.43.0
       "@vaadin/router":
         specifier: ^1.7.5
         version: 1.7.5
       lit:
         specifier: ^3.1.4
         version: 3.1.4
-      sp-table-body.js:
-        specifier: link:@spectrum-web-components/table/sp-table-body.js
-        version: link:@spectrum-web-components/table/sp-table-body.js
-      sp-table-cell.js:
-        specifier: link:@spectrum-web-components/table/sp-table-cell.js
-        version: link:@spectrum-web-components/table/sp-table-cell.js
-      sp-table-head-cell.js:
-        specifier: link:@spectrum-web-components/table/sp-table-head-cell.js
-        version: link:@spectrum-web-components/table/sp-table-head-cell.js
-      sp-table-head.js:
-        specifier: link:@spectrum-web-components/table/sp-table-head.js
-        version: link:@spectrum-web-components/table/sp-table-head.js
-      sp-table-row.js:
-        specifier: link:@spectrum-web-components/table/sp-table-row.js
-        version: link:@spectrum-web-components/table/sp-table-row.js
-      sp-table.js:
-        specifier: link:@spectrum-web-components/table/sp-table.js
-        version: link:@spectrum-web-components/table/sp-table.js
       tslib:
         specifier: ^2.6.3
         version: 2.6.3
@@ -177,6 +165,9 @@ importers:
       "@open-wc/eslint-config":
         specifier: ^12.0.3
         version: 12.0.3(@babel/core@7.24.9)(eslint-plugin-html@8.1.1)(eslint-plugin-import@2.29.1(@typescript-eslint/parser@7.16.0(eslint@8.57.0)(typescript@5.5.3))(eslint@8.57.0))(eslint-plugin-lit-a11y@4.1.4(eslint@8.57.0))(eslint-plugin-lit@1.14.0(eslint@8.57.0))(eslint-plugin-no-only-tests@3.1.0)(eslint-plugin-wc@2.1.0(eslint@8.57.0))(eslint@8.57.0)
+      "@types/jquery":
+        specifier: ^3.5.30
+        version: 3.5.30
       "@typescript-eslint/eslint-plugin":
         specifier: ^7.16.0
         version: 7.16.0(@typescript-eslint/parser@7.16.0(eslint@8.57.0)(typescript@5.5.3))(eslint@8.57.0)(typescript@5.5.3)
@@ -1681,6 +1672,12 @@ packages:
         integrity: sha512-CO7PmNWX0Tdg8UEZ/PY5rm4tYRrI5spuF9qDVFh1r8+0RNuo9ZDLbSKzszO2AF4joZoXIzDEPtYrNx86ZoBd6w==,
       }
 
+  "@spectrum-web-components/alert-dialog@0.43.0":
+    resolution:
+      {
+        integrity: sha512-jzJzOWJY9do9b/Ph5wTZ9Dk6ewEL1oXkdBZ1m6PJyHOhqMsQWg07iFtGdeu3JxDqrdF6vNbxyqXrt6r9AIqDhg==,
+      }
+
   "@spectrum-web-components/asset@0.43.0":
     resolution:
       {
@@ -1699,16 +1696,16 @@ packages:
         integrity: sha512-3EtDjjsaZylN3jwA1q7zuiRKNWXq1Xlzofg4jRHHVMTqxPSXT/ZlxkhLVpYrJqfQ3wdIbZFmZl2TeLXVNjct4w==,
       }
 
-  "@spectrum-web-components/base@0.44.0":
-    resolution:
-      {
-        integrity: sha512-5ZQDZEzqqYQACLTguZqbQCn9avFpB4c5GKGOqJuXqQZj+1CthM4eFb0Zh41tfFkUwmPxtOKEth9zjYNK3+k+WA==,
-      }
-
   "@spectrum-web-components/button-group@0.42.2":
     resolution:
       {
         integrity: sha512-ki3HDMLp+neAF44k/hBcgX59YToQ1QqsHIt9llE8fuLMcRTBVrx5OjKRcBKUeu3F4AHTVVCbjM8CE3wMfMpeXw==,
+      }
+
+  "@spectrum-web-components/button-group@0.43.0":
+    resolution:
+      {
+        integrity: sha512-QcHkjMv32gzxG+a71vsWAtyi+KYyU91Ir6FMXcm9nKh1YA90kqJGkyhOxHnfp9hfrCWeZn/AN9avMuhmvdcu6A==,
       }
 
   "@spectrum-web-components/button@0.42.5":
@@ -1765,6 +1762,12 @@ packages:
         integrity: sha512-KAQjl4x8bO1hvoWbg33ayzh/9Oyw1+fqdQJV0FqWQnPDfpOx8UtFy/N5QqaYLN+S2yJt92nrtDImeGUIMaQulQ==,
       }
 
+  "@spectrum-web-components/dialog@0.43.0":
+    resolution:
+      {
+        integrity: sha512-8P9yY1WUf7GmSDOaD0B+3KAjCQ5eJ+uwIx1dQYo24awvt15P5JrvIzteeegVTQ9OAzDogIyEzHJIuLvmZYn/uQ==,
+      }
+
   "@spectrum-web-components/divider@0.43.0":
     resolution:
       {
@@ -1807,12 +1810,6 @@ packages:
         integrity: sha512-muV9a252O289xd68fN2gwJ1fO0alb8bpEn6/mtTh72LN8p8nSFSP6zxzDuB3ZYMsRslOP5CjxNVW9PcFDQ0R7Q==,
       }
 
-  "@spectrum-web-components/icon@0.44.0":
-    resolution:
-      {
-        integrity: sha512-3wxHu1eqXhBUau+y0jHNoEmSJsyoK92HuqBqnhSs7Nj8AnYTyEaLUZtqCUu4pH/4WZq6LVxMVwRmLbtVR+Qo0g==,
-      }
-
   "@spectrum-web-components/icons-ui@0.42.5":
     resolution:
       {
@@ -1823,12 +1820,6 @@ packages:
     resolution:
       {
         integrity: sha512-SjdjuO610dDbbq2KPJ4vOkPb8KoJpiyP1Zi8BWnjmb0eCLLzXql0xdlctv+48NmmgeVPVCJLeX3j0sezNzmp7w==,
-      }
-
-  "@spectrum-web-components/icons-ui@0.44.0":
-    resolution:
-      {
-        integrity: sha512-8bxXR8CRgvOfktOd3rCqLb+wadgsggLZySkbF+iydc9+UX8kxwxHgRofrPKqahgAVsR3U9LAyI3MgTbptyuGLw==,
       }
 
   "@spectrum-web-components/icons-workflow@0.42.2":
@@ -1853,12 +1844,6 @@ packages:
     resolution:
       {
         integrity: sha512-O/Kz72R7DAS5r+DlpQ6oh83x1gvbNSaraqso3JyvliI4Z1Fwg0fsgBmmc24+wVvSc5z6RUJ8RXyFXMukRUOZkA==,
-      }
-
-  "@spectrum-web-components/iconset@0.44.0":
-    resolution:
-      {
-        integrity: sha512-LZqv5Sdqr83MzCWpSV22dCtOGxn6eBz3NP1aETc1dgWG+yr67xjZGvSVdFVNPTSgMcBCpxBRlmQ7CR3AwvSszQ==,
       }
 
   "@spectrum-web-components/infield-button@0.42.2":
@@ -1951,12 +1936,6 @@ packages:
         integrity: sha512-2v7Mexb5POiD3h8EN9PjuUldRJazoKladEnkTDN24vXq+W8KtC0K/UUQ42vMEPRkA9ljsXJPJNah6zNLO8rS3A==,
       }
 
-  "@spectrum-web-components/reactive-controllers@0.44.0":
-    resolution:
-      {
-        integrity: sha512-8LnhRyHe9g7MwyWUVhHzwF7ijVKYxF2lv1sNh4gkaZFVylW/bsdU9NIEWXzQA+MM9sWumyf+WMrroVjea7Px1A==,
-      }
-
   "@spectrum-web-components/search@0.42.2":
     resolution:
       {
@@ -1973,12 +1952,6 @@ packages:
     resolution:
       {
         integrity: sha512-LQ/lAoIsObsEj8ZeeB6bHqfaMMmk6FxuW5Jw2Ci9x6fYZ6gPnr4pFH79KGCzAxHFDr+DOP/W5c1JTWwyiKAGVQ==,
-      }
-
-  "@spectrum-web-components/shared@0.44.0":
-    resolution:
-      {
-        integrity: sha512-XAP0mjBuPC+bkzims6iNbzPQW9WHr3/c5HRn23IAleQUNjliZg4eXHzGqds2LI1SuMcMONlIyGfyve9l5lAtoQ==,
       }
 
   "@spectrum-web-components/sidenav@0.43.0":
@@ -2005,12 +1978,6 @@ packages:
         integrity: sha512-9VtUlFfAb9BwFBSnU/cuToDgJlXndH+Tt/pVuJ+F0u111dh7y5lmE9y+C/u6OlUwZ8MaIK2iaHMmGFvjEjzCgg==,
       }
 
-  "@spectrum-web-components/styles@0.44.0":
-    resolution:
-      {
-        integrity: sha512-/SBwvbFR3he3NAv3xRaSREm5qM2EoL2MwumkWm9fFifVrNVwTziSG6NQI1nq2QBHPsZV4eDBkZJ4z3ritySnqA==,
-      }
-
   "@spectrum-web-components/switch@0.42.2":
     resolution:
       {
@@ -2023,10 +1990,10 @@ packages:
         integrity: sha512-ywJ9TuwflQBP8iYqQYACpTAD4XNN55Ih4Gxhldy/79zcNIgo9uC5lcI+WnKYOnlobdsZ5GH5LcMFJ5RSCBY88Q==,
       }
 
-  "@spectrum-web-components/tabs@0.44.0":
+  "@spectrum-web-components/tabs@0.43.0":
     resolution:
       {
-        integrity: sha512-r6lgzPmUABPBd51r+rjQxjOiZJXf22mSwmEkF9tEsYwlDu9S7w4gQJuV0z0QRVWQLOPmkpyzmdPRSxd1rhjIvg==,
+        integrity: sha512-4qyhBI9xNkAgubJvrwqSn6aT4y6F0l1veTaQz9nkVxk0mwM7ZpyAfQgcZxl0uM2BeWpCF6lVjN3AecKmGzH06Q==,
       }
 
   "@spectrum-web-components/textfield@0.42.2":
@@ -2179,6 +2146,12 @@ packages:
         integrity: sha512-2QF/t/auWm0lsy8XtKVPG19v3sSOQlJe/YHZgfjb/KBBHOGSV+J2q/S671rcq9uTBrLAXmZpqJiaQbMT+zNU1w==,
       }
 
+  "@types/jquery@3.5.30":
+    resolution:
+      {
+        integrity: sha512-nbWKkkyb919DOUxjmRVk8vwtDb0/k8FKncmUKFi+NY+QXqWltooxTrswvz4LspQwxvLdvzBN1TImr6cw3aQx2A==,
+      }
+
   "@types/json5@0.0.29":
     resolution:
       {
@@ -2279,6 +2252,12 @@ packages:
     resolution:
       {
         integrity: sha512-W8Ym+h8nhuRwaKPaDw34QUkwsGi6Rc4yYqvKFo5rm2FUEhCFbzVWrxXUxuKK8TASjWsysJY0nsmNCGhCOIsrOw==,
+      }
+
+  "@types/sizzle@2.3.8":
+    resolution:
+      {
+        integrity: sha512-0vWLNK2D5MT9dg0iOo8GlKguPAU02QjmZitPEsXRuJXU/OGIOt9vT9Fc26wtYuavLxtO45v9PGleoL9Z0k1LHg==,
       }
 
   "@types/trusted-types@2.0.7":
@@ -8699,6 +8678,16 @@ snapshots:
       "@spectrum-web-components/icons-workflow": 0.43.0
       "@spectrum-web-components/reactive-controllers": 0.43.0
 
+  "@spectrum-web-components/alert-dialog@0.43.0":
+    dependencies:
+      "@lit-labs/observers": 2.0.2
+      "@spectrum-web-components/base": 0.43.0
+      "@spectrum-web-components/button": 0.43.0
+      "@spectrum-web-components/button-group": 0.43.0
+      "@spectrum-web-components/divider": 0.43.0
+      "@spectrum-web-components/icons-workflow": 0.43.0
+      "@spectrum-web-components/shared": 0.43.0
+
   "@spectrum-web-components/asset@0.43.0":
     dependencies:
       "@spectrum-web-components/base": 0.43.0
@@ -8711,14 +8700,15 @@ snapshots:
     dependencies:
       lit: 3.1.4
 
-  "@spectrum-web-components/base@0.44.0":
-    dependencies:
-      lit: 3.1.4
-
   "@spectrum-web-components/button-group@0.42.2":
     dependencies:
       "@spectrum-web-components/base": 0.42.5
       "@spectrum-web-components/button": 0.42.5
+
+  "@spectrum-web-components/button-group@0.43.0":
+    dependencies:
+      "@spectrum-web-components/base": 0.43.0
+      "@spectrum-web-components/button": 0.43.0
 
   "@spectrum-web-components/button@0.42.5":
     dependencies:
@@ -8781,6 +8771,18 @@ snapshots:
     dependencies:
       "@spectrum-web-components/base": 0.43.0
 
+  "@spectrum-web-components/dialog@0.43.0":
+    dependencies:
+      "@spectrum-web-components/alert-dialog": 0.43.0
+      "@spectrum-web-components/base": 0.43.0
+      "@spectrum-web-components/button": 0.43.0
+      "@spectrum-web-components/button-group": 0.43.0
+      "@spectrum-web-components/divider": 0.43.0
+      "@spectrum-web-components/icons-workflow": 0.43.0
+      "@spectrum-web-components/modal": 0.43.0
+      "@spectrum-web-components/shared": 0.43.0
+      "@spectrum-web-components/underlay": 0.43.0
+
   "@spectrum-web-components/divider@0.43.0":
     dependencies:
       "@spectrum-web-components/base": 0.43.0
@@ -8822,11 +8824,6 @@ snapshots:
       "@spectrum-web-components/base": 0.43.0
       "@spectrum-web-components/iconset": 0.43.0
 
-  "@spectrum-web-components/icon@0.44.0":
-    dependencies:
-      "@spectrum-web-components/base": 0.44.0
-      "@spectrum-web-components/iconset": 0.44.0
-
   "@spectrum-web-components/icons-ui@0.42.5":
     dependencies:
       "@spectrum-web-components/base": 0.42.5
@@ -8838,12 +8835,6 @@ snapshots:
       "@spectrum-web-components/base": 0.43.0
       "@spectrum-web-components/icon": 0.43.0
       "@spectrum-web-components/iconset": 0.43.0
-
-  "@spectrum-web-components/icons-ui@0.44.0":
-    dependencies:
-      "@spectrum-web-components/base": 0.44.0
-      "@spectrum-web-components/icon": 0.44.0
-      "@spectrum-web-components/iconset": 0.44.0
 
   "@spectrum-web-components/icons-workflow@0.42.2":
     dependencies:
@@ -8862,10 +8853,6 @@ snapshots:
   "@spectrum-web-components/iconset@0.43.0":
     dependencies:
       "@spectrum-web-components/base": 0.43.0
-
-  "@spectrum-web-components/iconset@0.44.0":
-    dependencies:
-      "@spectrum-web-components/base": 0.44.0
 
   "@spectrum-web-components/infield-button@0.42.2":
     dependencies:
@@ -8974,10 +8961,6 @@ snapshots:
     dependencies:
       lit: 3.1.4
 
-  "@spectrum-web-components/reactive-controllers@0.44.0":
-    dependencies:
-      lit: 3.1.4
-
   "@spectrum-web-components/search@0.42.2":
     dependencies:
       "@spectrum-web-components/base": 0.42.5
@@ -8996,12 +8979,6 @@ snapshots:
     dependencies:
       "@lit-labs/observers": 2.0.2
       "@spectrum-web-components/base": 0.43.0
-      focus-visible: 5.2.0
-
-  "@spectrum-web-components/shared@0.44.0":
-    dependencies:
-      "@lit-labs/observers": 2.0.2
-      "@spectrum-web-components/base": 0.44.0
       focus-visible: 5.2.0
 
   "@spectrum-web-components/sidenav@0.43.0":
@@ -9029,10 +9006,6 @@ snapshots:
     dependencies:
       "@spectrum-web-components/base": 0.43.0
 
-  "@spectrum-web-components/styles@0.44.0":
-    dependencies:
-      "@spectrum-web-components/base": 0.44.0
-
   "@spectrum-web-components/switch@0.42.2":
     dependencies:
       "@spectrum-web-components/base": 0.42.5
@@ -9047,14 +9020,14 @@ snapshots:
       "@spectrum-web-components/icon": 0.43.0
       "@spectrum-web-components/icons-ui": 0.43.0
 
-  "@spectrum-web-components/tabs@0.44.0":
+  "@spectrum-web-components/tabs@0.43.0":
     dependencies:
       "@lit-labs/observers": 2.0.2
-      "@spectrum-web-components/base": 0.44.0
-      "@spectrum-web-components/icon": 0.44.0
-      "@spectrum-web-components/icons-ui": 0.44.0
-      "@spectrum-web-components/reactive-controllers": 0.44.0
-      "@spectrum-web-components/shared": 0.44.0
+      "@spectrum-web-components/base": 0.43.0
+      "@spectrum-web-components/icon": 0.43.0
+      "@spectrum-web-components/icons-ui": 0.43.0
+      "@spectrum-web-components/reactive-controllers": 0.43.0
+      "@spectrum-web-components/shared": 0.43.0
 
   "@spectrum-web-components/textfield@0.42.2":
     dependencies:
@@ -9174,6 +9147,10 @@ snapshots:
 
   "@types/istanbul-lib-coverage@2.0.6": {}
 
+  "@types/jquery@3.5.30":
+    dependencies:
+      "@types/sizzle": 2.3.8
+
   "@types/json5@0.0.29": {}
 
   "@types/keygrip@1.0.6": {}
@@ -9229,6 +9206,8 @@ snapshots:
       "@types/http-errors": 2.0.4
       "@types/node": 20.14.11
       "@types/send": 0.17.4
+
+  "@types/sizzle@2.3.8": {}
 
   "@types/trusted-types@2.0.7": {}
 

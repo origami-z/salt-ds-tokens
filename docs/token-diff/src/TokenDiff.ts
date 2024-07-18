@@ -13,12 +13,11 @@ export class TokenDiff extends LitElement {
       display: flex;
       padding: 25px;
       color: var(--token-diff-text-color, #000);
-      background-color: white;
       flex: auto;
       top: 0;
       overflow-x: auto;
-      height: 100vh;
-      overflow-y: hidden;
+      min-height: 100vh;
+      flex-wrap: wrap;
     }
     .title {
       color: #000;
@@ -40,11 +39,13 @@ export class TokenDiff extends LitElement {
     .page {
       display: flex;
       justify-content: center;
-      margin-left: 100px;
-      margin-right: 100px;
+      margin-left: auto;
+      margin-right: auto;
+      flex-wrap: wrap;
     }
     .compare-button {
       margin-top: 40px;
+      margin-bottom: 50px;
     }
   `;
 

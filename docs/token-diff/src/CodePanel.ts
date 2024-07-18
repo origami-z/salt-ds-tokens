@@ -9,9 +9,6 @@ import '@spectrum-web-components/tabs/sp-tabs.js';
 import '@spectrum-web-components/tabs/sp-tab.js';
 import '@spectrum-web-components/tabs/sp-tab-panel.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-copy.js';
-// import '@spectrum-web-components/overlay/sp-overlay.js';
-// import '@spectrum-web-components/toast/sp-toast.js';
-import './compare-card.js';
 
 export class CodePanel extends LitElement {
   static styles = css`
@@ -19,27 +16,31 @@ export class CodePanel extends LitElement {
       color: var(--token-diff-text-color, #000);
       top: 0;
       overflow-x: auto;
+      margin-left: auto;
+      margin-right: auto;
+      flex-wrap: wrap;
     }
     .page {
       background-color: #f8f8f8;
       border-radius: 10px;
       padding: 10px 25px;
-      /* text-align: left; */
     }
-    /* pre {
-      margin: 0;
-      height: fit-content;
-      display: flex;
-    } */
     code {
       left: 0;
       text-align: left;
-      width: fit-content;
-      /* align-content: flex-start; */
+    }
+    pre {
+      margin-bottom: 10px;
     }
     .copy-button {
       display: flex;
       float: right;
+      margin-left: auto;
+    }
+    .theme {
+      margin-left: auto;
+      display: flex;
+      align-items: flex-end;
     }
   `;
 
@@ -93,7 +94,9 @@ export class CodePanel extends LitElement {
   }
 
   __regularCodeSnippetDisplay(code: string) {
-    return html` <pre><code>${code}</code></pre> `;
+    return html`
+      <pre><code class="spectrum-Code spectrum-Code--sizeM">${code}</code></pre>
+    `;
   }
 
   __changeMessage() {
@@ -108,20 +111,24 @@ export class CodePanel extends LitElement {
   protected override render(): TemplateResult {
     return html`
       <div class="page">
-        <sp-theme scale="medium" color="light">
-          <sp-action-button
-            class="copy-button"
-            quiet
-            @click=${this.__changeMessage}
-            id="trigger"
-          >
-            <sp-icon-copy slot="icon"></sp-icon-copy>
-            ${this.copyMessage}
-          </sp-action-button>
-        </sp-theme>
-        ${this.tagOptions.length > 0
-          ? this.__addTabs()
-          : this.__regularCodeSnippetDisplay(this.codeSnippet)}
+        <div>
+          ${this.tagOptions.length > 0
+            ? this.__addTabs()
+            : this.__regularCodeSnippetDisplay(this.codeSnippet)}
+        </div>
+        <div>
+          <sp-theme class="theme" scale="medium" color="light">
+            <sp-action-button
+              class="copy-button"
+              quiet
+              @click=${this.__changeMessage}
+              id="trigger"
+            >
+              <sp-icon-copy slot="icon"></sp-icon-copy>
+              ${this.copyMessage}
+            </sp-action-button>
+          </sp-theme>
+        </div>
       </div>
     `;
   }

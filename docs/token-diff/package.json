@@ -26,34 +26,31 @@
     "@spectrum-css/page": "^7.1.4",
     "@spectrum-css/tokens": "^13.2.0",
     "@spectrum-css/typography": "^5.1.5",
-    "@spectrum-web-components/action-button": "^0.42.2",
+    "@spectrum-web-components/action-button": "0.43.0",
     "@spectrum-web-components/action-group": "^0.43.0",
-    "@spectrum-web-components/button": "^0.42.2",
+    "@spectrum-web-components/button": "0.43.0",
     "@spectrum-web-components/card": "^0.43.0",
+    "@spectrum-web-components/dialog": "0.43.0",
     "@spectrum-web-components/field-label": "^0.43.0",
     "@spectrum-web-components/icons-ui": "0.43.0",
-    "@spectrum-web-components/icons-workflow": "^0.43.0",
+    "@spectrum-web-components/icons-workflow": "0.43.0",
     "@spectrum-web-components/menu": "^0.43.0",
-    "@spectrum-web-components/overlay": "^0.42.5",
+    "@spectrum-web-components/overlay": "0.43.0",
     "@spectrum-web-components/picker": "^0.43.0",
     "@spectrum-web-components/sidenav": "^0.43.0",
-    "@spectrum-web-components/styles": "^0.44.0",
+    "@spectrum-web-components/styles": "0.43.0",
     "@spectrum-web-components/table": "0.43.0",
-    "@spectrum-web-components/tabs": "^0.44.0",
-    "@spectrum-web-components/theme": "^0.42.2",
+    "@spectrum-web-components/tabs": "0.43.0",
+    "@spectrum-web-components/theme": "0.43.0",
+    "@spectrum-web-components/underlay": "0.43.0",
     "@vaadin/router": "^1.7.5",
     "lit": "^3.1.4",
-    "sp-table-body.js": "link:@spectrum-web-components/table/sp-table-body.js",
-    "sp-table-cell.js": "link:@spectrum-web-components/table/sp-table-cell.js",
-    "sp-table-head-cell.js": "link:@spectrum-web-components/table/sp-table-head-cell.js",
-    "sp-table-head.js": "link:@spectrum-web-components/table/sp-table-head.js",
-    "sp-table-row.js": "link:@spectrum-web-components/table/sp-table-row.js",
-    "sp-table.js": "link:@spectrum-web-components/table/sp-table.js",
     "tslib": "^2.6.3"
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.10.3",
     "@open-wc/eslint-config": "^12.0.3",
+    "@types/jquery": "^3.5.30",
     "@typescript-eslint/eslint-plugin": "^7.16.0",
     "@typescript-eslint/parser": "^7.16.0",
     "@web/dev-server": "^0.4.6",
@@ -68,8 +65,13 @@
   "customElements": "custom-elements.json",
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
-    "extends": ["@open-wc", "prettier"],
-    "plugins": ["@typescript-eslint"],
+    "extends": [
+      "@open-wc",
+      "prettier"
+    ],
+    "plugins": [
+      "@typescript-eslint"
+    ],
     "rules": {
       "no-unused-vars": "off",
       "@typescript-eslint/no-unused-vars": "error",
@@ -88,6 +90,8 @@
     "arrowParens": "avoid"
   },
   "lint-staged": {
-    "*.ts": ["prettier --write"]
+    "*.ts": [
+      "prettier --write"
+    ]
   }
 }

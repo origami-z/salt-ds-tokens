@@ -31,6 +31,8 @@ export class GettingStarted extends LitElement {
         flex: auto;
         top: 0;
         justify-content: center;
+        margin-left: auto;
+        margin-right: auto;
       }
       .title {
         color: #000;
@@ -62,9 +64,7 @@ export class GettingStarted extends LitElement {
       .page {
         display: flex;
         justify-content: center;
-        margin-left: 100px;
-        margin-right: 100px;
-        margin-bottom: 15px;
+        margin-bottom: 100px;
       }
       .section {
         padding-bottom: 10px;
@@ -72,10 +72,6 @@ export class GettingStarted extends LitElement {
       }
     `,
   ];
-
-  __copyListener(e: CustomEvent) {
-    const selected = e.detail;
-  }
 
   protected override render(): TemplateResult {
     return html`
@@ -156,7 +152,7 @@ export class GettingStarted extends LitElement {
           <code-panel
             codeSnippet="import tokenDiff from “@adobe/token-diff-generator”;
 
-          const report = tokenDiff(originalSchema, updatedSchema);"
+const report = tokenDiff(originalSchema, updatedSchema);"
             .tagOptions=${[]}
           ></code-panel>
           <p class="text spectrum-Typography spectrum-Heading--sizeXXL">
@@ -282,7 +278,8 @@ const report = tokenDiff(originalSchema, updatedSchema);"
           </div>
           <p class="text spectrum-Typography spectrum-Heading--sizeXXL">
             An example of using the cli involves running the
-            <code>report</code> command with two branches and/or releases.
+            <code class="spectrum-Code spectrum-Code--sizeXS">report</code>
+            command with two branches and/or releases.
           </p>
           <div class="section">
             <code-panel

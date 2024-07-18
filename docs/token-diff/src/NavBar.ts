@@ -7,10 +7,10 @@ import '@spectrum-web-components/theme/src/themes.js';
 export class NavBar extends LitElement {
   static styles = css`
     :host {
-      display: block;
+      /* display: block; */
       padding: 25px;
       color: var(--token-diff-text-color, #000);
-      overflow-y: hidden;
+      /* overflow-y: hidden; */
       min-width: fit-content;
     }
     .logo-text {
@@ -28,16 +28,24 @@ export class NavBar extends LitElement {
       display: flex;
       align-items: center;
       padding-bottom: 15px;
+      margin: auto;
     }
     .entire-bar {
       background-color: '#F8F8F8';
-      height: 100vh;
+      /* height: 100vh; */
+      width: fit-content;
     }
     img {
+      align-content: center;
       vertical-align: middle;
     }
     a {
       text-decoration: none;
+    }
+    @media only screen and (max-width: 1100px) {
+      :host {
+        padding: auto;
+      }
     }
   `;
 
@@ -48,12 +56,12 @@ export class NavBar extends LitElement {
           <img class="logo" src="/src/assets/adobe_logo.svg" alt="adobe logo" />
           <div class="logo-text">
             <sp-theme theme="spectrum" color="light" scale="medium">
-              <div
+              <h3
                 class="spectrum-Typography spectrum-Heading--sizeXXL logo-section"
               >
                 Spectrum <br />
                 Tokens
-              </div>
+              </h3>
             </sp-theme>
           </div>
         </a>

@@ -39,7 +39,7 @@ export class CompareCard extends LitElement {
       color: var(--token-diff-text-color, #000);
     }
     .card {
-      display: flex;
+      display: inline-block;
       width: 391px;
       flex-direction: column;
       align-items: flex-start;
@@ -74,6 +74,14 @@ export class CompareCard extends LitElement {
     }
     .picker {
       width: 341px;
+    }
+    @media only screen and (max-width: 480px) {
+      .card {
+        width: 280px;
+      }
+      .picker {
+        width: 218px;
+      }
     }
   `;
 
