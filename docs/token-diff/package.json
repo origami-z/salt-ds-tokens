@@ -37,6 +37,7 @@
     "@spectrum-web-components/overlay": "^0.42.5",
     "@spectrum-web-components/picker": "^0.43.0",
     "@spectrum-web-components/sidenav": "^0.43.0",
+    "@spectrum-web-components/styles": "^0.44.0",
     "@spectrum-web-components/table": "0.43.0",
     "@spectrum-web-components/tabs": "^0.44.0",
     "@spectrum-web-components/theme": "^0.42.2",
@@ -67,18 +68,11 @@
   "customElements": "custom-elements.json",
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
-    "extends": [
-      "@open-wc",
-      "prettier"
-    ],
-    "plugins": [
-      "@typescript-eslint"
-    ],
+    "extends": ["@open-wc", "prettier"],
+    "plugins": ["@typescript-eslint"],
     "rules": {
       "no-unused-vars": "off",
-      "@typescript-eslint/no-unused-vars": [
-        "error"
-      ],
+      "@typescript-eslint/no-unused-vars": "error",
       "import/no-unresolved": "off",
       "import/extensions": [
         "error",
@@ -94,9 +88,6 @@
     "arrowParens": "avoid"
   },
   "lint-staged": {
-    "*.ts": [
-      "eslint --fix",
-      "prettier --write"
-    ]
+    "*.ts": ["prettier --write"]
   }
 }

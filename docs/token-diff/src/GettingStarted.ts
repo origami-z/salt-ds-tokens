@@ -12,58 +12,61 @@ import '@spectrum-web-components/table/sp-table-cell.js';
 import '@spectrum-web-components/table/sp-table-head.js';
 import '@spectrum-web-components/table/sp-table-head-cell.js';
 import '@spectrum-web-components/table/sp-table-row.js';
-import '@spectrum-css/typography/dist/index.css' with { type: 'css' };
+import spectrumTypographyStyles from '@spectrum-web-components/styles/typography.js';
 
 export class GettingStarted extends LitElement {
-  static styles = css`
-    :host {
-      display: flex;
-      padding: 25px;
-      color: var(--token-diff-text-color, #000);
-      background-color: white;
-      flex: auto;
-      top: 0;
-      justify-content: center;
-    }
-    .title {
-      color: #000;
-      font-family: 'Adobe Clean Serif';
-      font-size: 58px;
-      font-style: normal;
-      font-weight: 900;
-      line-height: 66.7px; /* 115% */
-      margin-top: 15px;
-    }
-    .subtitle {
-      color: #000;
-      font-family: 'Adobe Clean Serif';
-      font-size: 40px;
-      font-style: normal;
-      font-weight: 900;
-      line-height: 66.7px; /* 115% */
-      margin-top: 15px;
-    }
-    .text {
-      color: #222;
-      font-size: 18px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 27px; /* 150% */
-      margin-bottom: 10px;
-      margin-top: 10px;
-    }
-    .page {
-      display: flex;
-      justify-content: center;
-      margin-left: 100px;
-      margin-right: 100px;
-      margin-bottom: 15px;
-    }
-    .section {
-      padding-bottom: 10px;
-      padding-top: 10px;
-    }
-  `;
+  static styles = [
+    css`
+      :host {
+        display: flex;
+        padding: 25px;
+        color: var(--token-diff-text-color, #000);
+        background-color: white;
+        flex: auto;
+        top: 0;
+        justify-content: center;
+      }
+      .title {
+        color: #000;
+        font-family: 'Adobe Clean Serif';
+        font-size: 58px;
+        font-style: normal;
+        font-weight: 900;
+        line-height: 66.7px; /* 115% */
+        margin-top: 15px;
+      }
+      .subtitle {
+        color: #000;
+        font-family: 'Adobe Clean Serif';
+        font-size: 40px;
+        font-style: normal;
+        font-weight: 900;
+        line-height: 66.7px; /* 115% */
+        margin-top: 15px;
+      }
+      .text {
+        color: #222;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 27px; /* 150% */
+        margin-bottom: 10px;
+        margin-top: 10px;
+      }
+      .page {
+        display: flex;
+        justify-content: center;
+        margin-left: 100px;
+        margin-right: 100px;
+        margin-bottom: 15px;
+      }
+      .section {
+        padding-bottom: 10px;
+        padding-top: 10px;
+      }
+    `,
+    ...spectrumTypographyStyles,
+  ];
 
   __copyListener(e: CustomEvent) {
     const selected = e.detail;
@@ -146,8 +149,8 @@ export class GettingStarted extends LitElement {
             token(s).
           </p>
           <code-panel
-            codeSnippet="import tokenDiff from “@adobe/token-diff-generator”; 
-          
+            codeSnippet="import tokenDiff from “@adobe/token-diff-generator”;
+
           const report = tokenDiff(originalSchema, updatedSchema);"
             .tagOptions=${[]}
           ></code-panel>
