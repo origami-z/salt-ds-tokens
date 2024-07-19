@@ -78,8 +78,8 @@ export class GettingStarted extends LitElement {
       }
       @media only screen and (max-width: 1100px) {
         :host {
-          padding: 0;
-          margin: 25px;
+          padding-left: 25px;
+          padding-right: 25px;
           overflow-x: hidden;
           position: relative;
         }
@@ -89,9 +89,9 @@ export class GettingStarted extends LitElement {
       }
       @media only screen and (max-width: 600px) {
         :host {
-          padding: 0;
-          margin: 25px;
-          overflow-x: hidden;
+          padding-left: 25px;
+          padding-right: 25px;
+          overflow-x: auto;
           position: relative;
         }
         .title {

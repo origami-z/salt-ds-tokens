@@ -8,6 +8,7 @@ import '@spectrum-web-components/theme/src/themes.js';
 import '@spectrum-web-components/overlay/sp-overlay.js';
 import '@spectrum-web-components/dialog/sp-dialog-wrapper.js';
 import '@spectrum-web-components/underlay/sp-underlay.js';
+import { property } from 'lit/decorators.js';
 
 export class PageContainer extends LitElement {
   static styles = css`
@@ -36,11 +37,20 @@ export class PageContainer extends LitElement {
       width: 100%;
       z-index: 9999;
     }
-    .nav-bar {
+    sp-underlay:not([open]) {
       display: none;
     }
-    sp-underlay:not([open]) + sp-dialog {
-      display: none;
+    .show {
+      display: inline-block !important;
+    }
+    .hide {
+      display: none !important;
+    }
+    .remove-brightness {
+      filter: brightness(75%);
+    }
+    .restore-brightness {
+      filter: brightness(100%);
     }
     @media only screen and (max-width: 1100px) {
       header {
@@ -57,10 +67,48 @@ export class PageContainer extends LitElement {
         background-color: white;
       }
       .nav-bar {
-        display: inline-block;
+        display: block;
       }
     }
   `;
+
+  __toggleNav() {
+    console.log('hello?');
+    const navBar = this.shadowRoot?.querySelector('nav-bar');
+    const header = this.shadowRoot?.querySelector('.navigation');
+    const outlet = this.shadowRoot?.querySelector('#outlet');
+    if (
+      header !== undefined &&
+      header !== null &&
+      navBar !== undefined &&
+      navBar !== null &&
+      outlet !== undefined &&
+      outlet !== null
+    ) {
+      header.classList.toggle('hide');
+      navBar.classList.toggle('show');
+      outlet.classList.toggle('remove-brightness');
+    }
+  }
+
+  __toggleOutlet() {
+    const navBar = this.shadowRoot?.querySelector('nav-bar');
+    const header = this.shadowRoot?.querySelector('.navigation');
+    const outlet = this.shadowRoot?.querySelector('#outlet');
+    if (
+      header !== undefined &&
+      header !== null &&
+      navBar !== undefined &&
+      navBar !== null &&
+      outlet !== undefined &&
+      outlet !== null &&
+      window.matchMedia('(max-width: 1100px)').matches
+    ) {
+      navBar.classList.toggle('hide');
+      header.classList.toggle('show');
+      outlet.classList.toggle('restore-brightness');
+    }
+  }
 
   firstUpdated() {
     const router = new Router(this.shadowRoot!.querySelector('#outlet'));
@@ -85,10 +133,7 @@ export class PageContainer extends LitElement {
               <sp-action-button
                 quiet
                 id="trigger"
-                onclick=${() => {
-                  $('.navigation').hide();
-                  $('.nav-bar').show();
-                }}
+                @click="${this.__toggleNav}"
               >
                 <sp-icon-show-menu slot="icon"></sp-icon-show-menu>
               </sp-action-button>
@@ -98,7 +143,7 @@ export class PageContainer extends LitElement {
         </div>
         <div class="page">
           <nav-bar class="nav-bar"></nav-bar>
-          <div id="outlet"></div>
+          <div id="outlet" @click="${this.__toggleOutlet}"></div>
         </div>
       </div>
     `;
