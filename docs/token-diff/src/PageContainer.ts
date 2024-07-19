@@ -28,8 +28,6 @@ export class PageContainer extends LitElement {
       padding: 12px;
       border-bottom: 1px solid var(--spectrum-gray-200);
       background-color: white;
-    }
-    header {
       display: none;
       background-color: white;
       overflow: hidden;
@@ -37,9 +35,14 @@ export class PageContainer extends LitElement {
       width: 100%;
       z-index: 9999;
     }
-    sp-underlay:not([open]) {
+    /* header {
       display: none;
-    }
+      background-color: white;
+      overflow: hidden;
+      position: fixed;
+      width: 100%;
+      z-index: 9999;
+    } */
     .show {
       display: inline-block !important;
     }
@@ -53,7 +56,7 @@ export class PageContainer extends LitElement {
       filter: brightness(100%);
     }
     @media only screen and (max-width: 1100px) {
-      header {
+      .navigation {
         display: inline-block;
         background-color: white;
       }
@@ -62,7 +65,7 @@ export class PageContainer extends LitElement {
       }
     }
     @media only screen and (min-width: 1100px) {
-      header {
+      .navigation {
         display: none;
         background-color: white;
       }
@@ -73,41 +76,32 @@ export class PageContainer extends LitElement {
   `;
 
   __toggleNav() {
-    console.log('hello?');
-    const navBar = this.shadowRoot?.querySelector('nav-bar');
-    const header = this.shadowRoot?.querySelector('.navigation');
-    const outlet = this.shadowRoot?.querySelector('#outlet');
-    if (
-      header !== undefined &&
-      header !== null &&
-      navBar !== undefined &&
-      navBar !== null &&
-      outlet !== undefined &&
-      outlet !== null
-    ) {
-      header.classList.toggle('hide');
-      navBar.classList.toggle('show');
-      outlet.classList.toggle('remove-brightness');
-    }
+    // console.log('hello?');
+    // const navBar = this.shadowRoot?.querySelector('nav-bar');
+    // const header = this.shadowRoot?.querySelector('.navigation');
+    // const outlet = this.shadowRoot?.querySelector('#outlet');
+    // if (
+    //   header && navBar && outlet
+    // ) {
+    //   header.classList.toggle('hide');
+    //   navBar.classList.toggle('show');
+    //   outlet.classList.toggle('remove-brightness');
+    // }
   }
 
   __toggleOutlet() {
-    const navBar = this.shadowRoot?.querySelector('nav-bar');
-    const header = this.shadowRoot?.querySelector('.navigation');
-    const outlet = this.shadowRoot?.querySelector('#outlet');
-    if (
-      header !== undefined &&
-      header !== null &&
-      navBar !== undefined &&
-      navBar !== null &&
-      outlet !== undefined &&
-      outlet !== null &&
-      window.matchMedia('(max-width: 1100px)').matches
-    ) {
-      navBar.classList.toggle('hide');
-      header.classList.toggle('show');
-      outlet.classList.toggle('restore-brightness');
-    }
+    // const navBar = this.shadowRoot?.querySelector('nav-bar');
+    // const header = this.shadowRoot?.querySelector('.navigation');
+    // const outlet = this.shadowRoot?.querySelector('#outlet');
+    // if (
+    //   header && navBar && outlet &&
+    //   window.matchMedia('(max-width: 1100px)').matches
+    // ) {
+    //   navBar.classList.toggle('hide');
+    //   header.classList.remove('hide');
+    //   header.classList.toggle('show');
+    //   outlet.classList.toggle('restore-brightness');
+    // }
   }
 
   firstUpdated() {
