@@ -11,7 +11,9 @@ export class TokenDiff extends LitElement {
   static styles = css`
     :host {
       display: flex;
-      padding: 25px;
+      padding-left: 100px;
+      padding-right: 100px;
+      padding-top: 25px;
       color: var(--token-diff-text-color, #000);
       flex: auto;
       top: 0;
@@ -46,6 +48,20 @@ export class TokenDiff extends LitElement {
     .compare-button {
       margin-top: 40px;
       margin-bottom: 50px;
+    }
+    @media only screen and (max-width: 1100px) {
+      :host {
+        padding-left: 25px;
+        padding-right: 25px;
+        overflow-x: auto;
+      }
+      .page {
+        padding-left: 0;
+        padding-right: 0;
+      }
+      .title {
+        padding-top: 50px;
+      }
     }
   `;
 

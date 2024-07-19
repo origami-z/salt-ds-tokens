@@ -26,8 +26,12 @@ export class CodePanel extends LitElement {
       padding: 10px 25px;
     }
     code {
+      display: block;
       left: 0;
       text-align: left;
+      flex-wrap: wrap;
+      white-space: pre-wrap;
+      word-wrap: break-word;
     }
     pre {
       margin-bottom: 10px;

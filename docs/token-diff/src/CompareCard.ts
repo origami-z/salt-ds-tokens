@@ -82,6 +82,10 @@ export class CompareCard extends LitElement {
       .picker {
         width: 218px;
       }
+      :host {
+        padding-left: 0;
+        padding-right: 0;
+      }
     }
   `;
 

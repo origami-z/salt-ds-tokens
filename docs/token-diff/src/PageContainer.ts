@@ -15,7 +15,7 @@ export class PageContainer extends LitElement {
       display: flex;
       min-height: 100vh;
       width: 100vw;
-      /* overflow-y: hidden; */
+      overflow-y: hidden;
     }
     #outlet {
       width: 100vw;
@@ -24,34 +24,37 @@ export class PageContainer extends LitElement {
       background-color: white;
     }
     .navigation {
-      padding-left: 12px;
-      padding-top: 12px;
-      padding-bottom: 12px;
+      padding: 12px;
       border-bottom: 1px solid var(--spectrum-gray-200);
-      width: 100vw;
-    }
-    .header {
-      display: none;
       background-color: white;
     }
+    header {
+      display: none;
+      background-color: white;
+      overflow: hidden;
+      position: fixed;
+      width: 100%;
+      z-index: 9999;
+    }
     .nav-bar {
-      width: fit-content;
       display: none;
     }
     sp-underlay:not([open]) + sp-dialog {
       display: none;
     }
     @media only screen and (max-width: 1100px) {
-      .header {
+      header {
         display: inline-block;
+        background-color: white;
       }
       .nav-bar {
         display: none;
       }
     }
     @media only screen and (min-width: 1100px) {
-      .header {
+      header {
         display: none;
+        background-color: white;
       }
       .nav-bar {
         display: inline-block;
@@ -70,33 +73,32 @@ export class PageContainer extends LitElement {
 
   protected override render(): TemplateResult {
     return html`
-      <div class="page">
-        <div>
-          <header>
-            <sp-theme
-              class="header"
-              theme="spectrum"
-              color="light"
-              scale="medium"
-            >
-              <div class="navigation">
-                <sp-action-button
-                  quiet
-                  id="trigger"
-                  onclick=${() => {
-                    $('.navigation').hide();
-                    $('.nav-bar').show();
-                  }}
-                >
-                  <sp-icon-show-menu slot="icon"></sp-icon-show-menu>
-                </sp-action-button>
-              </div>
-            </sp-theme>
-          </header>
-          <div class="page">
-            <nav-bar class="nav-bar"></nav-bar>
-            <div id="outlet"></div>
-          </div>
+      <div>
+        <header>
+          <sp-theme
+            class="header"
+            theme="spectrum"
+            color="light"
+            scale="medium"
+          >
+            <div class="navigation">
+              <sp-action-button
+                quiet
+                id="trigger"
+                onclick=${() => {
+                  $('.navigation').hide();
+                  $('.nav-bar').show();
+                }}
+              >
+                <sp-icon-show-menu slot="icon"></sp-icon-show-menu>
+              </sp-action-button>
+            </div>
+          </sp-theme>
+        </header>
+        </div>
+        <div class="page">
+          <nav-bar class="nav-bar"></nav-bar>
+          <div id="outlet"></div>
         </div>
       </div>
     `;

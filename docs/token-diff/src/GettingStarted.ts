@@ -15,7 +15,6 @@ import '@spectrum-web-components/table/sp-table-row.js';
 import spectrumHeadingStyles from '@spectrum-web-components/styles/heading.js';
 import spectrumBodyStyles from '@spectrum-web-components/styles/body.js';
 import spectrumTypographyStyles from '@spectrum-web-components/styles/typography.js';
-// import '@spectrum-css/typography/dist/index.css';
 
 export class GettingStarted extends LitElement {
   static styles = [
@@ -24,24 +23,29 @@ export class GettingStarted extends LitElement {
     ...spectrumTypographyStyles,
     css`
       :host {
-        display: flex;
-        padding: 25px;
+        display: block;
+        padding-left: 100px;
+        padding-right: 100px;
+        padding-top: 25px;
         color: var(--token-diff-text-color, #000);
         background-color: white;
         flex: auto;
         top: 0;
-        justify-content: center;
         margin-left: auto;
         margin-right: auto;
+        flex-wrap: wrap;
       }
       .title {
+        display: flex;
         color: #000;
         font-family: 'Adobe Clean Serif';
         font-size: 58px;
         font-style: normal;
         font-weight: 900;
-        line-height: 66.7px; /* 115% */
+        line-height: 66.7px;
         margin-top: 15px;
+        flex: 1 1 100%;
+        flex-wrap: wrap;
       }
       .subtitle {
         color: #000;
@@ -49,26 +53,58 @@ export class GettingStarted extends LitElement {
         font-size: 40px;
         font-style: normal;
         font-weight: 900;
-        line-height: 66.7px; /* 115% */
+        line-height: 66.7px;
         margin-top: 15px;
+        flex-wrap: wrap;
       }
       .text {
         color: #222;
         font-size: 18px;
         font-style: normal;
         font-weight: 400;
-        line-height: 27px; /* 150% */
+        line-height: 27px;
         margin-bottom: 10px;
         margin-top: 10px;
-      }
-      .page {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 100px;
+        flex-wrap: wrap;
       }
       .section {
-        padding-bottom: 10px;
-        padding-top: 10px;
+        padding-bottom: 20px;
+        padding-top: 20px;
+      }
+      .table {
+        overflow-x: auto;
+        resize: none;
+        position: relative;
+      }
+      @media only screen and (max-width: 1100px) {
+        :host {
+          padding: 0;
+          margin: 25px;
+          overflow-x: hidden;
+          position: relative;
+        }
+        .title {
+          padding-top: 50px;
+        }
+      }
+      @media only screen and (max-width: 600px) {
+        :host {
+          padding: 0;
+          margin: 25px;
+          overflow-x: hidden;
+          position: relative;
+        }
+        .title {
+          padding-top: 50px;
+        }
+        .table {
+          overflow-x: auto;
+          resize: none;
+          width: 100%;
+        }
+        .row {
+          width: 100vw;
+        }
       }
     `,
   ];
@@ -99,6 +135,7 @@ export class GettingStarted extends LitElement {
             will also work.
           </p>
           <code-panel
+            class="section"
             codeSnippet="i @adobe/token-diff-generator"
             .tagOptions=${['pnpm', 'npm', 'yarn']}
           ></code-panel>
@@ -111,6 +148,7 @@ export class GettingStarted extends LitElement {
             Import the token diff generator as a module per ES6 standards.
           </p>
           <code-panel
+            class="section"
             codeSnippet="import tokenDiff from '@adobe/token-diff-generator';"
             .tagOptions=${[]}
           ></code-panel>
@@ -150,6 +188,7 @@ export class GettingStarted extends LitElement {
             token(s).
           </p>
           <code-panel
+            class="section"
             codeSnippet="import tokenDiff from “@adobe/token-diff-generator”;
 
 const report = tokenDiff(originalSchema, updatedSchema);"
@@ -160,6 +199,7 @@ const report = tokenDiff(originalSchema, updatedSchema);"
             versions or branches, you can use the following code snippet.
           </p>
           <code-panel
+            class="section"
             codeSnippet="import tokenDiff from “@adobe/token-diff-generator”;
 import fileImport from “@adobe/token-diff-generator”;
 
@@ -195,82 +235,92 @@ const report = tokenDiff(originalSchema, updatedSchema);"
             There currently is only one command to run in the CLI. It generates
             a diff report for two inputted schema.
           </p>
-          <code-panel codeSnippet="tdiff report" .tagOptions=${[]}></code-panel>
+          <code-panel
+            class="section"
+            codeSnippet="tdiff report"
+            .tagOptions=${[]}
+          ></code-panel>
           <div
             class="subtitle spectrum-Typography spectrum-Heading--sizeXXL spectrum-Heading--serif"
           >
             Options
           </div>
-          <sp-table>
-            <sp-table-head>
-              <sp-table-head-cell>Shorthand</sp-table-head-cell>
-              <sp-table-head-cell>Name</sp-table-head-cell>
-              <sp-table-head-cell>Argument(s)</sp-table-head-cell>
-              <sp-table-head-cell>Description</sp-table-head-cell>
-            </sp-table-head>
-            <sp-table-body>
-              <sp-table-row>
-                <sp-table-cell><code>-y</code></sp-table-cell>
-                <sp-table-cell><code>-y</code></sp-table-cell>
-                <sp-table-cell><code>null</code></sp-table-cell>
-                <sp-table-cell
-                  >answers yes to removing deprecated status of
-                  token(s)</sp-table-cell
-                >
-              </sp-table-row>
-              <sp-table-row>
-                <sp-table-cell><code>-otv</code></sp-table-cell>
-                <sp-table-cell><code>--old-token-version</code></sp-table-cell>
-                <sp-table-cell><code>${`<oldVersion>`}</code></sp-table-cell>
-                <sp-table-cell
-                  >npm package version/github tag to pull old tokens
-                  from</sp-table-cell
-                >
-              </sp-table-row>
-              <sp-table-row>
-                <sp-table-cell><code>-ntv</code></sp-table-cell>
-                <sp-table-cell><code>--new-token-version</code></sp-table-cell>
-                <sp-table-cell><code>${`<newVersion>`}</code></sp-table-cell>
-                <sp-table-cell
-                  >npm package version/github tag to pull new tokens
-                  from</sp-table-cell
-                >
-              </sp-table-row>
-              <sp-table-row>
-                <sp-table-cell><code>-otb</code></sp-table-cell>
-                <sp-table-cell><code>--old-token-branch</code></sp-table-cell>
-                <sp-table-cell><code>${`<oldBranch>`}</code></sp-table-cell>
-                <sp-table-cell
-                  >branch to fetch old token data from</sp-table-cell
-                >
-              </sp-table-row>
-              <sp-table-row>
-                <sp-table-cell><code>-ntb</code></sp-table-cell>
-                <sp-table-cell><code>--new-token-branch</code></sp-table-cell>
-                <sp-table-cell><code>${`<newBranch>`}</code></sp-table-cell>
-                <sp-table-cell
-                  >branch to fetch new token data from</sp-table-cell
-                >
-              </sp-table-row>
-              <sp-table-row>
-                <sp-table-cell><code>-t</code></sp-table-cell>
-                <sp-table-cell><code>--test</code></sp-table-cell>
-                <sp-table-cell><code>${`<tokens...>`}</code></sp-table-cell>
-                <sp-table-cell
-                  >indicates test mode and runs only on tokens passed
-                  in</sp-table-cell
-                >
-              </sp-table-row>
-              <sp-table-row>
-                <sp-table-cell><code>-tn</code></sp-table-cell>
-                <sp-table-cell><code>--token-names</code></sp-table-cell>
-                <sp-table-cell><code>${`<tokens...>`}</code></sp-table-cell>
-                <sp-table-cell
-                  >indicates specific tokens to compare</sp-table-cell
-                >
-              </sp-table-row>
-            </sp-table-body>
-          </sp-table>
+          <div class="table">
+            <sp-table class="row" quiet density="compact">
+              <sp-table-head class="row">
+                <sp-table-head-cell>Shorthand</sp-table-head-cell>
+                <sp-table-head-cell>Name</sp-table-head-cell>
+                <sp-table-head-cell>Argument(s)</sp-table-head-cell>
+                <sp-table-head-cell>Description</sp-table-head-cell>
+              </sp-table-head>
+              <sp-table-body>
+                <sp-table-row class="row">
+                  <sp-table-cell><code>-y</code></sp-table-cell>
+                  <sp-table-cell><code>-y</code></sp-table-cell>
+                  <sp-table-cell><code>null</code></sp-table-cell>
+                  <sp-table-cell
+                    >answers yes to removing deprecated status of
+                    token(s)</sp-table-cell
+                  >
+                </sp-table-row>
+                <sp-table-row class="row">
+                  <sp-table-cell><code>-otv</code></sp-table-cell>
+                  <sp-table-cell
+                    ><code>--old-token-version</code></sp-table-cell
+                  >
+                  <sp-table-cell><code>${`<oldVersion>`}</code></sp-table-cell>
+                  <sp-table-cell
+                    >npm package version/github tag to pull old tokens
+                    from</sp-table-cell
+                  >
+                </sp-table-row>
+                <sp-table-row class="row">
+                  <sp-table-cell><code>-ntv</code></sp-table-cell>
+                  <sp-table-cell
+                    ><code>--new-token-version</code></sp-table-cell
+                  >
+                  <sp-table-cell><code>${`<newVersion>`}</code></sp-table-cell>
+                  <sp-table-cell
+                    >npm package version/github tag to pull new tokens
+                    from</sp-table-cell
+                  >
+                </sp-table-row>
+                <sp-table-row class="row">
+                  <sp-table-cell><code>-otb</code></sp-table-cell>
+                  <sp-table-cell><code>--old-token-branch</code></sp-table-cell>
+                  <sp-table-cell><code>${`<oldBranch>`}</code></sp-table-cell>
+                  <sp-table-cell
+                    >branch to fetch old token data from</sp-table-cell
+                  >
+                </sp-table-row>
+                <sp-table-row class="row">
+                  <sp-table-cell><code>-ntb</code></sp-table-cell>
+                  <sp-table-cell><code>--new-token-branch</code></sp-table-cell>
+                  <sp-table-cell><code>${`<newBranch>`}</code></sp-table-cell>
+                  <sp-table-cell
+                    >branch to fetch new token data from</sp-table-cell
+                  >
+                </sp-table-row>
+                <sp-table-row class="row">
+                  <sp-table-cell><code>-t</code></sp-table-cell>
+                  <sp-table-cell><code>--test</code></sp-table-cell>
+                  <sp-table-cell><code>${`<tokens...>`}</code></sp-table-cell>
+                  <sp-table-cell
+                    >indicates test mode and runs only on tokens passed
+                    in</sp-table-cell
+                  >
+                </sp-table-row>
+                <sp-table-row class="row">
+                  <sp-table-cell><code>-tn</code></sp-table-cell>
+                  <sp-table-cell><code>--token-names</code></sp-table-cell>
+                  <sp-table-cell><code>${`<tokens...>`}</code></sp-table-cell>
+                  <sp-table-cell
+                    >indicates specific tokens to compare</sp-table-cell
+                  >
+                </sp-table-row>
+              </sp-table-body>
+            </sp-table>
+          </div>
           <div
             class="subtitle spectrum-Typography spectrum-Heading--sizeXXL spectrum-Heading--serif"
           >
