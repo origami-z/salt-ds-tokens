@@ -113,6 +113,9 @@ importers:
       "@spectrum-web-components/dialog":
         specifier: 0.43.0
         version: 0.43.0
+      "@spectrum-web-components/divider":
+        specifier: 0.43.0
+        version: 0.43.0
       "@spectrum-web-components/field-label":
         specifier: ^0.43.0
         version: 0.43.0

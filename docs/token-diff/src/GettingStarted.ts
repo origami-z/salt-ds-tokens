@@ -27,9 +27,7 @@ import '@spectrum-web-components/table/sp-table-row.js';
 export class GettingStarted extends LitElement {
   static styles = css`
     :host {
-      display: block;
-      padding-left: 100px;
-      padding-right: 100px;
+      display: flex;
       padding-top: 25px;
       color: var(--token-diff-text-color, #000);
       background-color: white;
@@ -38,6 +36,7 @@ export class GettingStarted extends LitElement {
       margin-left: auto;
       margin-right: auto;
       flex-wrap: wrap;
+      overflow-y: hidden;
     }
     .title {
       display: flex;
@@ -82,8 +81,6 @@ export class GettingStarted extends LitElement {
     }
     @media only screen and (max-width: 1100px) {
       :host {
-        padding-left: 25px;
-        padding-right: 25px;
         overflow-x: hidden;
         position: relative;
       }
@@ -93,9 +90,7 @@ export class GettingStarted extends LitElement {
     }
     @media only screen and (max-width: 600px) {
       :host {
-        padding-left: 25px;
-        padding-right: 25px;
-        overflow-x: auto;
+        overflow-x: hidden;
         position: relative;
       }
       .title {

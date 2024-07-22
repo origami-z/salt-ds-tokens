@@ -18,6 +18,7 @@ import '@spectrum-web-components/theme/sp-theme.js';
 import '@spectrum-web-components/theme/src/themes.js';
 import '@spectrum-web-components/overlay/sp-overlay.js';
 import '@spectrum-web-components/popover/sp-popover.js';
+import '@spectrum-web-components/divider/sp-divider.js';
 
 export class PageContainer extends LitElement {
   static styles = css`
@@ -27,8 +28,13 @@ export class PageContainer extends LitElement {
       width: 100vw;
       overflow-y: hidden;
     }
-    #outlet {
+    .right {
+      padding-left: 100px;
+      padding-right: 100px;
+      background-color: white;
       width: 100vw;
+    }
+    #outlet {
       height: 100vh;
       overflow-y: scroll;
       background-color: white;
@@ -49,6 +55,51 @@ export class PageContainer extends LitElement {
       overflow-y: hidden;
       border-style: none;
     }
+    footer {
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+    .footer-group {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      width: 100%;
+    }
+    ul {
+      display: inline-block;
+      justify-content: center;
+    }
+    a {
+      text-decoration: none;
+      color: #222;
+    }
+    .footer-text {
+      font-size: 11px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 11px; /* 100% */
+      padding-left: 0;
+    }
+    .adchoice-icon {
+      display: block;
+      line-height: 1.4;
+      width: 25px;
+      height: 25px;
+      text-align: center;
+      padding-right: 5px;
+    }
+    .adchoice-span {
+      align-items: center;
+      display: flex;
+      width: fit-content;
+      justify-content: center;
+    }
+    .separator {
+      margin: 0 8px;
+      color: #4b4b4b;
+      font-size: 11px;
+    }
     @media only screen and (max-width: 1100px) {
       .navigation {
         display: inline-block;
@@ -56,6 +107,10 @@ export class PageContainer extends LitElement {
       }
       .nav-bar {
         display: none;
+      }
+      .right {
+        padding-left: 25px;
+        padding-right: 25px;
       }
     }
     @media only screen and (min-width: 1100px) {
@@ -111,7 +166,52 @@ export class PageContainer extends LitElement {
                 <nav-bar></nav-bar>
             </sp-popover>
           </sp-overlay>
-          <div id="outlet"></div>
+          <div class="right">
+            <div id="outlet"></div>
+            <sp-divider size="m"></sp-divider>
+            <footer>
+              <ul class="footer-group">
+                <span class="adchoice-span">
+                <ul class="footer-text">
+                    Copyright © 2024 Adobe. All rights reserved.
+                  <span class="separator">/</span>
+                </ul>
+                <ul class="footer-text">
+                  <a href="https://www.adobe.com/privacy.html">
+                    Privacy
+                  </a>
+                  <span class="separator">/</span>
+                </ul>
+                <ul class="footer-text">
+                  <a href="https://www.adobe.com/legal/terms.html">
+                    Terms of Use
+                  </a>
+                  <span class="separator">/</span>
+                </ul>
+                <!-- <ul class="footer-text">
+                  Cookie Preferences
+                  <span class="separator">/</span>
+                </ul> -->
+                <ul class="footer-text">
+                  <a href="https://www.adobe.com/privacy/us-rights.html">
+                    Do not sell or share my personal information
+                  </a>
+                  <span class="separator">/</span>
+                </ul>
+                <ul class="footer-text">
+                  <a class="adchoice-span" href="https://www.adobe.com/privacy/opt-out.html#interest-based-ads">
+                    <span>
+                    <img alt="adchoices" class="adchoice-icon" src="https://www.adobe.com/content/dam/cc/icons/adchoices-small.svg">
+                    </span>
+                    <span>
+                    AdChoices
+                    </span>
+                  </a>
+                </ul>
+                </span>
+            </ul>
+            </footer>
+          </div>
           </div>
           </sp-theme>
       </div>
