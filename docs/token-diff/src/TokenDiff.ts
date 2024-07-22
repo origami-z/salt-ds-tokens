@@ -26,10 +26,10 @@ export class TokenDiff extends LitElement {
       color: var(--token-diff-text-color, #000);
       flex: auto;
       top: 0;
-      overflow-x: auto;
+      overflow-x: hidden;
       min-height: 100vh;
       flex-wrap: wrap;
-      overflow-y: hidden;
+      /* overflow-y: hidden; */
     }
     .title {
       color: #000;
@@ -56,9 +56,6 @@ export class TokenDiff extends LitElement {
     .compare-button {
       margin-top: 40px;
       margin-bottom: 50px;
-    }
-    .token-diff {
-      overflow-y: hidden;
     }
     @media only screen and (max-width: 1100px) {
       :host {
@@ -120,7 +117,7 @@ export class TokenDiff extends LitElement {
 
   protected override render(): TemplateResult {
     return html`
-      <div class="token-diff">
+      <div>
         <sp-theme theme="spectrum" color="light" scale="medium">
           <div
             class="title spectrum-Typography spectrum-Heading--sizeXXL spectrum-Heading--serif"

@@ -31,12 +31,14 @@ export class GettingStarted extends LitElement {
       padding-top: 25px;
       color: var(--token-diff-text-color, #000);
       background-color: white;
-      flex: auto;
       top: 0;
+      flex: auto;
       margin-left: auto;
       margin-right: auto;
+      overflow-x: visible;
       flex-wrap: wrap;
-      overflow-y: hidden;
+      /* width: 100%; */
+      box-sizing: border-box;
     }
     .title {
       display: flex;
@@ -81,8 +83,8 @@ export class GettingStarted extends LitElement {
     }
     @media only screen and (max-width: 1100px) {
       :host {
-        overflow-x: hidden;
         position: relative;
+        flex-wrap: wrap;
       }
       .title {
         padding-top: 50px;
@@ -90,8 +92,8 @@ export class GettingStarted extends LitElement {
     }
     @media only screen and (max-width: 600px) {
       :host {
-        overflow-x: hidden;
         position: relative;
+        flex-wrap: wrap;
       }
       .title {
         padding-top: 50px;

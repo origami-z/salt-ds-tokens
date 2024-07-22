@@ -24,20 +24,24 @@ export class PageContainer extends LitElement {
   static styles = css`
     .page {
       display: flex;
-      min-height: 100vh;
-      width: 100vw;
-      overflow-y: hidden;
+      max-width: 100vw;
     }
     .right {
       padding-left: 100px;
       padding-right: 100px;
       background-color: white;
-      width: 100vw;
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      box-sizing: border-box;
     }
     #outlet {
-      height: 100vh;
       overflow-y: scroll;
       background-color: white;
+      display: flex;
+      overflow-x: hidden;
+      flex-wrap: wrap;
+      width: inherit;
     }
     .navigation {
       padding: 12px;
@@ -59,12 +63,14 @@ export class PageContainer extends LitElement {
       display: flex;
       align-items: center;
       width: 100%;
+      overflow-y: hidden;
     }
     .footer-group {
       display: flex;
       justify-content: flex-end;
       align-items: center;
       width: 100%;
+      flex-wrap: wrap;
     }
     ul {
       display: inline-block;
@@ -93,12 +99,16 @@ export class PageContainer extends LitElement {
       align-items: center;
       display: flex;
       width: fit-content;
-      justify-content: center;
+      overflow-y: hidden;
+      flex-wrap: wrap;
     }
     .separator {
       margin: 0 8px;
       color: #4b4b4b;
       font-size: 11px;
+    }
+    .divider {
+      margin-top: 20px;
     }
     @media only screen and (max-width: 1100px) {
       .navigation {
@@ -168,7 +178,7 @@ export class PageContainer extends LitElement {
           </sp-overlay>
           <div class="right">
             <div id="outlet"></div>
-            <sp-divider size="m"></sp-divider>
+            <sp-divider class="divider" size="m"></sp-divider>
             <footer>
               <ul class="footer-group">
                 <span class="adchoice-span">
