@@ -131,6 +131,9 @@ importers:
       "@spectrum-web-components/picker":
         specifier: ^0.43.0
         version: 0.43.0
+      "@spectrum-web-components/popover":
+        specifier: 0.43.0
+        version: 0.43.0
       "@spectrum-web-components/sidenav":
         specifier: ^0.43.0
         version: 0.43.0

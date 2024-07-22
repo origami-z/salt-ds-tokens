@@ -1,3 +1,14 @@
+/*
+Copyright 2024 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
 import { html, css, LitElement, TemplateResult } from 'lit';
 import '@spectrum-web-components/theme/sp-theme.js';
 import '@spectrum-web-components/theme/src/themes.js';
@@ -12,102 +23,94 @@ import '@spectrum-web-components/table/sp-table-cell.js';
 import '@spectrum-web-components/table/sp-table-head.js';
 import '@spectrum-web-components/table/sp-table-head-cell.js';
 import '@spectrum-web-components/table/sp-table-row.js';
-import spectrumHeadingStyles from '@spectrum-web-components/styles/heading.js';
-import spectrumBodyStyles from '@spectrum-web-components/styles/body.js';
-import spectrumTypographyStyles from '@spectrum-web-components/styles/typography.js';
 
 export class GettingStarted extends LitElement {
-  static styles = [
-    ...spectrumHeadingStyles,
-    ...spectrumBodyStyles,
-    ...spectrumTypographyStyles,
-    css`
+  static styles = css`
+    :host {
+      display: block;
+      padding-left: 100px;
+      padding-right: 100px;
+      padding-top: 25px;
+      color: var(--token-diff-text-color, #000);
+      background-color: white;
+      flex: auto;
+      top: 0;
+      margin-left: auto;
+      margin-right: auto;
+      flex-wrap: wrap;
+    }
+    .title {
+      display: flex;
+      color: #000;
+      font-family: 'Adobe Clean Serif';
+      font-size: 58px;
+      font-style: normal;
+      font-weight: 900;
+      line-height: 66.7px;
+      margin-top: 15px;
+      flex: 1 1 100%;
+      flex-wrap: wrap;
+    }
+    .subtitle {
+      color: #000;
+      font-family: 'Adobe Clean Serif';
+      font-size: 40px;
+      font-style: normal;
+      font-weight: 900;
+      line-height: 66.7px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+    .text {
+      color: #222;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 27px;
+      margin-bottom: 10px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .section {
+      padding-bottom: 20px;
+      padding-top: 20px;
+    }
+    .table {
+      overflow-x: auto;
+      resize: none;
+      position: relative;
+    }
+    @media only screen and (max-width: 1100px) {
       :host {
-        display: block;
-        padding-left: 100px;
-        padding-right: 100px;
-        padding-top: 25px;
-        color: var(--token-diff-text-color, #000);
-        background-color: white;
-        flex: auto;
-        top: 0;
-        margin-left: auto;
-        margin-right: auto;
-        flex-wrap: wrap;
+        padding-left: 25px;
+        padding-right: 25px;
+        overflow-x: hidden;
+        position: relative;
       }
       .title {
-        display: flex;
-        color: #000;
-        font-family: 'Adobe Clean Serif';
-        font-size: 58px;
-        font-style: normal;
-        font-weight: 900;
-        line-height: 66.7px;
-        margin-top: 15px;
-        flex: 1 1 100%;
-        flex-wrap: wrap;
+        padding-top: 50px;
       }
-      .subtitle {
-        color: #000;
-        font-family: 'Adobe Clean Serif';
-        font-size: 40px;
-        font-style: normal;
-        font-weight: 900;
-        line-height: 66.7px;
-        margin-top: 15px;
-        flex-wrap: wrap;
+    }
+    @media only screen and (max-width: 600px) {
+      :host {
+        padding-left: 25px;
+        padding-right: 25px;
+        overflow-x: auto;
+        position: relative;
       }
-      .text {
-        color: #222;
-        font-size: 18px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 27px;
-        margin-bottom: 10px;
-        margin-top: 10px;
-        flex-wrap: wrap;
-      }
-      .section {
-        padding-bottom: 20px;
-        padding-top: 20px;
+      .title {
+        padding-top: 50px;
       }
       .table {
         overflow-x: auto;
         resize: none;
-        position: relative;
+        width: 100%;
       }
-      @media only screen and (max-width: 1100px) {
-        :host {
-          padding-left: 25px;
-          padding-right: 25px;
-          overflow-x: hidden;
-          position: relative;
-        }
-        .title {
-          padding-top: 50px;
-        }
+      .row {
+        width: 100vw;
       }
-      @media only screen and (max-width: 600px) {
-        :host {
-          padding-left: 25px;
-          padding-right: 25px;
-          overflow-x: auto;
-          position: relative;
-        }
-        .title {
-          padding-top: 50px;
-        }
-        .table {
-          overflow-x: auto;
-          resize: none;
-          width: 100%;
-        }
-        .row {
-          width: 100vw;
-        }
-      }
-    `,
-  ];
+    }
+  `;
 
   protected override render(): TemplateResult {
     return html`

@@ -37,6 +37,7 @@
     "@spectrum-web-components/menu": "^0.43.0",
     "@spectrum-web-components/overlay": "0.43.0",
     "@spectrum-web-components/picker": "^0.43.0",
+    "@spectrum-web-components/popover": "0.43.0",
     "@spectrum-web-components/sidenav": "^0.43.0",
     "@spectrum-web-components/styles": "0.43.0",
     "@spectrum-web-components/table": "0.43.0",

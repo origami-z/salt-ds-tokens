@@ -1,3 +1,14 @@
+/*
+Copyright 2024 Adobe. All rights reserved.
+This file is licensed to you under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy
+of the License at http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under
+the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+OF ANY KIND, either express or implied. See the License for the specific language
+governing permissions and limitations under the License.
+*/
 import { html, css, LitElement, TemplateResult } from 'lit';
 import { Router } from '@vaadin/router';
 import './token-diff.js';
@@ -6,9 +17,7 @@ import '@spectrum-web-components/icons-workflow/icons/sp-icon-show-menu.js';
 import '@spectrum-web-components/theme/sp-theme.js';
 import '@spectrum-web-components/theme/src/themes.js';
 import '@spectrum-web-components/overlay/sp-overlay.js';
-import '@spectrum-web-components/dialog/sp-dialog-wrapper.js';
-import '@spectrum-web-components/underlay/sp-underlay.js';
-import { property } from 'lit/decorators.js';
+import '@spectrum-web-components/popover/sp-popover.js';
 
 export class PageContainer extends LitElement {
   static styles = css`
@@ -35,25 +44,10 @@ export class PageContainer extends LitElement {
       width: 100%;
       z-index: 9999;
     }
-    /* header {
-      display: none;
-      background-color: white;
-      overflow: hidden;
-      position: fixed;
-      width: 100%;
-      z-index: 9999;
-    } */
-    .show {
-      display: inline-block !important;
-    }
-    .hide {
-      display: none !important;
-    }
-    .remove-brightness {
-      filter: brightness(75%);
-    }
-    .restore-brightness {
-      filter: brightness(100%);
+    .mobile-nav-bar {
+      height: 100vh;
+      overflow-y: hidden;
+      border-style: none;
     }
     @media only screen and (max-width: 1100px) {
       .navigation {
@@ -74,35 +68,6 @@ export class PageContainer extends LitElement {
       }
     }
   `;
-
-  __toggleNav() {
-    // console.log('hello?');
-    // const navBar = this.shadowRoot?.querySelector('nav-bar');
-    // const header = this.shadowRoot?.querySelector('.navigation');
-    // const outlet = this.shadowRoot?.querySelector('#outlet');
-    // if (
-    //   header && navBar && outlet
-    // ) {
-    //   header.classList.toggle('hide');
-    //   navBar.classList.toggle('show');
-    //   outlet.classList.toggle('remove-brightness');
-    // }
-  }
-
-  __toggleOutlet() {
-    // const navBar = this.shadowRoot?.querySelector('nav-bar');
-    // const header = this.shadowRoot?.querySelector('.navigation');
-    // const outlet = this.shadowRoot?.querySelector('#outlet');
-    // if (
-    //   header && navBar && outlet &&
-    //   window.matchMedia('(max-width: 1100px)').matches
-    // ) {
-    //   navBar.classList.toggle('hide');
-    //   header.classList.remove('hide');
-    //   header.classList.toggle('show');
-    //   outlet.classList.toggle('restore-brightness');
-    // }
-  }
 
   firstUpdated() {
     const router = new Router(this.shadowRoot!.querySelector('#outlet'));
@@ -127,7 +92,6 @@ export class PageContainer extends LitElement {
               <sp-action-button
                 quiet
                 id="trigger"
-                @click="${this.__toggleNav}"
               >
                 <sp-icon-show-menu slot="icon"></sp-icon-show-menu>
               </sp-action-button>
@@ -135,10 +99,21 @@ export class PageContainer extends LitElement {
           </sp-theme>
         </header>
         </div>
-        <div class="page">
+        <sp-theme
+            theme="spectrum"
+            color="light"
+            scale="medium"
+          >
+          <div class="page">
           <nav-bar class="nav-bar"></nav-bar>
-          <div id="outlet" @click="${this.__toggleOutlet}"></div>
-        </div>
+          <sp-overlay trigger="trigger@click" type="modal">
+            <sp-popover class="mobile-nav-bar" placement="left" open>
+                <nav-bar></nav-bar>
+            </sp-popover>
+          </sp-overlay>
+          <div id="outlet"></div>
+          </div>
+          </sp-theme>
       </div>
     `;
   }
