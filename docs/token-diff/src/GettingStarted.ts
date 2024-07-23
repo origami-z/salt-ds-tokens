@@ -30,27 +30,22 @@ export class GettingStarted extends LitElement {
       display: flex;
       padding-top: 25px;
       color: var(--token-diff-text-color, #000);
-      background-color: white;
-      top: 0;
       flex: auto;
-      margin-left: auto;
-      margin-right: auto;
-      overflow-x: visible;
+      top: 0;
+      overflow-x: hidden;
+      min-height: 100vh;
       flex-wrap: wrap;
-      /* width: 100%; */
+      width: auto;
       box-sizing: border-box;
     }
     .title {
-      display: flex;
       color: #000;
       font-family: 'Adobe Clean Serif';
       font-size: 58px;
       font-style: normal;
       font-weight: 900;
-      line-height: 66.7px;
+      line-height: 66.7px; /* 115% */
       margin-top: 15px;
-      flex: 1 1 100%;
-      flex-wrap: wrap;
     }
     .subtitle {
       color: #000;
@@ -60,7 +55,6 @@ export class GettingStarted extends LitElement {
       font-weight: 900;
       line-height: 66.7px;
       margin-top: 15px;
-      flex-wrap: wrap;
     }
     .text {
       color: #222;
@@ -70,7 +64,6 @@ export class GettingStarted extends LitElement {
       line-height: 27px;
       margin-bottom: 10px;
       margin-top: 10px;
-      flex-wrap: wrap;
     }
     .section {
       padding-bottom: 20px;
@@ -81,10 +74,18 @@ export class GettingStarted extends LitElement {
       resize: none;
       position: relative;
     }
+    .page {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      /* left: 0;
+      right: 0; */
+    }
     @media only screen and (max-width: 1100px) {
       :host {
-        position: relative;
+        display: flex;
         flex-wrap: wrap;
+        box-sizing: border-box;
       }
       .title {
         padding-top: 50px;
@@ -92,8 +93,8 @@ export class GettingStarted extends LitElement {
     }
     @media only screen and (max-width: 600px) {
       :host {
-        position: relative;
-        flex-wrap: wrap;
+        display: block;
+        box-sizing: border-box;
       }
       .title {
         padding-top: 50px;
@@ -103,16 +104,22 @@ export class GettingStarted extends LitElement {
         resize: none;
         width: 100%;
       }
-      .row {
+      /* .page {
+        display: flex;
+        flex-wrap: wrap;
+        box-sizing: border-box;
+        flex: 1 1 calc(100% - 50px);
+      } */
+      /* .row {
         width: 100vw;
-      }
+      } */
     }
   `;
 
   protected override render(): TemplateResult {
     return html`
-      <div class="page spectrum-Typography">
-        <sp-theme theme="spectrum" color="light" scale="medium">
+      <div class="page">
+        <sp-theme color="light" scale="medium">
           <div
             class="title spectrum-Typography spectrum-Heading--sizeXXL spectrum-Heading--serif"
           >

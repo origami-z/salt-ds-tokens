@@ -17,6 +17,9 @@ import '@spectrum-web-components/card/sp-card.js';
 import '@spectrum-web-components/button/sp-button.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-compare.js';
 import './compare-card.js';
+import './DiffReport.js';
+import './diff-report.js';
+import { DiffReport } from './DiffReport.js';
 
 export class TokenDiff extends LitElement {
   static styles = css`
@@ -29,7 +32,6 @@ export class TokenDiff extends LitElement {
       overflow-x: hidden;
       min-height: 100vh;
       flex-wrap: wrap;
-      /* overflow-y: hidden; */
     }
     .title {
       color: #000;
@@ -55,7 +57,7 @@ export class TokenDiff extends LitElement {
     }
     .compare-button {
       margin-top: 40px;
-      margin-bottom: 50px;
+      margin-bottom: 65px;
     }
     @media only screen and (max-width: 1100px) {
       :host {
@@ -107,13 +109,129 @@ export class TokenDiff extends LitElement {
 
   __generateReport() {
     // call token diff generator library
-    console.log('originalVers: ' + this.originalVers);
-    console.log('updatedVerse: ' + this.updatedVers);
-    console.log('originalBranch: ' + this.originalBranchOrTag);
-    console.log('originalSchema: ' + this.originalSchema);
-    console.log('updatedBranch: ' + this.updatedBranchOrTag);
-    console.log('updatedSchema: ' + this.updatedSchema);
+    const report = this.shadowRoot?.getElementById('report')!;
+    if (report.firstChild) {
+      report.removeChild(report.firstChild);
+    }
+    const diffReport = document.createElement('diff-report') as DiffReport;
+    diffReport.tokenDiffJSON = this.jsonObj;
+    diffReport.originalBranchOrTag = this.originalBranchOrTag;
+    diffReport.updatedBranchOrTag = this.updatedBranchOrTag;
+    diffReport.originalSchema = this.originalSchema;
+    diffReport.updatedSchema = this.updatedSchema;
+    if (report) {
+      report.appendChild(diffReport);
+    }
   }
+
+  @property({ type: Object }) jsonObj = {
+    added: {
+      'i-like-pizza': {
+        component: 'table',
+        $schema:
+          'https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json',
+        value: '0.07',
+        uuid: '1234',
+      },
+      'hi-how-are-you': {
+        component: 'color-handle',
+        $schema:
+          'https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json',
+        value: '0.42',
+        uuid: '234',
+      },
+    },
+    deleted: {
+      'floating-action-button-drop-shadow-color': undefined,
+      'floating-action-button-shadow-color': undefined,
+      'table-selected-row-background-opacity-non-emphasized-hover': undefined,
+      'table-selected-row-background-opacity-non-emphasized': undefined,
+    },
+    deprecated: {
+      'color-slider-border-color': {
+        deprecated: true,
+        deprecated_comment: 'insert random deprecated comment',
+      },
+      'color-loupe-outer-border': {
+        deprecated: true,
+        deprecated_comment: 'insert random deprecated comment',
+      },
+    },
+    reverted: {
+      'color-handle-drop-shadow-color': {
+        deprecated: undefined,
+        deprecated_comment: undefined,
+      },
+    },
+    renamed: {
+      'i-like-ice-cream': {
+        'old-name': 'color-area-border-color',
+      },
+      'i-like-char-siu': {
+        'old-name': 'color-handle-inner-border-color',
+      },
+    },
+    updated: {
+      added: {},
+      deleted: {},
+      renamed: {},
+      updated: {
+        'thumbnail-border-color': {
+          $schema: {
+            'new-value':
+              'https://opensource.adobe.com/spectrum-tokens/schemas/token-types/not-a-thumbnail.json',
+            'original-value':
+              'https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json',
+            path: '$schema',
+          },
+        },
+        'opacity-checkerboard-square-dark': {
+          sets: {
+            light: {
+              value: {
+                'new-value': '{gray-500}',
+                'original-value': '{gray-200}',
+                path: 'sets.light.value',
+              },
+            },
+            darkest: {
+              value: {
+                'new-value': '{gray-900}',
+                'original-value': '{gray-800}',
+                path: 'sets.darkest.value',
+              },
+            },
+          },
+        },
+        'color-slider-border-opacity': {
+          component: {
+            'new-value': 'not-a-color-slider',
+            'original-value': 'color-slider',
+            path: 'component',
+          },
+        },
+        'color-loupe-inner-border': {
+          uuid: {
+            'new-value': 'if a uuid ever change lol',
+            'original-value': 'd2c4cb48-8a90-461d-95bc-d882ba01472b',
+            path: 'uuid',
+          },
+        },
+        'drop-zone-background-color': {
+          component: {
+            'new-value': 'woohoo!',
+            'original-value': 'drop-zone',
+            path: 'component',
+          },
+          value: {
+            'new-value': '{fushcia pink}',
+            'original-value': '{accent-visual-color}',
+            path: 'value',
+          },
+        },
+      },
+    },
+  };
 
   protected override render(): TemplateResult {
     return html`
@@ -149,6 +267,7 @@ export class TokenDiff extends LitElement {
               Compare
             </sp-button>
           </div>
+          <div id="report"></div>
         </sp-theme>
       </div>
     `;
