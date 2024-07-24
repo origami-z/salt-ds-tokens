@@ -169,7 +169,6 @@ export class DiffReport extends LitElement {
   }
 
   __printNestedChanges(token: any) {
-    console.log(token);
     if (token['path'] !== undefined) {
       return html`
         <p>${token['path']}</p>

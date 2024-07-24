@@ -78,8 +78,6 @@ export class GettingStarted extends LitElement {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      /* left: 0;
-      right: 0; */
     }
     @media only screen and (max-width: 1100px) {
       :host {
@@ -104,22 +102,19 @@ export class GettingStarted extends LitElement {
         resize: none;
         width: 100%;
       }
-      /* .page {
-        display: flex;
-        flex-wrap: wrap;
-        box-sizing: border-box;
-        flex: 1 1 calc(100% - 50px);
-      } */
-      /* .row {
+      .theme {
+        min-width: calc(100% - 50px);
+      }
+      .row {
         width: 100vw;
-      } */
+      }
     }
   `;
 
   protected override render(): TemplateResult {
     return html`
       <div class="page">
-        <sp-theme color="light" scale="medium">
+        <sp-theme class="theme" color="light" scale="medium">
           <div
             class="title spectrum-Typography spectrum-Heading--sizeXXL spectrum-Heading--serif"
           >
