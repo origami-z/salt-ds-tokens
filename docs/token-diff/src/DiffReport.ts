@@ -16,6 +16,7 @@ import '@spectrum-web-components/theme/src/themes.js';
 import '@spectrum-web-components/card/sp-card.js';
 import '@spectrum-web-components/button/sp-button.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-compare.js';
+import '@spectrum-web-components/icons-workflow/icons/sp-icon-share.js';
 import './compare-card.js';
 
 interface TokenDiffJSON {
@@ -57,36 +58,42 @@ export class DiffReport extends LitElement {
       font-size: 20px;
       font-style: normal;
       font-weight: 600;
-      line-height: 66.7px;
-      margin-top: 15px;
+      line-height: 40px;
+      margin-top: 30px;
     }
     h3 {
       color: #000;
-      font-size: 20px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: 66.7px;
-      padding-left: 20px;
-    }
-    .warning-text {
-      color: #222;
       font-size: 18px;
       font-style: normal;
-      font-weight: 400;
-      line-height: 27px; /* 150% */
-      margin-bottom: 40px;
+      font-weight: 600;
+      line-height: 40px;
+      padding-left: 20px;
+    }
+    .report-text {
+      color: #222;
+      padding-left: 20px;
+      font-size: 14px;
     }
     .page {
       display: flex;
       flex-wrap: wrap;
       background-color: #f8f8f8;
-      width: auto;
       padding-top: 25px;
       padding-bottom: 25px;
-      padding-left: 75px;
-      padding-right: 75px;
+      padding-left: 50px;
+      padding-right: 50px;
       border-radius: 10px;
+      margin-bottom: 15px;
+    }
+    .share-header {
+      display: inline-block;
       width: 100%;
+      align-items: center;
+    }
+    .share-button {
+      display: flex;
+      float: right;
+      margin-left: auto;
     }
     @media only screen and (max-width: 600px) {
       .page {
@@ -108,6 +115,7 @@ export class DiffReport extends LitElement {
     originalSchema: string,
     updatedBranchOrTag: string,
     updatedSchema: string,
+    url: string,
   ) {
     super();
     this.tokenDiffJSON = tokenDiffJSON;
@@ -115,6 +123,7 @@ export class DiffReport extends LitElement {
     this.originalSchema = originalSchema;
     this.updatedBranchOrTag = updatedBranchOrTag;
     this.updatedSchema = updatedSchema;
+    this.url = url;
   }
 
   firstUpdated() {
@@ -128,9 +137,14 @@ export class DiffReport extends LitElement {
       Object.keys(this.tokenDiffJSON.updated.deleted).length +
       Object.keys(this.tokenDiffJSON.updated.updated).length +
       Object.keys(this.tokenDiffJSON.updated.renamed).length;
+    // let queryString = this.url; // window.location.search
+    // let objectString = queryString.split('=')[1];
+    // let decodedObject = JSON.parse(decodeURIComponent(objectString));
+
+    // console.log(decodedObject); // { name: 'John', age: 30 }
   }
 
-  @property({ type: Object }) tokenDiffJSON: TokenDiffJSON = {
+  @property() tokenDiffJSON: any = {
     renamed: {},
     deprecated: {},
     reverted: {},
@@ -148,162 +162,178 @@ export class DiffReport extends LitElement {
   @property({ type: String }) originalSchema = '';
   @property({ type: String }) updatedBranchOrTag = '';
   @property({ type: String }) updatedSchema = '';
+  @property({ type: String }) url = '';
+
+  readonly order: any = [
+    'renamed',
+    'deprecated',
+    'reverted',
+    'added',
+    'deleted',
+    'updated',
+  ];
+  readonly emojis: any = ['📝', '🕒', '⏰', '🔼', '🔽', '🆕'];
 
   __createArrowItems(original: string, updated: string) {
-    return html` <p>${original} -> ${updated}</p> `;
-  }
-
-  __createItemsWithDescription(token: string, description: string) {
-    return html` <p>${token}: ${description}</p> `;
-  }
-
-  __createItems(token: string) {
-    return html` <p>${token}</p> `;
-  }
-
-  __createEmbeddedItems(token: any) {
     return html`
-      <p>${token}</p>
-      ${this.__printNestedChanges(token)}
+      <p class="report-text">
+        ${original.replace(/{|}/g, '')} -> ${updated.replace(/{|}/g, '')}
+      </p>
     `;
   }
 
-  __printNestedChanges(token: any) {
+  __createItemsWithDescription(token: string, description: string) {
+    return html` <p class="report-text">${token}: ${description}</p> `;
+  }
+
+  __createItems(token: string) {
+    return html` <p class="report-text">${token}</p> `;
+  }
+
+  __createEmbeddedItems(tokens: any) {
+    return Object.keys(tokens).map((token: any) => {
+      return html`
+        <p class="report-text">${token}</p>
+        <div class="report-text">
+          ${this.__printNestedChanges(tokens[token])}
+        </div>
+      `;
+    });
+  }
+
+  __printNestedChanges(token: any): any {
     if (token['path'] !== undefined) {
       return html`
-        <p>${token['path']}</p>
-        <p>
-          ${() => {
-            if (token['original-value'] === undefined) {
-              return this.__createItems(
-                token['path'].includes('$schema')
-                  ? `"${token['new-value']}"`
-                  : token['new-value'],
-              );
-            } else if (token['path'].includes('$schema')) {
-              const newValue = token['new-value'].split('/');
-              const str =
-                `"${token['original-value']}" -> \n` +
-                `"${token['new-value'].substring(0, token['new-value'].length - newValue[newValue.length - 1].length)}` +
-                `${newValue[newValue.length - 1].split('.')[0]}` +
-                `.${newValue[newValue.length - 1].split('.')[1]}"`;
-              return this.__createItems(str);
-            } else {
-              return this.__createArrowItems(
-                token['original-value'],
-                token['new-value'],
-              );
-            }
-          }}
-        </p>
+        <p class="report-text">${token['path']}</p>
+        <div class="report-text">${this.__determineChanges(token)}</div>
       `;
     }
-    Object.keys(token).forEach(property => {
-      console.log(property);
-      this.__printNestedChanges(token[property]);
+    return Object.keys(token).map((property: any) => {
+      return this.__printNestedChanges(token[property]);
     });
+  }
+
+  __determineChanges(token: any) {
+    if (token['original-value'] === undefined) {
+      return this.__createItems(
+        token['path'].includes('$schema')
+          ? `"${token['new-value']}"`
+          : token['new-value'],
+      );
+    } else if (token['path'].includes('$schema')) {
+      const newValue = token['new-value'].split('/');
+      const str =
+        `"${token['original-value']}" -> \n` +
+        `"${token['new-value'].substring(0, token['new-value'].length - newValue[newValue.length - 1].length)}` +
+        `${newValue[newValue.length - 1].split('.')[0]}` +
+        `.${newValue[newValue.length - 1].split('.')[1]}"`;
+      return this.__createItems(str);
+    } else {
+      return this.__createArrowItems(
+        token['original-value'],
+        token['new-value'],
+      );
+    }
+  }
+
+  __shareReport() {
+    const currentUrl = window.location.href;
+    if (currentUrl) {
+      navigator.clipboard.writeText(currentUrl);
+    }
   }
 
   protected override render(): TemplateResult {
     return html`
       <div class="page">
         <sp-theme theme="spectrum" color="light" scale="medium">
-          <h1>Tokens Changed (${this.totalTokens})</h1>
+          <div class="share-header">
+            <sp-action-button
+              class="share-button"
+              quiet
+              @click=${this.__shareReport}
+              id="trigger"
+            >
+              <sp-icon-share slot="icon"></sp-icon-share>
+              Share
+            </sp-action-button>
+            <h1>Tokens Changed (${this.totalTokens})</h1>
+          </div>
           <p>${this.originalBranchOrTag} | ${this.updatedBranchOrTag}</p>
           <p>${this.originalSchema} | ${this.updatedSchema}</p>
-          <h2>
-            📝 Renamed (${Object.keys(this.tokenDiffJSON.renamed).length})
-          </h2>
-          <div>
-            ${Object.keys(this.tokenDiffJSON.renamed).map((token: any) => {
-              return this.__createArrowItems(
-                this.tokenDiffJSON.renamed[token]['old-name'],
-                token,
-              );
-            })}
-          </div>
-          <h2>
-            🕒 Newly Deprecated
-            (${Object.keys(this.tokenDiffJSON.deprecated).length})
-          </h2>
-          <div>
-            ${Object.keys(this.tokenDiffJSON.deprecated).map((token: any) => {
-              return this.__createItemsWithDescription(
-                token,
-                this.tokenDiffJSON.deprecated[token]['deprecated_comment'],
-              );
-            })}
-          </div>
-          <h2>
-            ⏰ Newly "Un-deprecated"
-            (${Object.keys(this.tokenDiffJSON.reverted).length})
-          </h2>
-          <div>
-            ${Object.keys(this.tokenDiffJSON.reverted).map((token: any) => {
-              return this.__createItems(token);
-            })}
-          </div>
-          <h2>🔼 Added (${Object.keys(this.tokenDiffJSON.added).length})</h2>
-          <div>
-            ${Object.keys(this.tokenDiffJSON.added).map((token: any) => {
-              return this.__createItems(token);
-            })}
-          </div>
-          <h2>
-            🔽 Deleted (${Object.keys(this.tokenDiffJSON.deleted).length})
-          </h2>
-          <div>
-            ${Object.keys(this.tokenDiffJSON.deleted).map((token: any) => {
-              return this.__createItems(token);
-            })}
-          </div>
-          <h2>
-            🆕 Updated
-            (${Object.keys(this.tokenDiffJSON.updated.added).length +
-            Object.keys(this.tokenDiffJSON.updated.deleted).length +
-            Object.keys(this.tokenDiffJSON.updated.updated).length +
-            Object.keys(this.tokenDiffJSON.updated.renamed).length})
-          </h2>
-          <h3>
-            🆕 Renamed Properties
-            (${Object.keys(this.tokenDiffJSON.updated.renamed).length})
-          </h3>
-          <div>
-            ${Object.keys(this.tokenDiffJSON.updated.renamed).map(
-              (token: any) => {
-                return this.__createEmbeddedItems(token);
-              },
-            )}
-          </div>
-          <h3>
-            🆕 Added Properties
-            (${Object.keys(this.tokenDiffJSON.updated.added).length})
-          </h3>
-          <div>
-            ${Object.keys(this.tokenDiffJSON.updated.added).map(
-              (token: any) => {
-                return this.__createEmbeddedItems(token);
-              },
-            )}
-          </div>
-          <h3>
-            🆕 Deleted Properties
-            (${Object.keys(this.tokenDiffJSON.updated.deleted).length})
-          </h3>
-          <div>
-            ${Object.keys(this.tokenDiffJSON.updated.deleted).map(
-              (token: any) => {
-                return this.__createEmbeddedItems(token);
-              },
-            )}
-          </div>
-          <h3>
-            🆕 Updated Properties
-            (${Object.keys(this.tokenDiffJSON.updated.updated).length})
-          </h3>
-          <div>
-            ${this.__createEmbeddedItems(this.tokenDiffJSON.updated.updated)}
-          </div>
+          ${this.order.map((section: string, idx: number) => {
+            if (Object.keys(this.tokenDiffJSON[section]).length > 0) {
+              let name: string;
+              let totalTokens;
+              if (section === 'deprecated') {
+                name = 'Newly Deprecated';
+              } else if (section === 'reverted') {
+                name = 'Newly "Un-deprecated"';
+              } else {
+                name = `${section.charAt(0).toUpperCase()}${section.substring(1)}`;
+              }
+              totalTokens =
+                section === 'updated'
+                  ? Object.keys(this.tokenDiffJSON.updated.added).length +
+                    Object.keys(this.tokenDiffJSON.updated.deleted).length +
+                    Object.keys(this.tokenDiffJSON.updated.updated).length +
+                    Object.keys(this.tokenDiffJSON.updated.renamed).length
+                  : Object.keys(this.tokenDiffJSON[section]).length;
+              return html`
+                <h2>${`${this.emojis[idx]} ${name} (${totalTokens})`}</h2>
+                <div>
+                  ${Object.keys(this.tokenDiffJSON[section]).map(
+                    (token: any) => {
+                      switch (section) {
+                        case 'renamed':
+                          return this.__createArrowItems(
+                            this.tokenDiffJSON.renamed[token]['old-name'],
+                            token,
+                          );
+                        case 'deprecated':
+                          return this.__createItemsWithDescription(
+                            token,
+                            this.tokenDiffJSON.deprecated[token][
+                              'deprecated_comment'
+                            ],
+                          );
+                        case 'updated': {
+                          const orderForUpdatedSection: any = [
+                            'renamed',
+                            'added',
+                            'deleted',
+                            'updated',
+                          ];
+                          return orderForUpdatedSection.map((token: any) => {
+                            if (
+                              Object.keys(this.tokenDiffJSON[section][token])
+                                .length > 0
+                            ) {
+                              return html`
+                                <h3>
+                                  ${`${this.emojis[idx]} ${token.charAt(0).toUpperCase()}${token.substring(1)} Properties`}
+                                  (${Object.keys(
+                                    this.tokenDiffJSON.updated[token],
+                                  ).length})
+                                </h3>
+                                <div class="report-text">
+                                  ${this.__createEmbeddedItems(
+                                    this.tokenDiffJSON.updated[section],
+                                  )}
+                                </div>
+                              `;
+                            }
+                          });
+                        }
+                        default:
+                          return this.__createItems(token);
+                      }
+                    },
+                  )}
+                </div>
+              `;
+            }
+          })}
         </sp-theme>
       </div>
     `;

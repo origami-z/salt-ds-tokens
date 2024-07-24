@@ -83,6 +83,9 @@ importers:
 
   docs/token-diff:
     dependencies:
+      "@adobe/token-diff-generator":
+        specifier: workspace:*
+        version: link:../../tools/diff-generator
       "@spectrum-css/button":
         specifier: ^13.1.1
         version: 13.1.1(@spectrum-css/icon@7.1.1(@spectrum-css/tokens@13.2.0))(@spectrum-css/tokens@13.2.0)

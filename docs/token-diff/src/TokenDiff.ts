@@ -20,6 +20,7 @@ import './compare-card.js';
 import './DiffReport.js';
 import './diff-report.js';
 import { DiffReport } from './DiffReport.js';
+// import { tokenDiff } from '@adobe/token-diff-generator/src/lib/index.js';
 
 export class TokenDiff extends LitElement {
   static styles = css`
@@ -119,8 +120,12 @@ export class TokenDiff extends LitElement {
     diffReport.updatedBranchOrTag = this.updatedBranchOrTag;
     diffReport.originalSchema = this.originalSchema;
     diffReport.updatedSchema = this.updatedSchema;
+    let encodedObject = encodeURIComponent(JSON.stringify(this.jsonObj));
+    let url = '/demo/' + encodedObject;
+    diffReport.url = url;
     if (report) {
       report.appendChild(diffReport);
+      window.history.pushState(this.jsonObj, 'Report', url);
     }
   }
 

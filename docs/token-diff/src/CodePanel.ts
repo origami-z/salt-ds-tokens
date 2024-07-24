@@ -114,8 +114,7 @@ export class CodePanel extends LitElement {
     `;
   }
 
-  __changeMessage() {
-    // this.copyMessage = 'Copied!';
+  __copySnippet() {
     if (this.tagOptions !== undefined) {
       navigator.clipboard.writeText(this.curTab + ' ' + this.codeSnippet);
     } else {
@@ -136,7 +135,7 @@ export class CodePanel extends LitElement {
             <sp-action-button
               class="copy-button"
               quiet
-              @click=${this.__changeMessage}
+              @click=${this.__copySnippet}
               id="trigger"
             >
               <sp-icon-copy slot="icon"></sp-icon-copy>
