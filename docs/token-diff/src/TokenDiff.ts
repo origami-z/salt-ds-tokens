@@ -121,11 +121,19 @@ export class TokenDiff extends LitElement {
     diffReport.originalSchema = this.originalSchema;
     diffReport.updatedSchema = this.updatedSchema;
     let encodedObject = encodeURIComponent(JSON.stringify(this.jsonObj));
-    let url = '/demo/' + encodedObject;
-    diffReport.url = url;
+    let url = new URL(
+      'http://localhost:8000' + '/demo/object=' + encodedObject,
+    );
+    diffReport.url = url.href;
     if (report) {
       report.appendChild(diffReport);
-      window.history.pushState(this.jsonObj, 'Report', url);
+      let options = {
+        detail: url.href,
+        bubbles: true,
+        composed: true,
+      };
+      this.dispatchEvent(new CustomEvent('urlChange', options));
+      window.history.pushState(this.jsonObj, 'Report', url.href);
     }
   }
 

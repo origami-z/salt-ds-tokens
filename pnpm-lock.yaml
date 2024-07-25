@@ -155,6 +155,9 @@ importers:
       "@spectrum-web-components/theme":
         specifier: 0.43.0
         version: 0.43.0
+      "@spectrum-web-components/toast":
+        specifier: 0.43.0
+        version: 0.43.0
       "@spectrum-web-components/underlay":
         specifier: 0.43.0
         version: 0.43.0
@@ -2027,6 +2030,12 @@ packages:
     resolution:
       {
         integrity: sha512-GGedn1cq8f2mUfy1DVoHwMoQzBgowFIjNk1Nas7xa1k/C950E7GjKb+Bs+SVXiQtyJqMWF7xEp7om49v4pusDw==,
+      }
+
+  "@spectrum-web-components/toast@0.43.0":
+    resolution:
+      {
+        integrity: sha512-KUhg7pf4D+1V+hU3AeHclvUUISKyMQpY4wgC1Q3ZboOtu4hFVM/EfTzwdqBbiaqI2ZdjfrUt9rCr63cPzLtBag==,
       }
 
   "@spectrum-web-components/tooltip@0.42.2":
@@ -9064,6 +9073,14 @@ snapshots:
       "@spectrum-web-components/icon": 0.42.5
       "@spectrum-web-components/icons-workflow": 0.42.2
       "@spectrum-web-components/shared": 0.42.5
+
+  "@spectrum-web-components/toast@0.43.0":
+    dependencies:
+      "@spectrum-web-components/base": 0.43.0
+      "@spectrum-web-components/button": 0.43.0
+      "@spectrum-web-components/icon": 0.43.0
+      "@spectrum-web-components/icons-workflow": 0.43.0
+      "@spectrum-web-components/shared": 0.43.0
 
   "@spectrum-web-components/tooltip@0.42.2":
     dependencies:

@@ -21,6 +21,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@adobe/token-diff-generator": "workspace:*",
     "@spectrum-css/button": "^13.1.1",
     "@spectrum-css/icon": "^7.1.1",
     "@spectrum-css/page": "^7.1.4",
@@ -44,12 +45,11 @@
     "@spectrum-web-components/table": "0.43.0",
     "@spectrum-web-components/tabs": "0.43.0",
     "@spectrum-web-components/theme": "0.43.0",
+    "@spectrum-web-components/toast": "0.43.0",
     "@spectrum-web-components/underlay": "0.43.0",
     "@vaadin/router": "^1.7.5",
     "lit": "^3.1.4",
-    "tslib": "^2.6.3",
-    "@adobe/token-diff-generator": "workspace:*"
-    
+    "tslib": "^2.6.3"
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.10.3",

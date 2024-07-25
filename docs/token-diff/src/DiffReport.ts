@@ -9,7 +9,7 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-import { html, css, LitElement, TemplateResult } from 'lit';
+import { html, css, LitElement, TemplateResult, noChange } from 'lit';
 import { property } from 'lit/decorators.js';
 import '@spectrum-web-components/theme/sp-theme.js';
 import '@spectrum-web-components/theme/src/themes.js';
@@ -17,6 +17,7 @@ import '@spectrum-web-components/card/sp-card.js';
 import '@spectrum-web-components/button/sp-button.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-compare.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-share.js';
+import '@spectrum-web-components/toast/sp-toast.js';
 import './compare-card.js';
 
 interface TokenDiffJSON {
@@ -68,6 +69,11 @@ export class DiffReport extends LitElement {
       font-weight: 600;
       line-height: 40px;
       padding-left: 20px;
+    }
+    sp-toast {
+      position: fixed;
+      top: 1em;
+      right: 1em;
     }
     .report-text {
       color: #222;
@@ -157,6 +163,7 @@ export class DiffReport extends LitElement {
       renamed: {},
     },
   };
+
   @property({ type: Number }) totalTokens = 0;
   @property({ type: String }) originalBranchOrTag = '';
   @property({ type: String }) originalSchema = '';
@@ -173,6 +180,13 @@ export class DiffReport extends LitElement {
     'updated',
   ];
   readonly emojis: any = ['📝', '🕒', '⏰', '🔼', '🔽', '🆕'];
+
+  readonly orderForUpdatedSection: any = [
+    'renamed',
+    'added',
+    'deleted',
+    'updated',
+  ];
 
   __createArrowItems(original: string, updated: string) {
     return html`
@@ -247,6 +261,11 @@ export class DiffReport extends LitElement {
     return html`
       <div class="page">
         <sp-theme theme="spectrum" color="light" scale="medium">
+          <sp-overlay trigger="trigger@click" type="auto">
+            <sp-toast open variant="info">
+              The report url has been copied to your clipboard!
+            </sp-toast>
+          </sp-overlay>
           <div class="share-header">
             <sp-action-button
               class="share-button"
@@ -280,8 +299,8 @@ export class DiffReport extends LitElement {
                     Object.keys(this.tokenDiffJSON.updated.renamed).length
                   : Object.keys(this.tokenDiffJSON[section]).length;
               return html`
-                <h2>${`${this.emojis[idx]} ${name} (${totalTokens})`}</h2>
-                <div>
+                <div id="section">
+                  <h2>${`${this.emojis[idx]} ${name} (${totalTokens})`}</h2>
                   ${Object.keys(this.tokenDiffJSON[section]).map(
                     (token: any) => {
                       switch (section) {
@@ -297,39 +316,30 @@ export class DiffReport extends LitElement {
                               'deprecated_comment'
                             ],
                           );
-                        case 'updated': {
-                          const orderForUpdatedSection: any = [
-                            'renamed',
-                            'added',
-                            'deleted',
-                            'updated',
-                          ];
-                          return orderForUpdatedSection.map((token: any) => {
-                            if (
-                              Object.keys(this.tokenDiffJSON[section][token])
-                                .length > 0
-                            ) {
-                              return html`
-                                <h3>
-                                  ${`${this.emojis[idx]} ${token.charAt(0).toUpperCase()}${token.substring(1)} Properties`}
-                                  (${Object.keys(
-                                    this.tokenDiffJSON.updated[token],
-                                  ).length})
-                                </h3>
-                                <div class="report-text">
-                                  ${this.__createEmbeddedItems(
-                                    this.tokenDiffJSON.updated[section],
-                                  )}
-                                </div>
-                              `;
-                            }
-                          });
-                        }
+                        case 'updated':
+                          break;
                         default:
                           return this.__createItems(token);
                       }
                     },
                   )}
+                </div>
+              `;
+            }
+          })}
+          ${this.orderForUpdatedSection.map((name: any) => {
+            if (Object.keys(this.tokenDiffJSON.updated[name]).length > 0) {
+              return html`
+                <div id=${name}>
+                  <h3>
+                    ${`${this.emojis[this.emojis.length - 1]} ${name.charAt(0).toUpperCase()}${name.substring(1)} Properties`}
+                    (${Object.keys(this.tokenDiffJSON.updated[name]).length})
+                  </h3>
+                  <div class="report-text">
+                    ${this.__createEmbeddedItems(
+                      this.tokenDiffJSON.updated[name],
+                    )}
+                  </div>
                 </div>
               `;
             }
