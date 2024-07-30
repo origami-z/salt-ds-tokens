@@ -20,7 +20,11 @@ import './compare-card.js';
 import './DiffReport.js';
 import './diff-report.js';
 import { DiffReport } from './DiffReport.js';
-// import { tokenDiff } from '@adobe/token-diff-generator/src/lib/index.js';
+import {
+  fetchBranchTagOptions,
+  fetchSchemaOptions,
+} from './fetchFromGithub.js';
+// import tokenDiff from '../node_modules/@adobe/token-diff-generator/src/lib/index.js';
 
 export class TokenDiff extends LitElement {
   static styles = css`
@@ -80,6 +84,10 @@ export class TokenDiff extends LitElement {
   @property({ type: String }) updatedSchema = '';
   @property({ type: String }) originalVers = '';
   @property({ type: String }) updatedVers = '';
+  @property({ type: Array }) branchOptions: string[] = [];
+  @property({ type: Array }) tagOptions: string[] = [];
+  @property({ type: Array }) branchSchemaOptions: string[] = [];
+  @property({ type: Array }) tagSchemaOptions: string[] = [];
 
   __originalCardListener(e: CustomEvent) {
     this.__updatedProperty(true, e.detail);
@@ -87,9 +95,14 @@ export class TokenDiff extends LitElement {
 
   __updatedProperty(original: boolean, newValue: string) {
     const key = Object.keys(newValue)[0];
+    console.log(
+      'what happened here? ',
+      original + ', ' + Object.values(newValue),
+    );
     if (original) {
       if (key !== 'schema') {
         this.originalBranchOrTag = Object.values(newValue)[0];
+        console.log(this.originalBranchOrTag);
         this.originalVers = key === 'branch' ? 'branch' : 'tag';
       } else {
         this.originalSchema = Object.values(newValue)[0];
@@ -116,13 +129,27 @@ export class TokenDiff extends LitElement {
     }
     const diffReport = document.createElement('diff-report') as DiffReport;
     diffReport.tokenDiffJSON = this.jsonObj;
+    this.originalBranchOrTag =
+      this.originalBranchOrTag === undefined
+        ? 'beta'
+        : this.originalBranchOrTag;
+    this.updatedBranchOrTag =
+      this.updatedBranchOrTag === undefined ? 'beta' : this.updatedBranchOrTag;
     diffReport.originalBranchOrTag = this.originalBranchOrTag;
     diffReport.updatedBranchOrTag = this.updatedBranchOrTag;
     diffReport.originalSchema = this.originalSchema;
     diffReport.updatedSchema = this.updatedSchema;
-    let encodedObject = encodeURIComponent(JSON.stringify(this.jsonObj));
+    console.log('when does this happen? ', this.originalBranchOrTag);
     let url = new URL(
-      'http://localhost:8000' + '/demo/object=' + encodedObject,
+      'http://localhost:8000' +
+        '/demo?original_branch_tag=' +
+        this.originalBranchOrTag +
+        '&updated_branch_tag=' +
+        this.updatedBranchOrTag +
+        '&original_schema=' +
+        this.originalSchema +
+        '&updated_schema=' +
+        this.updatedSchema,
     );
     diffReport.url = url.href;
     if (report) {
@@ -135,6 +162,61 @@ export class TokenDiff extends LitElement {
       this.dispatchEvent(new CustomEvent('urlChange', options));
       window.history.pushState(this.jsonObj, 'Report', url.href);
     }
+  }
+
+  async firstUpdated() {
+    const currentUrl = window.location.href;
+    const firstQuestionMark = currentUrl.indexOf('?');
+    this.branchOptions = await fetchBranchTagOptions('branch');
+    this.branchSchemaOptions = await fetchSchemaOptions(
+      'branch',
+      this.branchOptions[0],
+    );
+    if (firstQuestionMark > 0) {
+      const parameters = currentUrl.substring(firstQuestionMark + 1);
+      const paramSplit = parameters.split('&');
+      this.originalBranchOrTag = paramSplit[0]
+        .substring(paramSplit[0].indexOf('=') + 1)
+        .replaceAll('%20', ' ')
+        .replaceAll('%40', '@');
+      this.originalVers = this.branchOptions.includes(this.originalBranchOrTag)
+        ? 'branch'
+        : 'tag';
+      this.updatedBranchOrTag = paramSplit[1]
+        .substring(paramSplit[1].indexOf('=') + 1)
+        .replaceAll('%20', ' ')
+        .replaceAll('%40', '@');
+      this.updatedVers = this.branchOptions.includes(this.updatedBranchOrTag)
+        ? 'branch'
+        : 'tag';
+      this.originalSchema = paramSplit[2]
+        .substring(paramSplit[2].indexOf('=') + 1)
+        .replaceAll('%20', ' ')
+        .replaceAll('%40', '@');
+      this.updatedSchema = paramSplit[3]
+        .substring(paramSplit[3].indexOf('=') + 1)
+        .replaceAll('%20', ' ')
+        .replaceAll('%40', '@');
+      this.__generateReport();
+    } else {
+      this.originalBranchOrTag = this.updatedBranchOrTag =
+        this.branchOptions[0];
+      this.originalSchema = this.updatedSchema = this.branchSchemaOptions[0];
+      console.log(
+        'in firstUpdated: 1',
+        this.originalBranchOrTag + ', ' + this.updatedBranchOrTag,
+      );
+    }
+    this.originalVers = this.branchOptions.includes(this.originalBranchOrTag)
+      ? 'branch'
+      : 'tag';
+    this.updatedVers = this.branchOptions.includes(this.updatedBranchOrTag)
+      ? 'branch'
+      : 'tag';
+    console.log(
+      'in firstUpdated: 2',
+      this.originalBranchOrTag + ', ' + this.updatedBranchOrTag,
+    );
   }
 
   @property({ type: Object }) jsonObj = {
