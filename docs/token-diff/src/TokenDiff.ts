@@ -24,7 +24,7 @@ import {
   fetchBranchTagOptions,
   fetchSchemaOptions,
 } from './fetchFromGithub.js';
-// import tokenDiff from '../node_modules/@adobe/token-diff-generator/src/lib/index.js';
+import tokenDiff from '../node_modules/@adobe/token-diff-generator/src/lib/index.js';
 
 export class TokenDiff extends LitElement {
   static styles = css`
@@ -95,14 +95,9 @@ export class TokenDiff extends LitElement {
 
   __updatedProperty(original: boolean, newValue: string) {
     const key = Object.keys(newValue)[0];
-    console.log(
-      'what happened here? ',
-      original + ', ' + Object.values(newValue),
-    );
     if (original) {
       if (key !== 'schema') {
         this.originalBranchOrTag = Object.values(newValue)[0];
-        console.log(this.originalBranchOrTag);
         this.originalVers = key === 'branch' ? 'branch' : 'tag';
       } else {
         this.originalSchema = Object.values(newValue)[0];
@@ -139,7 +134,6 @@ export class TokenDiff extends LitElement {
     diffReport.updatedBranchOrTag = this.updatedBranchOrTag;
     diffReport.originalSchema = this.originalSchema;
     diffReport.updatedSchema = this.updatedSchema;
-    console.log('when does this happen? ', this.originalBranchOrTag);
     let url = new URL(
       'http://localhost:8000' +
         '/demo?original_branch_tag=' +
@@ -202,10 +196,6 @@ export class TokenDiff extends LitElement {
       this.originalBranchOrTag = this.updatedBranchOrTag =
         this.branchOptions[0];
       this.originalSchema = this.updatedSchema = this.branchSchemaOptions[0];
-      console.log(
-        'in firstUpdated: 1',
-        this.originalBranchOrTag + ', ' + this.updatedBranchOrTag,
-      );
     }
     this.originalVers = this.branchOptions.includes(this.originalBranchOrTag)
       ? 'branch'
@@ -213,10 +203,6 @@ export class TokenDiff extends LitElement {
     this.updatedVers = this.branchOptions.includes(this.updatedBranchOrTag)
       ? 'branch'
       : 'tag';
-    console.log(
-      'in firstUpdated: 2',
-      this.originalBranchOrTag + ', ' + this.updatedBranchOrTag,
-    );
   }
 
   @property({ type: Object }) jsonObj = {

@@ -175,7 +175,6 @@ export class CompareCard extends LitElement {
         tagToggle.setAttribute('selected', '');
       }
     }
-    console.log('at end of firstUpdated: ', this.branchOrTag);
   }
 
   __setGithubBranchToggle() {
@@ -224,7 +223,6 @@ export class CompareCard extends LitElement {
   }
 
   async __handleSelection(option: string) {
-    console.log('handleSelection: ', option);
     let detailObj = {};
     if (
       this.toggle === 'Github branch' &&
@@ -244,7 +242,6 @@ export class CompareCard extends LitElement {
       bubbles: true,
       composed: true,
     };
-    console.log('dispatching: ', option);
     this.dispatchEvent(new CustomEvent('selection', options));
   }
 
