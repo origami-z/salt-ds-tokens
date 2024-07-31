@@ -149,7 +149,7 @@ export class PageContainer extends LitElement {
         <header>
           <sp-theme
             class="header"
-            theme="spectrum"
+            system="spectrum"
             color="light"
             scale="medium"
           >
@@ -165,7 +165,7 @@ export class PageContainer extends LitElement {
         </header>
         </div>
         <sp-theme
-            theme="spectrum"
+            system="spectrum"
             color="light"
             scale="medium"
           >

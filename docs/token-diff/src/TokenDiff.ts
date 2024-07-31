@@ -317,7 +317,7 @@ export class TokenDiff extends LitElement {
   protected override render(): TemplateResult {
     return html`
       <div>
-        <sp-theme theme="spectrum" color="light" scale="medium">
+        <sp-theme system="spectrum" color="light" scale="medium">
           <div
             class="title spectrum-Typography spectrum-Heading--sizeXXL spectrum-Heading--serif"
           >
@@ -332,10 +332,18 @@ export class TokenDiff extends LitElement {
             <compare-card
               @selection=${this.__originalCardListener}
               heading="Version A"
+              .branchOptions=${this.branchOptions}
+              .tagOptions=${this.tagOptions}
+              .branchSchemaOptions=${this.branchSchemaOptions}
+              .tagSchemaOptions=${this.tagSchemaOptions}
             ></compare-card>
             <compare-card
               @selection=${this.__updatedCardListener}
               heading="Version B"
+              .branchOptions=${this.branchOptions}
+              .tagOptions=${this.tagOptions}
+              .branchSchemaOptions=${this.branchSchemaOptions}
+              .tagSchemaOptions=${this.tagSchemaOptions}
             ></compare-card>
           </div>
           <div class="page compare-button">

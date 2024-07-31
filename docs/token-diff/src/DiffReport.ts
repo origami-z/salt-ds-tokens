@@ -9,7 +9,7 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-import { html, css, LitElement, TemplateResult, noChange } from 'lit';
+import { html, css, LitElement, TemplateResult } from 'lit';
 import { property } from 'lit/decorators.js';
 import '@spectrum-web-components/theme/sp-theme.js';
 import '@spectrum-web-components/theme/src/themes.js';
@@ -17,6 +17,7 @@ import '@spectrum-web-components/card/sp-card.js';
 import '@spectrum-web-components/button/sp-button.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-compare.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-share.js';
+import '@spectrum-web-components/icons-workflow/icons/sp-icon-copy.js';
 import '@spectrum-web-components/toast/sp-toast.js';
 import './compare-card.js';
 
@@ -53,6 +54,9 @@ export class DiffReport extends LitElement {
       font-weight: 900;
       line-height: 66.7px; /* 115% */
       margin-top: 15px;
+    }
+    h1 {
+      margin-top: 0;
     }
     h2 {
       color: #000;
@@ -106,6 +110,9 @@ export class DiffReport extends LitElement {
         padding-left: 25px;
         padding-right: 25px;
       }
+      h1 {
+        margin-top: 15px;
+      }
       h2 {
         font-size: 18px;
       }
@@ -143,11 +150,6 @@ export class DiffReport extends LitElement {
       Object.keys(this.tokenDiffJSON.updated.deleted).length +
       Object.keys(this.tokenDiffJSON.updated.updated).length +
       Object.keys(this.tokenDiffJSON.updated.renamed).length;
-    // let queryString = this.url; // window.location.search
-    // let objectString = queryString.split('=')[1];
-    // let decodedObject = JSON.parse(decodeURIComponent(objectString));
-
-    // console.log(decodedObject); // { name: 'John', age: 30 }
   }
 
   @property() tokenDiffJSON: any = {
@@ -257,10 +259,20 @@ export class DiffReport extends LitElement {
     }
   }
 
+  __copyReport() {
+    const reportBody = this.shadowRoot?.getElementById('report-body');
+    if (reportBody) {
+      const textContent = reportBody.textContent;
+      if (textContent) {
+        navigator.clipboard.writeText(textContent);
+      }
+    }
+  }
+
   protected override render(): TemplateResult {
     return html`
       <div class="page">
-        <sp-theme theme="spectrum" color="light" scale="medium">
+        <sp-theme system="spectrum" color="light" scale="medium">
           <sp-overlay trigger="trigger@click" type="auto">
             <sp-toast open variant="info">
               The report url has been copied to your clipboard!
@@ -276,74 +288,85 @@ export class DiffReport extends LitElement {
               <sp-icon-share slot="icon"></sp-icon-share>
               Share
             </sp-action-button>
-            <h1>Tokens Changed (${this.totalTokens})</h1>
+            <sp-action-button
+              class="share-button"
+              quiet
+              @click=${this.__copyReport}
+              id="trigger"
+            >
+              <sp-icon-copy slot="icon"></sp-icon-copy>
+              Copy to clipboard
+            </sp-action-button>
           </div>
-          <p>${this.originalBranchOrTag} | ${this.updatedBranchOrTag}</p>
-          <p>${this.originalSchema} | ${this.updatedSchema}</p>
-          ${this.order.map((section: string, idx: number) => {
-            if (Object.keys(this.tokenDiffJSON[section]).length > 0) {
-              let name: string;
-              let totalTokens;
-              if (section === 'deprecated') {
-                name = 'Newly Deprecated';
-              } else if (section === 'reverted') {
-                name = 'Newly "Un-deprecated"';
-              } else {
-                name = `${section.charAt(0).toUpperCase()}${section.substring(1)}`;
-              }
-              totalTokens =
-                section === 'updated'
-                  ? Object.keys(this.tokenDiffJSON.updated.added).length +
-                    Object.keys(this.tokenDiffJSON.updated.deleted).length +
-                    Object.keys(this.tokenDiffJSON.updated.updated).length +
-                    Object.keys(this.tokenDiffJSON.updated.renamed).length
-                  : Object.keys(this.tokenDiffJSON[section]).length;
-              return html`
-                <div id="section">
-                  <h2>${`${this.emojis[idx]} ${name} (${totalTokens})`}</h2>
-                  ${Object.keys(this.tokenDiffJSON[section]).map(
-                    (token: any) => {
-                      switch (section) {
-                        case 'renamed':
-                          return this.__createArrowItems(
-                            this.tokenDiffJSON.renamed[token]['old-name'],
-                            token,
-                          );
-                        case 'deprecated':
-                          return this.__createItemsWithDescription(
-                            token,
-                            this.tokenDiffJSON.deprecated[token][
-                              'deprecated_comment'
-                            ],
-                          );
-                        case 'updated':
-                          break;
-                        default:
-                          return this.__createItems(token);
-                      }
-                    },
-                  )}
-                </div>
-              `;
-            }
-          })}
-          ${this.orderForUpdatedSection.map((name: any) => {
-            if (Object.keys(this.tokenDiffJSON.updated[name]).length > 0) {
-              return html`
-                <div id=${name}>
-                  <h3>
-                    ${`${this.emojis[this.emojis.length - 1]} ${name.charAt(0).toUpperCase()}${name.substring(1)} Properties`}
-                    (${Object.keys(this.tokenDiffJSON.updated[name]).length})
-                  </h3>
-                  <div class="report-text">
-                    ${this.__createEmbeddedItems(
-                      this.tokenDiffJSON.updated[name],
+          <div id="report-body">
+            <h1>Tokens Changed (${this.totalTokens})</h1>
+            <p>${this.originalBranchOrTag} | ${this.updatedBranchOrTag}</p>
+            <p>${this.originalSchema} | ${this.updatedSchema}</p>
+            ${this.order.map((section: string, idx: number) => {
+              if (Object.keys(this.tokenDiffJSON[section]).length > 0) {
+                let name: string;
+                let totalTokens;
+                if (section === 'deprecated') {
+                  name = 'Newly Deprecated';
+                } else if (section === 'reverted') {
+                  name = 'Newly "Un-deprecated"';
+                } else {
+                  name = `${section.charAt(0).toUpperCase()}${section.substring(1)}`;
+                }
+                totalTokens =
+                  section === 'updated'
+                    ? Object.keys(this.tokenDiffJSON.updated.added).length +
+                      Object.keys(this.tokenDiffJSON.updated.deleted).length +
+                      Object.keys(this.tokenDiffJSON.updated.updated).length +
+                      Object.keys(this.tokenDiffJSON.updated.renamed).length
+                    : Object.keys(this.tokenDiffJSON[section]).length;
+                return html`
+                  <div id="section">
+                    <h2>${`${this.emojis[idx]} ${name} (${totalTokens})`}</h2>
+                    ${Object.keys(this.tokenDiffJSON[section]).map(
+                      (token: any) => {
+                        switch (section) {
+                          case 'renamed':
+                            return this.__createArrowItems(
+                              this.tokenDiffJSON.renamed[token]['old-name'],
+                              token,
+                            );
+                          case 'deprecated':
+                            return this.__createItemsWithDescription(
+                              token,
+                              this.tokenDiffJSON.deprecated[token][
+                                'deprecated_comment'
+                              ],
+                            );
+                          case 'updated':
+                            break;
+                          default:
+                            return this.__createItems(token);
+                        }
+                      },
                     )}
                   </div>
-                </div>
-              `;
-            }
-          })}
+                `;
+              }
+            })}
+            ${this.orderForUpdatedSection.map((name: any) => {
+              if (Object.keys(this.tokenDiffJSON.updated[name]).length > 0) {
+                return html`
+                  <div id=${name}>
+                    <h3>
+                      ${`${this.emojis[this.emojis.length - 1]} ${name.charAt(0).toUpperCase()}${name.substring(1)} Properties`}
+                      (${Object.keys(this.tokenDiffJSON.updated[name]).length})
+                    </h3>
+                    <div class="report-text">
+                      ${this.__createEmbeddedItems(
+                        this.tokenDiffJSON.updated[name],
+                      )}
+                    </div>
+                  </div>
+                `;
+              }
+            })}
+          </div>
         </sp-theme>
       </div>
     `;

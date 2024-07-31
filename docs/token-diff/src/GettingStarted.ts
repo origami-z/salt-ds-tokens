@@ -114,7 +114,7 @@ export class GettingStarted extends LitElement {
   protected override render(): TemplateResult {
     return html`
       <div class="page">
-        <sp-theme class="theme" color="light" scale="medium">
+        <sp-theme class="theme" system="spectrum" color="light" scale="medium">
           <div
             class="title spectrum-Typography spectrum-Heading--sizeXXL spectrum-Heading--serif"
           >

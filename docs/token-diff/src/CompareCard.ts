@@ -25,26 +25,6 @@ import {
   fetchSchemaOptions,
 } from './fetchFromGithub.js';
 
-interface Branch {
-  name: string;
-  commit: {
-    sha: string;
-    url: string;
-  };
-  protected: boolean;
-}
-
-interface Tag {
-  commit: {
-    sha: string;
-    url: string;
-  };
-  name: string;
-  node_id: string;
-  tarball_url: string;
-  zipball_url: string;
-}
-
 export class CompareCard extends LitElement {
   static styles = css`
     :host {
@@ -149,7 +129,7 @@ export class CompareCard extends LitElement {
           .replaceAll('%40', '@');
       }
     }
-    if (this.branchOptions.includes(this.branchOrTag)) {
+    if (this.toggle === 'Github branch') {
       this.toggle = 'Github branch';
       this.branchSchemaOptions = await fetchSchemaOptions(
         'branch',
@@ -266,7 +246,7 @@ export class CompareCard extends LitElement {
       <div class="card">
         <div class="container">
           <div class="label section">${this.heading}</div>
-          <sp-theme scale="medium" color="light">
+          <sp-theme system="spectrum" scale="medium" color="light">
             <sp-action-group compact selects="single" class="section">
               <sp-action-button
                 toggles
