@@ -332,18 +332,10 @@ export class TokenDiff extends LitElement {
             <compare-card
               @selection=${this.__originalCardListener}
               heading="Version A"
-              .branchOptions=${this.branchOptions}
-              .tagOptions=${this.tagOptions}
-              .branchSchemaOptions=${this.branchSchemaOptions}
-              .tagSchemaOptions=${this.tagSchemaOptions}
             ></compare-card>
             <compare-card
               @selection=${this.__updatedCardListener}
               heading="Version B"
-              .branchOptions=${this.branchOptions}
-              .tagOptions=${this.tagOptions}
-              .branchSchemaOptions=${this.branchSchemaOptions}
-              .tagSchemaOptions=${this.tagSchemaOptions}
             ></compare-card>
           </div>
           <div class="page compare-button">
