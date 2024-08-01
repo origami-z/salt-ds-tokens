@@ -24,7 +24,8 @@ import {
   fetchBranchTagOptions,
   fetchSchemaOptions,
 } from './fetchFromGithub.js';
-import tokenDiff from '../node_modules/@adobe/token-diff-generator/src/lib/index.js';
+import tokenDiff from '@adobe/token-diff-generator/src/lib/index.js';
+import { fileImport } from './fetchFromGithub.js';
 
 export class TokenDiff extends LitElement {
   static styles = css`
@@ -116,14 +117,28 @@ export class TokenDiff extends LitElement {
     this.__updatedProperty(false, e.detail);
   }
 
-  __generateReport() {
-    // call token diff generator library
+  async __generateReport() {
+    const originalSchemaName: string[] = [this.originalSchema];
+    const updatedSchemaName: string[] = [this.updatedSchema];
+    const [originalSchema, updatedSchema] = await Promise.all([
+      fileImport(
+        originalSchemaName,
+        this.originalVers === 'branch' ? undefined : this.originalBranchOrTag,
+        this.originalVers === 'branch' ? this.originalBranchOrTag : undefined,
+      ),
+      fileImport(
+        updatedSchemaName,
+        this.updatedVers === 'branch' ? undefined : this.updatedBranchOrTag,
+        this.updatedVers === 'branch' ? this.updatedBranchOrTag : undefined,
+      ),
+    ]);
+    const reportJSON = await tokenDiff(originalSchema, updatedSchema);
     const report = this.shadowRoot?.getElementById('report')!;
     if (report.firstChild) {
       report.removeChild(report.firstChild);
     }
     const diffReport = document.createElement('diff-report') as DiffReport;
-    diffReport.tokenDiffJSON = this.jsonObj;
+    diffReport.tokenDiffJSON = reportJSON;
     this.originalBranchOrTag =
       this.originalBranchOrTag === undefined
         ? 'beta'
@@ -154,7 +169,7 @@ export class TokenDiff extends LitElement {
         composed: true,
       };
       this.dispatchEvent(new CustomEvent('urlChange', options));
-      window.history.pushState(this.jsonObj, 'Report', url.href);
+      window.history.pushState(reportJSON, 'Report', url.href);
     }
   }
 
@@ -204,115 +219,6 @@ export class TokenDiff extends LitElement {
       ? 'branch'
       : 'tag';
   }
-
-  @property({ type: Object }) jsonObj = {
-    added: {
-      'i-like-pizza': {
-        component: 'table',
-        $schema:
-          'https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json',
-        value: '0.07',
-        uuid: '1234',
-      },
-      'hi-how-are-you': {
-        component: 'color-handle',
-        $schema:
-          'https://opensource.adobe.com/spectrum-tokens/schemas/token-types/opacity.json',
-        value: '0.42',
-        uuid: '234',
-      },
-    },
-    deleted: {
-      'floating-action-button-drop-shadow-color': undefined,
-      'floating-action-button-shadow-color': undefined,
-      'table-selected-row-background-opacity-non-emphasized-hover': undefined,
-      'table-selected-row-background-opacity-non-emphasized': undefined,
-    },
-    deprecated: {
-      'color-slider-border-color': {
-        deprecated: true,
-        deprecated_comment: 'insert random deprecated comment',
-      },
-      'color-loupe-outer-border': {
-        deprecated: true,
-        deprecated_comment: 'insert random deprecated comment',
-      },
-    },
-    reverted: {
-      'color-handle-drop-shadow-color': {
-        deprecated: undefined,
-        deprecated_comment: undefined,
-      },
-    },
-    renamed: {
-      'i-like-ice-cream': {
-        'old-name': 'color-area-border-color',
-      },
-      'i-like-char-siu': {
-        'old-name': 'color-handle-inner-border-color',
-      },
-    },
-    updated: {
-      added: {},
-      deleted: {},
-      renamed: {},
-      updated: {
-        'thumbnail-border-color': {
-          $schema: {
-            'new-value':
-              'https://opensource.adobe.com/spectrum-tokens/schemas/token-types/not-a-thumbnail.json',
-            'original-value':
-              'https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json',
-            path: '$schema',
-          },
-        },
-        'opacity-checkerboard-square-dark': {
-          sets: {
-            light: {
-              value: {
-                'new-value': '{gray-500}',
-                'original-value': '{gray-200}',
-                path: 'sets.light.value',
-              },
-            },
-            darkest: {
-              value: {
-                'new-value': '{gray-900}',
-                'original-value': '{gray-800}',
-                path: 'sets.darkest.value',
-              },
-            },
-          },
-        },
-        'color-slider-border-opacity': {
-          component: {
-            'new-value': 'not-a-color-slider',
-            'original-value': 'color-slider',
-            path: 'component',
-          },
-        },
-        'color-loupe-inner-border': {
-          uuid: {
-            'new-value': 'if a uuid ever change lol',
-            'original-value': 'd2c4cb48-8a90-461d-95bc-d882ba01472b',
-            path: 'uuid',
-          },
-        },
-        'drop-zone-background-color': {
-          component: {
-            'new-value': 'woohoo!',
-            'original-value': 'drop-zone',
-            path: 'component',
-          },
-          value: {
-            'new-value': '{fushcia pink}',
-            'original-value': '{accent-visual-color}',
-            path: 'value',
-          },
-        },
-      },
-    },
-  };
 
   protected override render(): TemplateResult {
     return html`

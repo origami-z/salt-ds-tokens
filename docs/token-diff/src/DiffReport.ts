@@ -79,6 +79,9 @@ export class DiffReport extends LitElement {
       top: 1em;
       right: 1em;
     }
+    .theme {
+      width: 100%;
+    }
     .report-text {
       color: #222;
       padding-left: 20px;
@@ -94,16 +97,25 @@ export class DiffReport extends LitElement {
       padding-right: 50px;
       border-radius: 10px;
       margin-bottom: 15px;
+      width: 100%;
+      height: fit-content;
+      max-width: inherit;
     }
     .share-header {
       display: inline-block;
+      align-items: flex-end;
       width: 100%;
-      align-items: center;
     }
     .share-button {
       display: flex;
       float: right;
-      margin-left: auto;
+    }
+    #reportBody {
+      max-width: inherit;
+      overflow-x: wrap;
+    }
+    .updated-section {
+      flex-wrap: wrap;
     }
     @media only screen and (max-width: 600px) {
       .page {
@@ -150,6 +162,11 @@ export class DiffReport extends LitElement {
       Object.keys(this.tokenDiffJSON.updated.deleted).length +
       Object.keys(this.tokenDiffJSON.updated.updated).length +
       Object.keys(this.tokenDiffJSON.updated.renamed).length;
+    this.totalUpdatedTokens =
+      Object.keys(this.tokenDiffJSON.updated.added).length +
+      Object.keys(this.tokenDiffJSON.updated.deleted).length +
+      Object.keys(this.tokenDiffJSON.updated.updated).length +
+      Object.keys(this.tokenDiffJSON.updated.renamed).length;
   }
 
   @property() tokenDiffJSON: any = {
@@ -172,6 +189,7 @@ export class DiffReport extends LitElement {
   @property({ type: String }) updatedBranchOrTag = '';
   @property({ type: String }) updatedSchema = '';
   @property({ type: String }) url = '';
+  @property({ type: Number }) totalUpdatedTokens = 0;
 
   readonly order: any = [
     'renamed',
@@ -203,7 +221,7 @@ export class DiffReport extends LitElement {
   }
 
   __createItems(token: string) {
-    return html` <p class="report-text">${token}</p> `;
+    return html` <p class="report-text">${token.replace(/{|}/g, '')}</p> `;
   }
 
   __createEmbeddedItems(tokens: any) {
@@ -239,7 +257,7 @@ export class DiffReport extends LitElement {
     } else if (token['path'].includes('$schema')) {
       const newValue = token['new-value'].split('/');
       const str =
-        `"${token['original-value']}" -> \n` +
+        `"${token['original-value']}" ->\n` +
         `"${token['new-value'].substring(0, token['new-value'].length - newValue[newValue.length - 1].length)}` +
         `${newValue[newValue.length - 1].split('.')[0]}` +
         `.${newValue[newValue.length - 1].split('.')[1]}"`;
@@ -260,7 +278,7 @@ export class DiffReport extends LitElement {
   }
 
   __copyReport() {
-    const reportBody = this.shadowRoot?.getElementById('report-body');
+    const reportBody = this.shadowRoot?.getElementById('reportBody');
     if (reportBody) {
       const textContent = reportBody.textContent;
       if (textContent) {
@@ -272,7 +290,7 @@ export class DiffReport extends LitElement {
   protected override render(): TemplateResult {
     return html`
       <div class="page">
-        <sp-theme system="spectrum" color="light" scale="medium">
+        <sp-theme class="theme" system="spectrum" color="light" scale="medium">
           <sp-overlay trigger="trigger@click" type="auto">
             <sp-toast open variant="info">
               The report url has been copied to your clipboard!
@@ -298,28 +316,34 @@ export class DiffReport extends LitElement {
               Copy to clipboard
             </sp-action-button>
           </div>
-          <div id="report-body">
+          <div id="reportBody">
             <h1>Tokens Changed (${this.totalTokens})</h1>
             <p>${this.originalBranchOrTag} | ${this.updatedBranchOrTag}</p>
             <p>${this.originalSchema} | ${this.updatedSchema}</p>
             ${this.order.map((section: string, idx: number) => {
-              if (Object.keys(this.tokenDiffJSON[section]).length > 0) {
-                let name: string;
-                let totalTokens;
-                if (section === 'deprecated') {
-                  name = 'Newly Deprecated';
-                } else if (section === 'reverted') {
-                  name = 'Newly "Un-deprecated"';
-                } else {
-                  name = `${section.charAt(0).toUpperCase()}${section.substring(1)}`;
-                }
-                totalTokens =
-                  section === 'updated'
-                    ? Object.keys(this.tokenDiffJSON.updated.added).length +
-                      Object.keys(this.tokenDiffJSON.updated.deleted).length +
-                      Object.keys(this.tokenDiffJSON.updated.updated).length +
-                      Object.keys(this.tokenDiffJSON.updated.renamed).length
-                    : Object.keys(this.tokenDiffJSON[section]).length;
+              this.totalUpdatedTokens =
+                Object.keys(this.tokenDiffJSON.updated.added).length +
+                Object.keys(this.tokenDiffJSON.updated.deleted).length +
+                Object.keys(this.tokenDiffJSON.updated.updated).length +
+                Object.keys(this.tokenDiffJSON.updated.renamed).length;
+              let name: string;
+              let totalTokens: number;
+              if (section === 'deprecated') {
+                name = 'Newly Deprecated';
+              } else if (section === 'reverted') {
+                name = 'Newly "Un-deprecated"';
+              } else {
+                name = `${section.charAt(0).toUpperCase()}${section.substring(1)}`;
+              }
+              totalTokens =
+                section === 'updated'
+                  ? this.totalUpdatedTokens
+                  : Object.keys(this.tokenDiffJSON[section]).length;
+              if (
+                (section === 'updated' && this.totalUpdatedTokens > 0) ||
+                (section !== 'updated' &&
+                  Object.keys(this.tokenDiffJSON[section]).length > 0)
+              ) {
                 return html`
                   <div id="section">
                     <h2>${`${this.emojis[idx]} ${name} (${totalTokens})`}</h2>
@@ -349,23 +373,26 @@ export class DiffReport extends LitElement {
                 `;
               }
             })}
-            ${this.orderForUpdatedSection.map((name: any) => {
-              if (Object.keys(this.tokenDiffJSON.updated[name]).length > 0) {
-                return html`
-                  <div id=${name}>
-                    <h3>
-                      ${`${this.emojis[this.emojis.length - 1]} ${name.charAt(0).toUpperCase()}${name.substring(1)} Properties`}
-                      (${Object.keys(this.tokenDiffJSON.updated[name]).length})
-                    </h3>
-                    <div class="report-text">
-                      ${this.__createEmbeddedItems(
-                        this.tokenDiffJSON.updated[name],
-                      )}
+            <div class="updated-section">
+              ${this.orderForUpdatedSection.map((name: any) => {
+                if (Object.keys(this.tokenDiffJSON.updated[name]).length > 0) {
+                  return html`
+                    <div id=${name}>
+                      <h3>
+                        ${`${this.emojis[this.emojis.length - 1]} ${name.charAt(0).toUpperCase()}${name.substring(1)} Properties`}
+                        (${Object.keys(this.tokenDiffJSON.updated[name])
+                          .length})
+                      </h3>
+                      <div class="report-text">
+                        ${this.__createEmbeddedItems(
+                          this.tokenDiffJSON.updated[name],
+                        )}
+                      </div>
                     </div>
-                  </div>
-                `;
-              }
-            })}
+                  `;
+                }
+              })}
+            </div>
           </div>
         </sp-theme>
       </div>

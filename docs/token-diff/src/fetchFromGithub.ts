@@ -24,7 +24,7 @@ export async function fetchSchemaOptions(
   branchOrTagKey: string,
   branchOrTag: string,
 ) {
-  let schemaOptions = [];
+  let schemaOptions: string[] = [];
   const source = 'https://raw.githubusercontent.com/adobe/spectrum-tokens/';
   let branchOrTagArr = branchOrTag.split('@');
   const url =
@@ -40,4 +40,37 @@ export async function fetchSchemaOptions(
 
 async function fetchTokens(tokenName: string, url: string) {
   return (await fetch(`${url}/packages/tokens/${tokenName}`)).json();
+}
+
+const source = 'https://raw.githubusercontent.com/adobe/spectrum-tokens/';
+
+/**
+ * Returns file with given file name as a JSON object (took this from diff.js)
+ * @param {string} tokenName - the name of the target file
+ * @param {string} version - the intended package version (full name)
+ * @returns {object} the target file as a JSON object
+ */
+export async function fileImport(
+  givenTokenNames: string[],
+  givenVersion: string | undefined,
+  givenLocation: string | undefined,
+) {
+  const version = givenVersion || 'latest';
+  const location = givenLocation || 'main';
+  const link =
+    version !== 'latest'
+      ? source + version.replace('@', '%40')
+      : source + location;
+  let tokenNames: string[];
+  if (givenTokenNames[0] === 'all') {
+    tokenNames = await fetchTokens('manifest.json', link);
+  } else {
+    tokenNames = givenTokenNames;
+  }
+  const result = {};
+  for (let i = 0; i < tokenNames.length; i++) {
+    const tokens = await fetchTokens(tokenNames[i], link);
+    Object.assign(result, tokens);
+  }
+  return result;
 }

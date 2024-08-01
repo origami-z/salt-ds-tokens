@@ -47,8 +47,11 @@
     "@spectrum-web-components/theme": "0.45.0",
     "@spectrum-web-components/toast": "0.45.0",
     "@spectrum-web-components/underlay": "0.45.0",
+    "@types/node": "v20.12.2",
+    "@types/promise-fs": "^2.1.5",
     "@vaadin/router": "^1.7.5",
     "lit": "^3.1.4",
+    "tmp-promise": "^3.0.3",
     "tslib": "^2.6.3"
   },
   "devDependencies": {
