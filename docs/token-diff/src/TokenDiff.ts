@@ -65,6 +65,18 @@ export class TokenDiff extends LitElement {
       margin-top: 40px;
       margin-bottom: 65px;
     }
+    .skeleton {
+      animation: skeleton-loading 1s linear infinite alternate;
+    }
+
+    @keyframes skeleton-loading {
+      0% {
+        background-color: hsl(200, 20%, 80%);
+      }
+      100% {
+        background-color: hsl(200, 20%, 95%);
+      }
+    }
     @media only screen and (max-width: 1100px) {
       :host {
         overflow-x: auto;
@@ -118,6 +130,12 @@ export class TokenDiff extends LitElement {
   }
 
   async __generateReport() {
+    const compareButton = this.shadowRoot?.getElementById('compareButton');
+    compareButton?.classList.add('skeleton', 'skeleton-loading');
+    const report = this.shadowRoot?.getElementById('report')!;
+    if (report.firstChild) {
+      report.removeChild(report.firstChild);
+    }
     const originalSchemaName: string[] = [this.originalSchema];
     const updatedSchemaName: string[] = [this.updatedSchema];
     const [originalSchema, updatedSchema] = await Promise.all([
@@ -133,10 +151,6 @@ export class TokenDiff extends LitElement {
       ),
     ]);
     const reportJSON = await tokenDiff(originalSchema, updatedSchema);
-    const report = this.shadowRoot?.getElementById('report')!;
-    if (report.firstChild) {
-      report.removeChild(report.firstChild);
-    }
     const diffReport = document.createElement('diff-report') as DiffReport;
     diffReport.tokenDiffJSON = reportJSON;
     this.originalBranchOrTag =
@@ -161,16 +175,19 @@ export class TokenDiff extends LitElement {
         this.updatedSchema,
     );
     diffReport.url = url.href;
-    if (report) {
-      report.appendChild(diffReport);
-      let options = {
-        detail: url.href,
-        bubbles: true,
-        composed: true,
-      };
-      this.dispatchEvent(new CustomEvent('urlChange', options));
-      window.history.pushState(reportJSON, 'Report', url.href);
-    }
+    setTimeout(() => {
+      if (report) {
+        report.appendChild(diffReport);
+        let options = {
+          detail: url.href,
+          bubbles: true,
+          composed: true,
+        };
+        this.dispatchEvent(new CustomEvent('urlChange', options));
+        window.history.pushState(reportJSON, 'Report', url.href);
+        compareButton?.classList.remove('skeleton', 'skeleton-loading');
+      }
+    }, 1000);
   }
 
   async firstUpdated() {
@@ -249,8 +266,12 @@ export class TokenDiff extends LitElement {
               @click=${this.__generateReport}
               variant="accent"
               size="m"
+              id="compareButton"
             >
-              <sp-icon-compare slot="icon"></sp-icon-compare>
+              <sp-icon-compare
+                class="compare-icon"
+                slot="icon"
+              ></sp-icon-compare>
               Compare
             </sp-button>
           </div>

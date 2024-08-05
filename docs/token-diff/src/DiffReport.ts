@@ -64,6 +64,7 @@ export class DiffReport extends LitElement {
       font-style: normal;
       font-weight: 600;
       line-height: 40px;
+      line-height: 66.7px;
       margin-top: 30px;
     }
     h3 {
@@ -99,7 +100,6 @@ export class DiffReport extends LitElement {
       margin-bottom: 15px;
       width: 100%;
       height: fit-content;
-      max-width: inherit;
     }
     .share-header {
       display: inline-block;
@@ -256,12 +256,14 @@ export class DiffReport extends LitElement {
       );
     } else if (token['path'].includes('$schema')) {
       const newValue = token['new-value'].split('/');
-      const str =
-        `"${token['original-value']}" ->\n` +
+      const originalPart = `"${token['original-value']}" ->`;
+      const updatedPart =
         `"${token['new-value'].substring(0, token['new-value'].length - newValue[newValue.length - 1].length)}` +
         `${newValue[newValue.length - 1].split('.')[0]}` +
         `.${newValue[newValue.length - 1].split('.')[1]}"`;
-      return this.__createItems(str);
+      const part = html`${this.__createItems(originalPart)}
+      ${this.__createItems(updatedPart)}`;
+      return part;
     } else {
       return this.__createArrowItems(
         token['original-value'],
@@ -291,9 +293,14 @@ export class DiffReport extends LitElement {
     return html`
       <div class="page">
         <sp-theme class="theme" system="spectrum" color="light" scale="medium">
-          <sp-overlay trigger="trigger@click" type="auto">
+          <sp-overlay trigger="triggerShare@click" type="auto">
             <sp-toast open variant="info">
               The report url has been copied to your clipboard!
+            </sp-toast>
+          </sp-overlay>
+          <sp-overlay trigger="triggerCopy@click" type="auto">
+            <sp-toast open variant="info">
+              The report's contents has been copied to your clipboard!
             </sp-toast>
           </sp-overlay>
           <div class="share-header">
@@ -301,7 +308,7 @@ export class DiffReport extends LitElement {
               class="share-button"
               quiet
               @click=${this.__shareReport}
-              id="trigger"
+              id="triggerShare"
             >
               <sp-icon-share slot="icon"></sp-icon-share>
               Share
@@ -310,7 +317,7 @@ export class DiffReport extends LitElement {
               class="share-button"
               quiet
               @click=${this.__copyReport}
-              id="trigger"
+              id="triggerCopy"
             >
               <sp-icon-copy slot="icon"></sp-icon-copy>
               Copy to clipboard
