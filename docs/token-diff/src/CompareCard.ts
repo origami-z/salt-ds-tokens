@@ -106,9 +106,6 @@ export class CompareCard extends LitElement {
     if (firstQuestionMark > 0) {
       const parameters = currentUrl.substring(firstQuestionMark + 1);
       const paramSplit = parameters.split('&');
-      this.toggle = this.branchOptions.includes(this.branchOrTag)
-        ? 'Github branch'
-        : 'Package release';
       if (this.heading === 'Version A') {
         this.branchOrTag = paramSplit[0]
           .substring(paramSplit[0].indexOf('=') + 1)
@@ -128,6 +125,9 @@ export class CompareCard extends LitElement {
           .replaceAll('%20', ' ')
           .replaceAll('%40', '@');
       }
+      this.toggle = this.branchOptions.includes(this.branchOrTag)
+        ? 'Github branch'
+        : 'Package release';
     }
     if (this.toggle === 'Github branch') {
       this.toggle = 'Github branch';
