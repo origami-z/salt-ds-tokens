@@ -14,7 +14,9 @@ export async function fetchBranchTagOptions(type: string) {
     const arr: any[] | PromiseLike<any[]> = [];
     const obj = await response.json();
     Object.values(obj).forEach((value: any) => {
-      arr.push(value.name);
+      if (!value.name.includes('token-diff-generator')) {
+        arr.push(value.name);
+      }
     });
     return arr;
   });

@@ -281,7 +281,7 @@ export class CompareCard extends LitElement {
                 : this.__createMenuItem(this.tagOptions, true)}
             </sp-picker>
             <sp-field-label for="schemaSelection" size="m"
-              >Schema</sp-field-label
+              >Token File</sp-field-label
             >
             <sp-picker
               class="picker"
