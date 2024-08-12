@@ -252,3 +252,28 @@ test("check cli output for renamed property", async (t) => {
     }
   });
 });
+
+test("check cli output testing local and remote branch", async (t) => {
+  t.plan(1);
+  return new Promise((resolve, reject) => {
+    try {
+      nixt()
+        .expect(async () => {
+          try {
+            const expectedFileName = `${path}${outputPath}expected-local-branch.txt`;
+            await access(expectedFileName);
+            const expected = await readFile(expectedFileName, {
+              encoding: "utf8",
+            });
+            t.snapshot(expected.trim());
+          } catch (error) {
+            reject(error);
+          }
+        })
+        .run(`pnpm tdiff report -l -ntb shirlsli/file-import-tests`)
+        .end(resolve);
+    } catch (error) {
+      reject(error);
+    }
+  });
+});

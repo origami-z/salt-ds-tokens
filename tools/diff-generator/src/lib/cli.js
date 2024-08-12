@@ -56,6 +56,7 @@ program
     "-tn, --token-names <tokens...>",
     "indicates specific tokens to compare",
   )
+  .option("-t, --test", "tests singular token files")
   .option("-l, --local", "indicates to compare to local data")
   .action(async (options) => {
     try {
@@ -81,6 +82,10 @@ program
           options.oldTokenBranch,
         );
         updatedFile = await fileImport(options.tokenNames, "local");
+      } else if (options.local) {
+        [originalFile, updatedFile] = await Promise.all([
+          fileImport(options.tokenNames, "local"),
+        ]);
       } else {
         [originalFile, updatedFile] = await Promise.all([
           fileImport(
