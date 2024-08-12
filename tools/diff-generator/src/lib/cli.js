@@ -52,31 +52,49 @@ program
     "-ntb, --new-token-branch <newBranch>",
     "indicates which branch to fetch updated token data from",
   )
-  .option("-t, --test <tokens...>", "indicates switch to testing mode")
   .option(
     "-tn, --token-names <tokens...>",
     "indicates specific tokens to compare",
   )
+  .option("-l, --local", "indicates to compare to local data")
   .action(async (options) => {
     try {
-      const [originalFile, updatedFile] =
-        options.test !== undefined
-          ? await Promise.all([
-              fileImport(options.test[0], "test"),
-              fileImport(options.test[1], "test"),
-            ])
-          : await Promise.all([
-              fileImport(
-                options.tokenNames,
-                options.oldTokenVersion,
-                options.oldTokenBranch,
-              ),
-              fileImport(
-                options.tokenNames,
-                options.newTokenVersion,
-                options.newTokenBranch,
-              ),
-            ]);
+      let originalFile = {};
+      let updatedFile = {};
+      if (
+        options.local &&
+        (options.newTokenBranch || options.newTokenVersion)
+      ) {
+        originalFile = await fileImport(options.tokenNames, "local");
+        updatedFile = await fileImport(
+          options.tokenNames,
+          options.newTokenVersion,
+          options.newTokenBranch,
+        );
+      } else if (
+        options.local &&
+        (options.oldTokenBranch || options.oldTokenVersion)
+      ) {
+        originalFile = await fileImport(
+          options.tokenNames,
+          options.oldTokenVersion,
+          options.oldTokenBranch,
+        );
+        updatedFile = await fileImport(options.tokenNames, "local");
+      } else {
+        [originalFile, updatedFile] = await Promise.all([
+          fileImport(
+            options.tokenNames,
+            options.oldTokenVersion,
+            options.oldTokenBranch,
+          ),
+          fileImport(
+            options.tokenNames,
+            options.newTokenVersion,
+            options.newTokenBranch,
+          ),
+        ]);
+      }
       const result = tokenDiff(originalFile, updatedFile);
       cliCheck(result, options);
     } catch (e) {

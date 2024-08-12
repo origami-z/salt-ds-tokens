@@ -26,13 +26,24 @@ export default async function fileImport(
 ) {
   const version = givenVersion || "latest";
   const location = givenLocation || "main";
-  const tokenNames =
-    givenTokenNames || (await fetchTokens("manifest.json", version, location));
-  if (givenVersion === "test") {
-    await access(tokenNames);
-    return JSON.parse(await readFile(tokenNames, { encoding: "utf8" }));
-  }
   const result = {};
+  let tokenNames;
+  if (givenVersion === "local") {
+    const pathHeader = "../../packages/tokens/";
+    tokenNames = (
+      await readFile(pathHeader + "manifest.json", { encoding: "utf8" })
+    ).split("\n");
+    for (let i = 1; i < tokenNames.length - 2; i++) {
+      let tokenPath =
+        pathHeader + tokenNames[i].trim().replaceAll('"', "").replace(",", "");
+      await access(tokenPath);
+      const temp = JSON.parse(await readFile(tokenPath, { encoding: "utf8" }));
+      Object.assign(result, temp);
+    }
+    return result;
+  }
+  tokenNames =
+    givenTokenNames || (await fetchTokens("manifest.json", version, location));
   for (let i = 0; i < tokenNames.length; i++) {
     const tokens = await fetchTokens(tokenNames[i], version, location);
     Object.assign(result, tokens);
