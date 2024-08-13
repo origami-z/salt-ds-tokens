@@ -15,7 +15,7 @@ governing permissions and limitations under the License.
 import tokenDiff from "./index.js";
 import chalk from "chalk";
 import inquirer from "inquirer";
-import fileImport from "./file-import.js";
+import fileImport, { loadLocalData } from "./file-import.js";
 import * as emoji from "node-emoji";
 
 import { Command } from "commander";
@@ -56,56 +56,58 @@ program
     "-tn, --token-names <tokens...>",
     "indicates specific tokens to compare",
   )
-  .option("-t, --test", "tests singular token files")
-  .option("-l, --local", "indicates to compare to local data")
+  .option("-l, --local <path>", "indicates to compare to local data")
   .action(async (options) => {
     try {
-      let originalFile = {};
-      let updatedFile = {};
-      if (
-        options.local &&
-        (options.newTokenBranch || options.newTokenVersion)
-      ) {
-        originalFile = await fileImport(options.tokenNames, "local");
-        updatedFile = await fileImport(
-          options.tokenNames,
-          options.newTokenVersion,
-          options.newTokenBranch,
-        );
-      } else if (
-        options.local &&
-        (options.oldTokenBranch || options.oldTokenVersion)
-      ) {
-        originalFile = await fileImport(
-          options.tokenNames,
-          options.oldTokenVersion,
-          options.oldTokenBranch,
-        );
-        updatedFile = await fileImport(options.tokenNames, "local");
-      } else if (options.local) {
-        [originalFile, updatedFile] = await Promise.all([
-          fileImport(options.tokenNames, "local"),
-        ]);
-      } else {
-        [originalFile, updatedFile] = await Promise.all([
-          fileImport(
-            options.tokenNames,
-            options.oldTokenVersion,
-            options.oldTokenBranch,
-          ),
-          fileImport(
-            options.tokenNames,
-            options.newTokenVersion,
-            options.newTokenBranch,
-          ),
-        ]);
-      }
+      const [originalFile, updatedFile] = await determineFiles(options);
       const result = tokenDiff(originalFile, updatedFile);
       cliCheck(result, options);
     } catch (e) {
       console.error(red("\n" + e + "\n"));
     }
   });
+
+async function determineFiles(options) {
+  if (options.local && (options.newTokenBranch || options.newTokenVersion)) {
+    return await Promise.all([
+      loadLocalData(options.local, options.tokenNames),
+      fileImport(
+        options.tokenNames,
+        options.newTokenVersion,
+        options.newTokenBranch,
+      ),
+    ]);
+  } else if (
+    options.local &&
+    (options.oldTokenBranch || options.oldTokenVersion)
+  ) {
+    return await Promise.all([
+      fileImport(
+        options.tokenNames,
+        options.oldTokenVersion,
+        options.oldTokenBranch,
+      ),
+      loadLocalData(options.local, options.tokenNames),
+    ]);
+  } else if (options.local) {
+    return await Promise.all([
+      loadLocalData(options.local, options.tokenNames),
+    ]);
+  } else {
+    return await Promise.all([
+      fileImport(
+        options.tokenNames,
+        options.oldTokenVersion,
+        options.oldTokenBranch,
+      ),
+      fileImport(
+        options.tokenNames,
+        options.newTokenVersion,
+        options.newTokenBranch,
+      ),
+    ]);
+  }
+}
 
 program.parse();
 

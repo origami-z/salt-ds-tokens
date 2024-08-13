@@ -10,6 +10,8 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 import { access, readFile } from "fs/promises";
+import { existsSync } from "fs";
+import path from "path";
 
 const source = "https://raw.githubusercontent.com/adobe/spectrum-tokens/";
 
@@ -27,28 +29,59 @@ export default async function fileImport(
   const version = givenVersion || "latest";
   const location = givenLocation || "main";
   const result = {};
-  let tokenNames;
-  if (givenVersion === "local") {
-    const pathHeader = "../../packages/tokens/";
-    tokenNames = (
-      await readFile(pathHeader + "manifest.json", { encoding: "utf8" })
-    ).split("\n");
-    for (let i = 1; i < tokenNames.length - 2; i++) {
-      let tokenPath =
-        pathHeader + tokenNames[i].trim().replaceAll('"', "").replace(",", "");
-      await access(tokenPath);
-      const temp = JSON.parse(await readFile(tokenPath, { encoding: "utf8" }));
-      Object.assign(result, temp);
-    }
-    return result;
-  }
-  tokenNames =
+  const tokenNames =
     givenTokenNames || (await fetchTokens("manifest.json", version, location));
   for (let i = 0; i < tokenNames.length; i++) {
     const tokens = await fetchTokens(tokenNames[i], version, location);
     Object.assign(result, tokens);
   }
   return result;
+}
+
+export async function loadLocalData(dirName, givenTokenNames) {
+  try {
+    const startDir = process.cwd();
+    return loadData(dirName, startDir, givenTokenNames);
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+async function loadData(dirName, startDir, givenTokenNames) {
+  const root = getRootPath(startDir, "pnpm-lock.yaml");
+  // just say you have to have packages/tokens
+  let path = root.substring(0, root.lastIndexOf("/")) + "/" + dirName;
+  let tokenNames = givenTokenNames;
+  if (!tokenNames) {
+    tokenNames = (
+      await readFile(path + "/manifest.json", { encoding: "utf8" })
+    ).split("\n");
+    tokenNames = tokenNames.slice(1, tokenNames.length - 2);
+  }
+  let result = {};
+  for (let i = 0; i < tokenNames.length; i++) {
+    const tokenPath =
+      path + "/" + tokenNames[i].trim().replaceAll('"', "").replace(",", "");
+    await access(tokenPath);
+    const temp = JSON.parse(await readFile(tokenPath, { encoding: "utf8" }));
+    Object.assign(result, temp);
+  }
+  return result;
+}
+
+function getRootPath(startDir, targetDir) {
+  let curDir = startDir;
+  while (existsSync(curDir)) {
+    const curDirPath = path.join(curDir, targetDir);
+    if (existsSync(curDirPath)) {
+      return curDirPath;
+    }
+    const parentDir = path.dirname(curDir);
+    if (parentDir === curDir) {
+      return null;
+    }
+    curDir = parentDir;
+  }
 }
 
 async function fetchTokens(tokenName, version, location) {
