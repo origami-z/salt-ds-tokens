@@ -325,6 +325,9 @@ importers:
       emojilib:
         specifier: ^3.0.12
         version: 3.0.12
+      glob:
+        specifier: ^10.3.12
+        version: 10.3.12
       inquirer:
         specifier: ^9.2.23
         version: 9.2.23
