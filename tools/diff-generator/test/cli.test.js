@@ -270,7 +270,9 @@ test("check cli output testing local and remote branch", async (t) => {
             reject(error);
           }
         })
-        .run(`pnpm tdiff report -l -ntb shirlsli/file-import-tests`)
+        .run(
+          `pnpm tdiff report -l packages/tokens/src -ntb shirlsli/file-import-tests`,
+        )
         .end(resolve);
     } catch (error) {
       reject(error);
