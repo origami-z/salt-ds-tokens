@@ -341,12 +341,12 @@ const report = tokenDiff(originalSchema, updatedSchema);"
                     >
                   </sp-table-row>
                   <sp-table-row class="row">
-                    <sp-table-cell><code>-t</code></sp-table-cell>
-                    <sp-table-cell><code>--test</code></sp-table-cell>
-                    <sp-table-cell><code>${`<tokens...>`}</code></sp-table-cell>
+                    <sp-table-cell><code>-l</code></sp-table-cell>
+                    <sp-table-cell><code>--local</code></sp-table-cell>
+                    <sp-table-cell><code>${`<location>`}</code></sp-table-cell>
                     <sp-table-cell
-                      >indicates test mode and runs only on tokens passed
-                      in</sp-table-cell
+                      >local path within repository to fetch token data
+                      from</sp-table-cell
                     >
                   </sp-table-row>
                   <sp-table-row class="row">
@@ -399,6 +399,18 @@ const report = tokenDiff(originalSchema, updatedSchema);"
               <code-panel
                 class="section"
                 codeSnippet="tdiff report -otb shirlsli/diff-generator-cli-tests -ntv @adobe/spectrum-tokens@12.26.0"
+                .tagOptions=${[]}
+              >
+              </code-panel>
+            </div>
+            <p class="text spectrum-Typography spectrum-Heading--sizeXXL">
+              This is how you can compare between a remote branch and your local
+              data.
+            </p>
+            <div class="section">
+              <code-panel
+                class="section"
+                codeSnippet="tdiff report -otb shirlsli/file-import-tests -l packages/tokens/src"
                 .tagOptions=${[]}
               >
               </code-panel>
