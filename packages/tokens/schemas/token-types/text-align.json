@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/text-align.json",
   "title": "Text align",
-  "description": "sets the horizontal alignment of the inline-level content inside a block element",
+  "description": "Sets the horizontal alignment of the inline-level content inside a block element",
   "type": "object",
   "allOf": [
     {
@@ -15,8 +15,8 @@
     },
     "value": {
       "type": "string",
-      "enum": ["left", "center", "right"],
-      "default": "left"
+      "enum": ["start", "center", "end"],
+      "default": "start"
     },
     "component": {},
     "private": {},
