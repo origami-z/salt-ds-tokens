@@ -259,7 +259,7 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
-        "value": "50px",
+        "value": "51px",
         "uuid": "b73bfb12-80ef-453f-b7dc-52bf2258ef47"
       },
       "mobile": {
@@ -274,7 +274,7 @@
     "sets": {
       "desktop": {
         "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/font-size.json",
-        "value": "60px",
+        "value": "58px",
         "uuid": "e8853e10-cc03-47c1-9b66-11755ff513a5"
       },
       "mobile": {
@@ -305,8 +305,8 @@
     "uuid": "c5a5d186-54b3-44a0-b1c6-e9b102871015"
   },
   "cjk-letter-spacing": {
-    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/dimension.json",
-    "value": "0.05em",
+    "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+    "value": "{letter-spacing}",
     "uuid": "12e27721-35f5-4d03-95f3-3fc9e1cf50e4"
   },
   "heading-sans-serif-font-family": {
@@ -961,7 +961,7 @@
   "body-cjk-strong-font-weight": {
     "component": "body",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{black-font-weight}",
+    "value": "{extra-bold-font-weight}",
     "uuid": "d79de2c4-ca7c-4316-ac44-fee1a66983d7"
   },
   "body-cjk-strong-font-style": {
@@ -1033,7 +1033,7 @@
   "body-cjk-strong-emphasized-font-weight": {
     "component": "body",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
-    "value": "{black-font-weight}",
+    "value": "{extra-bold-font-weight}",
     "uuid": "54020791-a975-4e5d-a905-8bffcc9d2d93"
   },
   "body-cjk-strong-emphasized-font-style": {
