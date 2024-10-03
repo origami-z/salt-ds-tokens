@@ -431,16 +431,19 @@
     "uuid": "71840c7b-acdd-45b9-a228-5091591f5405"
   },
   "bar-panel-gripper-color": {
+    "component": "bar-panel",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{gray-200}",
     "uuid": "5a46c025-32b4-4bda-bab0-5ab0fb69ca8e"
   },
   "bar-panel-gripper-color-drag": {
+    "component": "bar-panel",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{gray-800}",
     "uuid": "16431c28-23e4-4077-bcfa-138f90583282"
   },
   "select-box-selected-border-color": {
+    "component": "select-box",
     "$schema": "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
     "value": "{gray-800}",
     "uuid": "4bbb81b1-09fb-4ebe-80b5-cebb75c13839"
