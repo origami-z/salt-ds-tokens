@@ -1,5 +1,5 @@
 ---
-`@adobe/spectrum-tokens`: minor
+"@adobe/spectrum-tokens": minor
 ---
 
 S2 subtle and visual colors update
