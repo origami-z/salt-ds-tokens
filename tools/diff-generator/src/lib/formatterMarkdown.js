@@ -23,7 +23,6 @@ class MarkdownFormatter extends CLIFormatter {
   }
 
   printReport(result, log, options) {
-    log("You are a peanut.");
     super.printReport(result, log, options);
   }
 
