@@ -125,15 +125,23 @@ async function cliCheck(result, options) {
       "\nWARNING: Will either be inaccurate or will throw an error if used for releases before @adobe/spectrum-tokens@12.26.0!\n",
     ),
   );
-  if (Object.keys(result.reverted).length > 0 && !options.y) {
+  if (
+    Object.keys(result.reverted).length > 0 &&
+    !options.y &&
+    options.output !== "markdown"
+  ) {
     cliFormatter.printSection(
       "alarm_clock",
       'Newly "Un-deprecated"',
       Object.keys(result.reverted).length,
       result.reverted,
       log,
-      cliFormatter.printStyleColored,
-      yellow,
+      (...args) => {
+        return cliFormatter.printStyleColored(...args);
+      },
+      (...args) => {
+        return cliFormatter.hilite(...args);
+      },
     );
     log(
       cliFormatter.neutral(
@@ -171,47 +179,49 @@ async function cliCheck(result, options) {
         }
       });
   } else {
-    try {
-      let reportOutput = [];
-      let reportFormatter;
-      let reportFunction;
-      switch (options.output) {
-        case "markdown":
-          reportFormatter = markdownFormatter;
-          reportFunction = (input) => {
-            reportOutput.push(input.replaceAll("$", "")); // raw $ can break some markdown renderers occasionally
-          };
-          break;
+    return printReport(result, log, options);
+  }
+}
 
-        default:
-          reportFormatter = cliFormatter;
-          reportFunction = log;
-      }
+function printReport(result, log, options) {
+  try {
+    let reportOutput = [];
+    let reportFormatter;
+    let reportFunction;
+    switch (options.output) {
+      case "markdown":
+        reportFormatter = markdownFormatter;
+        reportFunction = (input) => {
+          reportOutput.push(input.replaceAll("$", "")); // raw $ can break some markdown renderers occasionally
+        };
+        break;
 
-      reportFunction(new Date().toLocaleString());
-
-      const exit = reportFormatter.printReport(result, reportFunction, options);
-
-      if (reportOutput.length) {
-        const output = reportOutput.join("\n").replaceAll("\n\n", "\n");
-        writeFileSync("./output.log", output);
-      }
-
-      //cliFormatter.printReport(result, console.log, options);
-
-      return exit;
-    } catch (error) {
-      console.log("\n");
-      console.log(error);
-      console.log("\n");
-
-      return console.error(
-        cliFormatter.error(
-          new Error(
-            `either could not format and print the result or failed along the way\n`,
-          ),
-        ),
-      );
+      default:
+        reportFormatter = cliFormatter;
+        reportFunction = log;
     }
+
+    reportFunction(new Date().toLocaleString());
+
+    const exit = reportFormatter.printReport(result, reportFunction, options);
+
+    if (reportOutput.length) {
+      const output = reportOutput.join("\n").replaceAll("\n\n", "\n");
+      writeFileSync("./output.log", output);
+    }
+
+    return exit;
+  } catch (error) {
+    console.log("\n");
+    console.log(error);
+    console.log("\n");
+
+    return console.error(
+      cliFormatter.error(
+        new Error(
+          `either could not format and print the result or failed along the way\n`,
+        ),
+      ),
+    );
   }
 }
