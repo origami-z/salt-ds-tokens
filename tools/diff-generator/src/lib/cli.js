@@ -19,11 +19,6 @@ import * as emoji from "node-emoji";
 
 import { Command } from "commander";
 
-const yellow = chalk.hex("F3EE7E");
-const red = chalk.hex("F37E7E");
-const green = chalk.hex("7EF383");
-const white = chalk.white;
-
 import cliFormatter from "./formatterCLI.js";
 import markdownFormatter from "./formatterMarkdown.js";
 
@@ -115,72 +110,6 @@ async function determineFiles(options) {
 }
 
 program.parse();
-
-/**
- * Formatting helper function for indentation
- * @param {object} text - the string that needs to be indented
- * @param {object} amount - the amount of indents (x3 spaces each indent)
- * @returns {object} indented string
- */
-function indent(text, amount) {
-  const str = `\n${"   ".repeat(amount)}${text}`;
-  return str.replace(/{|}/g, "");
-}
-
-/**
- * Styling for renamed tokens
- * @param {object} result - the JSON object with the report results
- * @param {object} token - the current token
- * @param {object} log - the console.log object being used
- * @param {object} i - the number of times to indent
- */
-const printStyleRenamed = (result, token, log, i) => {
-  const str =
-    white(`"${result[token]["old-name"]}" -> `) + yellow(`"${token}"`);
-  log(indent(str, i));
-};
-
-/**
- * Styling for deprecated tokens
- * @param {object} result - the JSON object with the report results
- * @param {object} token - the current token
- * @param {object} log - the console.log object being used
- * @param {object} i - the number of times to indent
- */
-const printStyleDeprecated = (result, token, log, i) => {
-  let comment = result[token]["deprecated_comment"];
-  log(
-    indent(
-      yellow(`"${token}"`) +
-        (typeof comment === "string" && comment.length
-          ? this.white(": ") + this.yellow(`"${comment}"`)
-          : ""),
-      i,
-    ),
-  );
-};
-
-/**
- * Styling for reverted, added, and deleted tokens
- * @param {object} token - the current token
- * @param {object} color - intended color
- * @param {object} log - the console.log object being used
- */
-const printStyleColored = (token, color, log) => {
-  log(indent(color(`"${token}"`), 1));
-};
-
-/**
- * Styling for updated tokens
- * @param {object} result - the JSON object with the report results
- * @param {object} token - the current token
- * @param {object} log - the console.log object being used
- * @param {object} i - the number of times to indent
- */
-const printStyleUpdated = (result, token, log, i) => {
-  log(indent(yellow(`"${token}"`), i));
-  printNestedChanges(result[token], log);
-};
 
 /**
  * Checks for previously deprecated tokens whose deprecated status is removed and asks
