@@ -142,45 +142,72 @@ export class CLIFormatter {
    */
   printNestedChanges(token, log) {
     if (token["path"] !== undefined) {
-      log(this.indent(this.hilite(token["path"]), 3));
-
       if (token["original-value"] === undefined) {
-        if (token["path"].includes("$schema")) {
-          log(this.indent(this.hilite(`"${token["new-value"]}"`), 4));
-        } else {
-          log(this.indent(this.hilite(`${token["new-value"]}`), 4));
-        }
+        this.printNewValue(token["path"], token["new-value"], log);
       } else if (token["path"].includes("$schema")) {
-        const newValue = token["new-value"].split("/");
-        const str =
-          this.indent(this.neutral(`"${token["original-value"]}" -> \n`), 4) +
-          this.indent(
-            this.neutral(
-              `"${token["new-value"].substring(0, token["new-value"].length - newValue[newValue.length - 1].length)}`,
-            ) +
-              this.hilite(
-                `${newValue[newValue.length - 1].split(".")[0]}` +
-                  this.neutral(
-                    `.${newValue[newValue.length - 1].split(".")[1]}"`,
-                  ),
-              ),
-            4,
-          );
-        log(str);
-      } else {
-        log(
-          this.indent(
-            this.neutral(`${token["original-value"]} -> `) +
-              this.hilite(`${token["new-value"]}`),
-            4,
-          ),
+        this.printSchemaChange(
+          token["path"],
+          token["original-value"],
+          token["new-value"],
+          log,
         );
+      } else {
+        this.printValueChange(
+          token["path"],
+          token["original-value"],
+          token["new-value"],
+          log,
+        );
+        return;
       }
-      return;
+    } else {
+      Object.keys(token).forEach((property) => {
+        this.printNestedChanges(token[property], log);
+      });
     }
-    Object.keys(token).forEach((property) => {
-      this.printNestedChanges(token[property], log);
-    });
+  }
+
+  printPath(path, log) {
+    log(this.indent(this.hilite(path), 3));
+  }
+
+  printNewValue(path, value, log) {
+    this.printPath(path, log);
+    if (path.includes("$schema")) {
+      log(this.indent(this.hilite(`"${value}"`), 4));
+    } else {
+      log(this.indent(this.hilite(`${value}`), 4));
+    }
+  }
+
+  printSchemaChange(path, orginal, updated, log) {
+    this.printPath(path, log);
+    const newValue = updated.split("/");
+    log(
+      this.indent(this.neutral(`"${orginal}" -> \n`), 4) +
+        this.indent(
+          this.neutral(
+            `"${updated.substring(0, updated.length - newValue[newValue.length - 1].length)}`,
+          ) +
+            this.hilite(
+              `${newValue[newValue.length - 1].split(".")[0]}` +
+                this.neutral(
+                  `.${newValue[newValue.length - 1].split(".")[1]}"`,
+                ),
+            ),
+          4,
+        ),
+    );
+  }
+
+  printValueChange(path, original, updated, log) {
+    this.printPath(path, log);
+    log(
+      this.indent(
+        this.neutral(`${original} -> `) + this.hilite(`${updated}`),
+        4,
+      ),
+    );
   }
 
   /**

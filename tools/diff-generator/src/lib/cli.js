@@ -179,7 +179,7 @@ async function cliCheck(result, options) {
         case "markdown":
           reportFormatter = markdownFormatter;
           reportFunction = (input) => {
-            reportOutput.push(input.replaceAll("$", "\\$")); // raw $ can break some markdown renderers occasionally
+            reportOutput.push(input.replaceAll("$", "")); // raw $ can break some markdown renderers occasionally
           };
           break;
 
@@ -188,12 +188,16 @@ async function cliCheck(result, options) {
           reportFunction = log;
       }
 
+      reportFunction(new Date().toLocaleString());
+
       const exit = reportFormatter.printReport(result, reportFunction, options);
 
       if (reportOutput.length) {
         const output = reportOutput.join("\n").replaceAll("\n\n", "\n");
         writeFileSync("./output.log", output);
       }
+
+      //cliFormatter.printReport(result, console.log, options);
 
       return exit;
     } catch (error) {
