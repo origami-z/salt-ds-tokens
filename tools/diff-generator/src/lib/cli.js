@@ -18,6 +18,7 @@ import fileImport, { loadLocalData } from "./file-import.js";
 import * as emoji from "node-emoji";
 
 import { Command } from "commander";
+import { writeFileSync } from "fs";
 
 import cliFormatter from "./formatterCLI.js";
 import markdownFormatter from "./formatterMarkdown.js";
@@ -191,7 +192,6 @@ async function cliCheck(result, options) {
 
       if (reportOutput.length) {
         const output = reportOutput.join("\n").replaceAll("\n\n", "\n");
-        // console.log(output);
         writeFileSync("./output.log", output);
       }
 
