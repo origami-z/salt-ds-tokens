@@ -92,18 +92,24 @@ async function fetchTokens(tokenName, version, location) {
     version !== "latest"
       ? source + version.replace("@", "%40")
       : source + location;
-  return (
-    await fetch(`${link}/packages/tokens/${tokenName}`, {
-      headers: {
-        Authorization: "Bearer " + githubAPIKey, // api is rate limited without a personal access token
-      },
-    })
-  )
-    .json()
-    .then((tokens) => {
-      return tokens;
-    })
-    .catch((e) => {
-      console.log(e);
-    });
+
+  const url = `${link}/packages/tokens/${tokenName}`;
+  const result = await fetch(url, {
+    headers: {
+      Authorization: "Bearer " + githubAPIKey, // api is rate limited without a personal access token
+    },
+  });
+
+  if (result && result.status === 200) {
+    return result
+      .json()
+      .then((tokens) => {
+        return tokens;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  } else {
+    throw new Error(url + "\n\t" + result.status + ": " + result.statusText);
+  }
 }
