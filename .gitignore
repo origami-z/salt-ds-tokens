@@ -112,3 +112,9 @@ dist
 # moon
 .moon/cache
 .moon/docker
+
+# visual studio code
+.vscode/
+
+# api key
+github-api-key.js
