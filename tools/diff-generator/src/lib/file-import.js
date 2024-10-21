@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 import { access, readFile } from "fs/promises";
 import { existsSync } from "fs";
 import path from "path";
-import { glob, globSync } from "glob";
+import { glob } from "glob";
 import { githubAPIKey } from "../../github-api-key.js";
 
 const source = "https://raw.githubusercontent.com/adobe/spectrum-tokens/";
@@ -94,11 +94,16 @@ async function fetchTokens(tokenName, version, location) {
       : source + location;
 
   const url = `${link}/packages/tokens/${tokenName}`;
-  const result = await fetch(url, {
-    headers: {
-      Authorization: "Bearer " + githubAPIKey, // api is rate limited without a personal access token
-    },
-  });
+  const result = await fetch(
+    url,
+    githubAPIKey.length
+      ? {
+          headers: {
+            Authorization: "Bearer " + githubAPIKey, // api is rate limited without a personal access token
+          },
+        }
+      : {},
+  );
 
   if (result && result.status === 200) {
     return result
