@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 import { access, readFile } from "fs/promises";
 import { existsSync } from "fs";
 import path from "path";
-import { glob, globSync } from "glob";
+import { glob } from "glob";
 
 const source = "https://raw.githubusercontent.com/adobe/spectrum-tokens/";
 
@@ -91,12 +91,20 @@ async function fetchTokens(tokenName, version, location) {
     version !== "latest"
       ? source + version.replace("@", "%40")
       : source + location;
-  return (await fetch(`${link}/packages/tokens/${tokenName}`))
-    .json()
-    .then((tokens) => {
-      return tokens;
-    })
-    .catch((e) => {
-      console.log(e);
-    });
+
+  const url = `${link}/packages/tokens/${tokenName}`;
+  const result = await fetch(url);
+
+  if (result && result.status === 200) {
+    return result
+      .json()
+      .then((tokens) => {
+        return tokens;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  } else {
+    throw new Error(url + "\n\t" + result.status + ": " + result.statusText);
+  }
 }
