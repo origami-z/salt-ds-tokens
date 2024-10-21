@@ -88,10 +88,7 @@ function getRootPath(startDir, targetDir) {
 }
 
 async function fetchTokens(tokenName, version, location) {
-  const link =
-    version !== "latest"
-      ? source + version.replace("@", "%40")
-      : source + location;
+  const link = version !== "latest" ? source + version : source + location;
 
   const url = `${link}/packages/tokens/${tokenName}`;
   const result = await fetch(
