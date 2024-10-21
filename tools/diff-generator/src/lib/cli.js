@@ -18,10 +18,13 @@ import fileImport, { loadLocalData } from "./file-import.js";
 import * as emoji from "node-emoji";
 
 import { Command } from "commander";
-import { writeFileSync } from "fs";
+import { existsSync, mkdirSync, writeFileSync } from "fs";
 
 import cliFormatter from "./formatterCLI.js";
 import markdownFormatter from "./formatterMarkdown.js";
+import path from "path";
+
+const OUTPUT = "./logs/output.md";
 
 /* this is updated by the npm prepare script using update-version.js */
 const version = "1.2.0";
@@ -207,7 +210,17 @@ function printReport(result, log, options) {
 
     if (reportOutput.length) {
       const output = reportOutput.join("\n").replaceAll("\n\n", "\n");
-      writeFileSync("./output.log", output);
+      try {
+        const outputDirectory = OUTPUT.slice(0, OUTPUT.lastIndexOf(path.sep));
+        if (!existsSync(outputDirectory)) {
+          mkdirSync(outputDirectory);
+        }
+
+        writeFileSync(OUTPUT, output);
+      } catch (error) {
+        console.log("FAILED TO WRITE OUTPUT FILE: ");
+        console.log(error);
+      }
     }
 
     return exit;
