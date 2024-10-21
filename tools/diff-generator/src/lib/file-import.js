@@ -13,6 +13,7 @@ import { access, readFile } from "fs/promises";
 import { existsSync } from "fs";
 import path from "path";
 import { glob, globSync } from "glob";
+import { githubAPIKey } from "../../github-api-key.js";
 
 const source = "https://raw.githubusercontent.com/adobe/spectrum-tokens/";
 
@@ -91,7 +92,13 @@ async function fetchTokens(tokenName, version, location) {
     version !== "latest"
       ? source + version.replace("@", "%40")
       : source + location;
-  return (await fetch(`${link}/packages/tokens/${tokenName}`))
+  return (
+    await fetch(`${link}/packages/tokens/${tokenName}`, {
+      headers: {
+        Authorization: "Bearer " + githubAPIKey, // api is rate limited without a personal access token
+      },
+    })
+  )
     .json()
     .then((tokens) => {
       return tokens;
