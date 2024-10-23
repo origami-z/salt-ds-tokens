@@ -22,12 +22,16 @@ import cliFormatter from "./formatterCLI.js";
 import markdownFormatter from "./formatterMarkdown.js";
 import path from "path";
 
+import { githubAPIKey } from "../../github-api-key.js";
+
 const OUTPUT = "./logs/output.md";
 
 /* this is updated by the npm prepare script using update-version.js */
 const version = "1.2.0";
 
 const program = new Command();
+
+let gak = undefined; // github api key storage
 
 program
   .name("tdiff")
@@ -57,9 +61,15 @@ program
     "indicates specific tokens to compare",
   )
   .option("-l, --local <path>", "indicates to compare to local data")
+  .option("-gak, --githubAPIKey <key>", "github api key to use")
   .option("-o, --output <format>", "cli or markdown")
   .action(async (options) => {
     try {
+      if (options.githubAPIKey) {
+        gak = options.githubAPIKey;
+      } else {
+        gak = githubAPIKey;
+      }
       const [originalFile, updatedFile] = await determineFiles(options);
       const result = tokenDiff(originalFile, updatedFile);
       cliCheck(result, options);
@@ -76,6 +86,7 @@ async function determineFiles(options) {
         options.tokenNames,
         options.newTokenVersion,
         options.newTokenBranch,
+        gak,
       ),
     ]);
   } else if (
@@ -87,6 +98,7 @@ async function determineFiles(options) {
         options.tokenNames,
         options.oldTokenVersion,
         options.oldTokenBranch,
+        gak,
       ),
       loadLocalData(options.local, options.tokenNames),
     ]);
@@ -100,11 +112,13 @@ async function determineFiles(options) {
         options.tokenNames,
         options.oldTokenVersion,
         options.oldTokenBranch,
+        gak,
       ),
       fileImport(
         options.tokenNames,
         options.newTokenVersion,
         options.newTokenBranch,
+        gak,
       ),
     ]);
   }
@@ -125,6 +139,8 @@ async function cliCheck(result, options) {
       "\nWARNING: Will either be inaccurate or will throw an error if used for releases before @adobe/spectrum-tokens@12.26.0!\n",
     ),
   );
+
+  console.log(githubAPIKey);
 
   return printReport(result, log, options);
 }

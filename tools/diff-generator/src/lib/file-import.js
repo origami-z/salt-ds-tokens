@@ -13,7 +13,6 @@ import { access, readFile } from "fs/promises";
 import { existsSync } from "fs";
 import path from "path";
 import { glob } from "glob";
-import { githubAPIKey } from "../../github-api-key.js";
 
 const source = "https://raw.githubusercontent.com/adobe/spectrum-tokens/";
 
@@ -27,15 +26,17 @@ export default async function fileImport(
   givenTokenNames,
   givenVersion,
   givenLocation,
+  githubAPIKey,
 ) {
   const version = givenVersion || "latest";
   const location = givenLocation || "main";
   const result = {};
   const tokenNames =
-    givenTokenNames || (await fetchTokens("manifest.json", version, location));
+    givenTokenNames ||
+    (await fetchTokens("manifest.json", version, location, githubAPIKey));
   for (let i = 0; i < tokenNames.length; i++) {
     const name = givenTokenNames ? "src/" + tokenNames[i] : tokenNames[i];
-    const tokens = await fetchTokens(name, version, location);
+    const tokens = await fetchTokens(name, version, location, githubAPIKey);
     Object.assign(result, tokens);
   }
   return result;
@@ -87,7 +88,7 @@ function getRootPath(startDir, targetDir) {
   }
 }
 
-async function fetchTokens(tokenName, version, location) {
+async function fetchTokens(tokenName, version, location, githubAPIKey) {
   const link = version !== "latest" ? source + version : source + location;
 
   const url = `${link}/packages/tokens/${tokenName}`;

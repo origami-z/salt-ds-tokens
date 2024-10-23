@@ -76,6 +76,7 @@ tdiff report
 | `-ntb`    | `--new-token-branch`  | `<newBranch>`  | branch to fetch new token data from                   |
 | `-l`      | `--local`             | `<path>`       | local path within repository to fetch token data from |
 | `-tn`     | `--token-names`       | `<tokens...>`  | indicates specific tokens to compare                  |
+| `-gak`    | `--githubAPIKey`      | `<key>`        | github api key to use when fetching from github       |
 
 ### Usage examples
 
