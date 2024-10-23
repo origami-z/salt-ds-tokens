@@ -13,9 +13,7 @@ governing permissions and limitations under the License.
 */
 
 import tokenDiff from "./index.js";
-import inquirer from "inquirer";
 import fileImport, { loadLocalData } from "./file-import.js";
-import * as emoji from "node-emoji";
 
 import { Command } from "commander";
 import { existsSync, mkdirSync, writeFileSync } from "fs";
