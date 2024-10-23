@@ -68,15 +68,14 @@ tdiff report
 
 ### Options
 
-| Shorthand | Name                  | Argument(s)    | Description                                            |
-| --------- | --------------------- | -------------- | ------------------------------------------------------ |
-| `-y`      | `-y`                  | `null`         | answers yes to removing deprecated status of token(s)  |
-| `-otv`    | `--old-token-version` | `<oldVersion>` | npm package version/github tag to pull old tokens from |
-| `-ntv`    | `--new-token-version` | `<newVersion>` | npm package version/github tag to pull new tokens from |
-| `-otb`    | `--old-token-branch`  | `<oldBranch>`  | branch to fetch old token data from                    |
-| `-ntb`    | `--new-token-branch`  | `<newBranch>`  | branch to fetch new token data from                    |
-| `-l`      | `--local`             | `<path>`       | local path within repository to fetch token data from  |
-| `-tn`     | `--token-names`       | `<tokens...>`  | indicates specific tokens to compare                   |
+| Shorthand | Name                  | Argument(s)    | Description                                           |
+| --------- | --------------------- | -------------- | ----------------------------------------------------- |
+| `-otv`    | `--old-token-version` | `<oldVersion>` | github tag to pull old tokens from                    |
+| `-ntv`    | `--new-token-version` | `<newVersion>` | github tag to pull new tokens from                    |
+| `-otb`    | `--old-token-branch`  | `<oldBranch>`  | branch to fetch old token data from                   |
+| `-ntb`    | `--new-token-branch`  | `<newBranch>`  | branch to fetch new token data from                   |
+| `-l`      | `--local`             | `<path>`       | local path within repository to fetch token data from |
+| `-tn`     | `--token-names`       | `<tokens...>`  | indicates specific tokens to compare                  |
 
 ### Usage examples
 
