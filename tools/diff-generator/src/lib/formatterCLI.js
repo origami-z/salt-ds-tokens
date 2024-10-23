@@ -381,7 +381,7 @@ export class CLIFormatter {
       }
     }
 
-    return 0;
+    return true;
   }
 }
 

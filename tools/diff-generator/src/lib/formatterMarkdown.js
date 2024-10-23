@@ -22,10 +22,6 @@ class MarkdownFormatter extends CLIFormatter {
     };
   }
 
-  printReport(result, log, options) {
-    super.printReport(result, log, options);
-  }
-
   printSection(
     emojiName,
     title,

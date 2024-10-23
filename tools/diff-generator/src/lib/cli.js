@@ -128,62 +128,6 @@ async function cliCheck(result, options) {
       "\nWARNING: Will either be inaccurate or will throw an error if used for releases before @adobe/spectrum-tokens@12.26.0!\n",
     ),
   );
-  // if (
-  //   Object.keys(result.reverted).length > 0 &&
-  //   !options.y &&
-  //   options.output !== "markdown"
-  // ) {
-  //   cliFormatter.printSection(
-  //     "alarm_clock",
-  //     'Newly "Un-deprecated"',
-  //     Object.keys(result.reverted).length,
-  //     result.reverted,
-  //     log,
-  //     (...args) => {
-  //       return cliFormatter.printStyleColored(...args);
-  //     },
-  //     (...args) => {
-  //       return cliFormatter.hilite(...args);
-  //     },
-  //   );
-  //   log(
-  //     cliFormatter.neutral(
-  //       "\n-------------------------------------------------------------------------------------------",
-  //     ),
-  //   );
-  //   inquirer
-  //     .prompt([
-  //       {
-  //         type: "confirm",
-  //         name: "confirmation",
-  //         message:
-  //           "Are you sure this token is supposed to lose its `deprecated` status (y/n)?",
-  //         default: false,
-  //       },
-  //     ])
-  //     .then((response) => {
-  //       if (response.confirmation) {
-  //         // console.clear();
-  //         log(
-  //           cliFormatter.neutral(
-  //             "\n-------------------------------------------------------------------------------------------",
-  //           ),
-  //         );
-  //         return printReport(result, log, options);
-  //       } else {
-  //         log(
-  //           cliFormatter.hilite(
-  //             emoji.emojify(
-  //               "\n:+1: Cool, closing diff generator CLI, see you next time!\n",
-  //             ),
-  //           ),
-  //         );
-  //         return 1;
-  //       }
-  //     });
-  // } else {
-  //   return printReport(result, log, options);
-  // }
 
   return printReport(result, log, options);
 }
@@ -208,7 +152,9 @@ function printReport(result, log, options) {
 
     reportFunction(new Date().toLocaleString());
 
-    const exit = reportFormatter.printReport(result, reportFunction, options);
+    const exit = reportFormatter.printReport(result, reportFunction, options)
+      ? 0
+      : 1;
 
     if (reportOutput.length) {
       const output = reportOutput.join("\n").replaceAll("\n\n", "\n");
