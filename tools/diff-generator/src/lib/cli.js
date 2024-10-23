@@ -39,11 +39,11 @@ program
   .option("-y", "answers yes to removing deprecated status of token(s)")
   .option(
     "-otv, --old-token-version <oldVersion>",
-    "indicates which npm package version/github tag to pull old tokens from",
+    "indicates which github tag to pull old tokens from",
   )
   .option(
     "-ntv, --new-token-version <newVersion>",
-    "indicates which npm package version/github tag to pull new tokens from",
+    "indicates which github tag to pull new tokens from",
   )
   .option(
     "-otb, --old-token-branch <oldBranch>",
