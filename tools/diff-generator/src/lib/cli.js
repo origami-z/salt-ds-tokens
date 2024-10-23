@@ -36,7 +36,6 @@ program
 program
   .command("report")
   .description("Generates a diff report for two inputted schema")
-  .option("-y", "answers yes to removing deprecated status of token(s)")
   .option(
     "-otv, --old-token-version <oldVersion>",
     "indicates which github tag to pull old tokens from",
