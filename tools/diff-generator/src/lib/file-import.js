@@ -93,7 +93,7 @@ async function fetchTokens(tokenName, version, location) {
   const url = `${link}/packages/tokens/${tokenName}`;
   const result = await fetch(
     url,
-    githubAPIKey.length
+    githubAPIKey && githubAPIKey.length
       ? {
           headers: {
             Authorization: "Bearer " + githubAPIKey, // api is rate limited without a personal access token
