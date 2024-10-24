@@ -115,6 +115,3 @@ dist
 
 # visual studio code
 .vscode/
-
-# api key
-github-api-key.js
