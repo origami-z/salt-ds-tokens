@@ -16,15 +16,12 @@ import tokenDiff from "./index.js";
 import fileImport, { loadLocalData } from "./file-import.js";
 
 import { Command } from "commander";
-import { existsSync, mkdirSync, writeFileSync } from "fs";
 
 import cliFormatter from "./formatterCLI.js";
 import markdownFormatter from "./formatterMarkdown.js";
-import path from "path";
+import storeOutput from "./store-output.js";
 
 import { githubAPIKey } from "../../github-api-key.js";
-
-const OUTPUT = "./logs/output.md";
 
 /* this is updated by the npm prepare script using update-version.js */
 const version = "1.2.0";
@@ -62,7 +59,8 @@ program
   )
   .option("-l, --local <path>", "indicates to compare to local data")
   .option("-gak, --githubAPIKey <key>", "github api key to use")
-  .option("-o, --output <format>", "cli or markdown")
+  .option("-f, --format <format>", "cli (default) or markdown")
+  .option("-o, --output <path>", "file path to store diff output")
   .action(async (options) => {
     try {
       if (options.githubAPIKey) {
@@ -148,7 +146,7 @@ function printReport(result, log, options) {
     let reportOutput = [];
     let reportFormatter;
     let reportFunction;
-    switch (options.output) {
+    switch (options.format) {
       case "markdown":
         reportFormatter = markdownFormatter;
         reportFunction = (input) => {
@@ -167,19 +165,11 @@ function printReport(result, log, options) {
       ? 0
       : 1;
 
-    if (reportOutput.length) {
-      const output = reportOutput.join("\n").replaceAll("\n\n", "\n");
-      try {
-        const outputDirectory = OUTPUT.slice(0, OUTPUT.lastIndexOf(path.sep));
-        if (!existsSync(outputDirectory)) {
-          mkdirSync(outputDirectory);
-        }
-
-        writeFileSync(OUTPUT, output);
-      } catch (error) {
-        console.log("FAILED TO WRITE OUTPUT FILE: ");
-        console.log(error);
-      }
+    const output = reportOutput.join("\n").replaceAll("\n\n", "\n");
+    if (options.output) {
+      storeOutput(options.output, output);
+    } else if (reportFunction !== log) {
+      console.log(output);
     }
 
     return exit;
