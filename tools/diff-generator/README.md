@@ -77,6 +77,8 @@ tdiff report
 | `-l`      | `--local`             | `<path>`       | local path within repository to fetch token data from |
 | `-tn`     | `--token-names`       | `<tokens...>`  | indicates specific tokens to compare                  |
 | `-gak`    | `--githubAPIKey`      | `<key>`        | github api key to use when fetching from github       |
+| `-f`      | `--format`            | `<format>`     | choose result format cli (default) or markdown        |
+| `-o`      | `--output`            | `<path>`       | choose where to store result output, if available     |
 
 ### Usage examples
 
@@ -90,4 +92,8 @@ This is how you can compare specific token files from a remote branch with your 
 
 ```
 tdiff report -otb shirlsli/file-import-tests -l packages/tokens/src -tn color-aliases.json color-component.json
+```
+
+```
+tdiff report -otv "@adobe/spectrum-tokens@13.0.0-beta.46" -ntv "@adobe/spectrum-tokens@13.0.0-beta.47" --format markdown --output logs/output.md
 ```
