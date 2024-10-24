@@ -140,8 +140,6 @@ async function cliCheck(result, options) {
     ),
   );
 
-  console.log(githubAPIKey);
-
   return printReport(result, log, options);
 }
 
