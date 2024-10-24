@@ -17,6 +17,9 @@ import fileImport, { loadLocalData } from "./file-import.js";
 
 import { Command } from "commander";
 
+import chalk from "chalk";
+const red = chalk.hex("F37E7E");
+
 import cliFormatter from "./formatterCLI.js";
 import markdownFormatter from "./formatterMarkdown.js";
 import storeOutput from "./store-output.js";
@@ -165,11 +168,19 @@ function printReport(result, log, options) {
       ? 0
       : 1;
 
-    const output = reportOutput.join("\n").replaceAll("\n\n", "\n");
-    if (options.output) {
-      storeOutput(options.output, output);
-    } else if (reportFunction !== log) {
-      console.log(output);
+    if (reportFunction !== log) {
+      const output = reportOutput.join("\n").replaceAll("\n\n", "\n");
+      if (options.output) {
+        storeOutput(options.output, output);
+      } else {
+        console.log(output);
+      }
+    } else if (reportFunction === log && options.output) {
+      console.log(
+        red(
+          "Need to specify a supported format to write the result to a file.",
+        ),
+      );
     }
 
     return exit;
