@@ -40,6 +40,7 @@ tasks:
       - prettier
       - --write
       - "./src"
+    local: true
 
   eslint: # eslint on the code using default js/node settings
     command:
@@ -48,9 +49,11 @@ tasks:
       - "./eslint.config.js"
       - "./src"
       - --fix
+    local: true
 
   format: # prettier + eslint
     command: "noop"
+    local: true
     deps:
       - "~:prettier"
       - "~:eslint"
