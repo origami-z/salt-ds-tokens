@@ -14,7 +14,8 @@ import { existsSync } from "fs";
 import path from "path";
 import { glob } from "glob";
 
-const source = "https://raw.githubusercontent.com/adobe/spectrum-tokens/";
+const source = "https://raw.githubusercontent.com/";
+const defaultRepo = "adobe/spectrum-tokens/";
 
 /**
  * Returns file with given file name as a JSON object (took this from diff.js)
@@ -26,6 +27,7 @@ export default async function fileImport(
   givenTokenNames,
   givenVersion,
   givenLocation,
+  givenRepo,
   githubAPIKey,
 ) {
   const version = givenVersion || "latest";
@@ -33,10 +35,22 @@ export default async function fileImport(
   const result = {};
   const tokenNames =
     givenTokenNames ||
-    (await fetchTokens("manifest.json", version, location, githubAPIKey));
+    (await fetchTokens(
+      "manifest.json",
+      version,
+      location,
+      givenRepo,
+      githubAPIKey,
+    ));
   for (let i = 0; i < tokenNames.length; i++) {
     const name = givenTokenNames ? "src/" + tokenNames[i] : tokenNames[i];
-    const tokens = await fetchTokens(name, version, location, githubAPIKey);
+    const tokens = await fetchTokens(
+      name,
+      version,
+      location,
+      givenRepo,
+      githubAPIKey,
+    );
     Object.assign(result, tokens);
   }
   return result;
@@ -56,8 +70,8 @@ export async function loadLocalData(dirName, tokenNames) {
           tokenNames,
         )
       : loadData(root.substring(0, root.lastIndexOf("/")) + "/", fileNames);
-  } catch (e) {
-    console.log(e);
+  } catch (error) {
+    console.error(error);
   }
 }
 
@@ -88,10 +102,12 @@ function getRootPath(startDir, targetDir) {
   }
 }
 
-async function fetchTokens(tokenName, version, location, githubAPIKey) {
-  const link = version !== "latest" ? source + version : source + location;
+async function fetchTokens(tokenName, version, location, repo, githubAPIKey) {
+  const repoURL = source + "/" + (repo && repo.length ? repo : defaultRepo);
+  const link =
+    version !== "latest" ? repoURL + "/" + version : repoURL + "/" + location;
 
-  const url = `${link}/packages/tokens/${tokenName}`;
+  const url = `${link}/packages/tokens/${tokenName}`.replaceAll("//", "/");
   const result = await fetch(
     url,
     githubAPIKey && githubAPIKey.length

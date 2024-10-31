@@ -10,19 +10,27 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-import { existsSync, mkdirSync, writeFileSync } from "fs";
-import path from "path";
+export function isObject(a) {
+  return (
+    !!a &&
+    (typeof a === "object" ||
+      (a.constructor &&
+        (a.constructor === Object || a.constructor.name === "Object")))
+  );
+}
 
-export default function storeOutput(filePath, output) {
-  try {
-    const outputDirectory = filePath.slice(0, filePath.lastIndexOf(path.sep));
-    if (!existsSync(outputDirectory)) {
-      mkdirSync(outputDirectory, { recursive: true });
-    }
+export function isString(a) {
+  return typeof a === "string" || a instanceof String;
+}
 
-    writeFileSync(filePath, output);
-  } catch (error) {
-    console.log("FAILED TO WRITE OUTPUT FILE: " + filePath);
-    console.error(error);
-  }
+export function isBoolean(a) {
+  return typeof a === "boolean";
+}
+
+export function isNumber(a) {
+  return typeof a === "number";
+}
+
+export function assert(condition, message) {
+  if (!condition) throw new Error(message ? message : undefined);
 }
