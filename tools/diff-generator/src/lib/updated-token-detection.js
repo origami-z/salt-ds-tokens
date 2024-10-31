@@ -274,8 +274,8 @@ function handleBranchProperty(
       Object.keys(currentTokenLevel).forEach((curProp) => {
         if (
           currentTokenLevel[curProp] !== undefined &&
-          typeof currentOriginalLevel[originalProp] !== "string" &&
-          typeof currentTokenLevel[curProp] !== "string" &&
+          isObject(currentOriginalLevel[originalProp]) &&
+          isObject(currentTokenLevel[curProp]) &&
           currentOriginalLevel[originalProp].uuid !== undefined &&
           currentTokenLevel[curProp].uuid !== undefined &&
           currentOriginalLevel[originalProp].uuid ===
