@@ -76,9 +76,11 @@ tdiff report
 | `-ntb`    | `--new-token-branch`  | `<newBranch>`  | branch to fetch new token data from                   |
 | `-l`      | `--local`             | `<path>`       | local path within repository to fetch token data from |
 | `-tn`     | `--token-names`       | `<tokens...>`  | indicates specific tokens to compare                  |
+| `-r`      | `--repo`              | `<repo>`       | git repo to use if you want to use a fork             |
 | `-gak`    | `--githubAPIKey`      | `<key>`        | github api key to use when fetching from github       |
 | `-f`      | `--format`            | `<format>`     | choose result format cli (default) or markdown        |
 | `-o`      | `--output`            | `<path>`       | choose where to store result output, if available     |
+| `-d`      | `--debug`             | `<path>`       | optional path to store unformatted result output      |
 
 ### Usage examples
 
