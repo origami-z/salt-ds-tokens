@@ -34,6 +34,15 @@ export class CLIFormatter {
     return white;
   }
 
+  _log = null;
+  set log(fnc) {
+    this._log = fnc;
+  }
+
+  get log() {
+    return this._log;
+  }
+
   /**
    * Formatting helper function for indentation
    * @param {object} text - the string that needs to be indented
@@ -49,26 +58,24 @@ export class CLIFormatter {
    * Styling for renamed tokens
    * @param {object} result - the JSON object with the report results
    * @param {object} token - the current token
-   * @param {object} log - the console.log object being used
    * @param {object} i - the number of times to indent
    */
-  printStyleRenamed(result, token, log, i) {
+  printStyleRenamed(result, token, i) {
     const str =
       this.neutral(`"${result[token]["old-name"]}" -> `) +
       this.hilite(`"${token}"`);
-    log(this.indent(str, i));
+    this.log(this.indent(str, i));
   }
 
   /**
    * Styling for deprecated tokens
    * @param {object} result - the JSON object with the report results
    * @param {object} token - the current token
-   * @param {object} log - the console.log object being used
    * @param {object} i - the number of times to indent
    */
-  printStyleDeprecated(result, token, log, i) {
+  printStyleDeprecated(result, token, i) {
     let comment = result[token]["deprecated_comment"];
-    log(
+    this.log(
       this.indent(
         this.hilite(`"${token}"`) +
           (typeof comment === "string" && comment.length
@@ -83,22 +90,20 @@ export class CLIFormatter {
    * Styling for reverted, added, and deleted tokens
    * @param {object} token - the current token
    * @param {object} color - intended color
-   * @param {object} log - the console.log object being used
    */
-  printStyleColored(token, color, log) {
-    log(this.indent(color(`"${token}"`), 1));
+  printStyleColored(token, color) {
+    this.log(this.indent(color(`"${token}"`), 1));
   }
 
   /**
    * Styling for updated tokens
    * @param {object} result - the JSON object with the report results
    * @param {object} token - the current token
-   * @param {object} log - the console.log object being used
    * @param {object} i - the number of times to indent
    */
-  printStyleUpdated(result, token, log, i) {
-    log(this.indent(this.hilite(`"${token}"`), i));
-    this.printNestedChanges(result[token], log);
+  printStyleUpdated(result, token, i) {
+    this.log(this.indent(this.hilite(`"${token}"`), i));
+    this.printNestedChanges(result[token]);
   }
 
   /**
@@ -107,7 +112,6 @@ export class CLIFormatter {
    * @param {string} title - the category name
    * @param {int} numTokens - the number of tokens changed in that category
    * @param {object} result - the json object holding the report
-   * @param {object} log - the console.log object being used
    * @param {object} func - the styling function that will be used
    * @param {object} colorOrIndent - can be either the intended text color or the number of times to indent
    */
@@ -116,20 +120,19 @@ export class CLIFormatter {
     title,
     numTokens,
     result,
-    log,
     func,
     colorOrIndent,
     titleIndent = 0,
   ) {
-    this.printTitle(emojiName, title, numTokens, log, titleIndent);
+    this.printTitle(emojiName, title, numTokens, titleIndent);
     Object.keys(result).forEach((token) => {
       if (typeof colorOrIndent !== "number") {
-        func(token, colorOrIndent, log);
+        func(token, colorOrIndent);
       } else {
-        func(result, token, log, colorOrIndent);
+        func(result, token, colorOrIndent);
       }
     });
-    log("\n");
+    this.log("\n");
   }
 
   /**
@@ -137,11 +140,10 @@ export class CLIFormatter {
    * @param {string} emojiName - the name of the category's emoji
    * @param {string} title - the category name
    * @param {int} numTokens - the number of tokens changed in that category
-   * @param {object} log - the console.log object being used
    * @param {object} i - the number of times to indent
    */
-  printTitle(emojiName, title, numTokens, log, i = 0) {
-    log(
+  printTitle(emojiName, title, numTokens, i = 0) {
+    this.log(
       this.indent(
         this.neutral(
           (EMOJI ? emoji.emojify(`:${emojiName}: `) : "") +
@@ -155,52 +157,49 @@ export class CLIFormatter {
   /**
    * Traverse through the updated token's keys and prints a simple changelog
    * @param {object} token - the updated token
-   * @param {object} log - the console.log object used
    */
-  printNestedChanges(token, log) {
+  printNestedChanges(token) {
     if (token["path"] !== undefined) {
       if (token["original-value"] === undefined) {
-        this.printNewValue(token["path"], token["new-value"], log);
+        this.printNewValue(token["path"], token["new-value"]);
       } else if (token["path"].includes("$schema")) {
         this.printSchemaChange(
           token["path"],
           token["original-value"],
           token["new-value"],
-          log,
         );
       } else {
         this.printValueChange(
           token["path"],
           token["original-value"],
           token["new-value"],
-          log,
         );
         return;
       }
     } else {
       Object.keys(token).forEach((property) => {
-        this.printNestedChanges(token[property], log);
+        this.printNestedChanges(token[property]);
       });
     }
   }
 
-  printPath(path, log) {
-    log(this.indent(this.hilite(path), 3));
+  printPath(path) {
+    this.log(this.indent(this.hilite(path), 3));
   }
 
-  printNewValue(path, value, log) {
-    this.printPath(path, log);
+  printNewValue(path, value) {
+    this.printPath(path);
     if (path.includes("$schema")) {
-      log(this.indent(this.hilite(`"${value}"`), 4));
+      this.log(this.indent(this.hilite(`"${value}"`), 4));
     } else {
-      log(this.indent(this.hilite(`${value}`), 4));
+      this.log(this.indent(this.hilite(`${value}`), 4));
     }
   }
 
-  printSchemaChange(path, orginal, updated, log) {
-    this.printPath(path, log);
+  printSchemaChange(path, orginal, updated) {
+    this.printPath(path);
     const newValue = updated.split("/");
-    log(
+    this.log(
       this.indent(this.neutral(`"${orginal}" -> \n`), 4) +
         this.indent(
           this.neutral(
@@ -217,9 +216,9 @@ export class CLIFormatter {
     );
   }
 
-  printValueChange(path, original, updated, log) {
-    this.printPath(path, log);
-    log(
+  printValueChange(path, original, updated) {
+    this.printPath(path);
+    this.log(
       this.indent(
         this.neutral(`${original} -> `) + this.hilite(`${updated}`),
         4,
@@ -230,11 +229,11 @@ export class CLIFormatter {
   /**
    * Formats and prints the report
    * @param {object} result - the updated token report
-   * @param {object} log - console.log object used in previous function (don't really need this, but decided to continue using same variable)
+   * @param {object} outputFunction - fnc(string) to output the report to
    * @param {object} options - an array holding the values of options inputted from command line
    * @returns {int} exit code
    */
-  printReport(result, log, options) {
+  printReport(result, outputFunction, options) {
     const totalTokens =
       Object.keys(result.renamed).length +
       Object.keys(result.deprecated).length +
@@ -245,7 +244,10 @@ export class CLIFormatter {
       Object.keys(result.updated.deleted).length +
       Object.keys(result.updated.updated).length +
       Object.keys(result.updated.renamed).length;
-    log(this.neutral("\n**Tokens Changed (" + totalTokens + ")**"));
+    outputFunction("pest");
+    this.log = outputFunction;
+    this.log("test");
+    this.log(this.neutral("\n**Tokens Changed (" + totalTokens + ")**"));
     let originalSchema = "";
     let updatedSchema = "";
     if (options.oldTokenBranch !== undefined) {
@@ -259,9 +261,9 @@ export class CLIFormatter {
       updatedSchema = this.hilite(`${options.newTokenVersion}`);
     }
     if (originalSchema !== "" && updatedSchema !== "") {
-      log(`${originalSchema}${updatedSchema}`);
+      this.log(`${originalSchema}${updatedSchema}`);
     }
-    log(
+    this.log(
       this.neutral(
         "-------------------------------------------------------------------------------------------\n",
       ),
@@ -272,7 +274,6 @@ export class CLIFormatter {
         "Renamed",
         Object.keys(result.renamed).length,
         result.renamed,
-        log,
         (...args) => {
           return this.printStyleRenamed(...args);
         },
@@ -285,7 +286,6 @@ export class CLIFormatter {
         "Newly Deprecated",
         Object.keys(result.deprecated).length,
         result.deprecated,
-        log,
         (...args) => {
           return this.printStyleDeprecated(...args);
         },
@@ -298,7 +298,6 @@ export class CLIFormatter {
         'Newly "Un-deprecated"',
         Object.keys(result.reverted).length,
         result.reverted,
-        log,
         (...args) => {
           return this.printStyleColored(...args);
         },
@@ -313,7 +312,6 @@ export class CLIFormatter {
         "Added",
         Object.keys(result.added).length,
         result.added,
-        log,
         (...args) => {
           return this.printStyleColored(...args);
         },
@@ -326,7 +324,6 @@ export class CLIFormatter {
         "Deleted",
         Object.keys(result.deleted).length,
         result.deleted,
-        log,
         (...args) => {
           return this.printStyleColored(...args);
         },
@@ -339,14 +336,13 @@ export class CLIFormatter {
       Object.keys(result.updated.updated).length +
       Object.keys(result.updated.renamed).length;
     if (totalUpdatedTokens > 0) {
-      this.printTitle("new", "Updated", totalUpdatedTokens, log);
+      this.printTitle("new", "Updated", totalUpdatedTokens);
       if (Object.keys(result.updated.renamed).length > 0) {
         this.printSection(
           "new",
           "Renamed Properties",
           Object.keys(result.updated.renamed).length,
           result.updated.renamed,
-          log,
           (...args) => {
             return this.printStyleRenamed(...args);
           },
@@ -360,7 +356,6 @@ export class CLIFormatter {
           "Added Properties",
           Object.keys(result.updated.added).length,
           result.updated.added,
-          log,
           (...args) => {
             return this.printStyleUpdated(...args);
           },
@@ -374,7 +369,6 @@ export class CLIFormatter {
           "Deleted Properties",
           Object.keys(result.updated.deleted).length,
           result.updated.deleted,
-          log,
           (...args) => {
             return this.printStyleUpdated(...args);
           },
@@ -388,7 +382,6 @@ export class CLIFormatter {
           "Updated Properties",
           Object.keys(result.updated.updated).length,
           result.updated.updated,
-          log,
           (...args) => {
             return this.printStyleUpdated(...args);
           },

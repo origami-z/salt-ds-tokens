@@ -159,7 +159,7 @@ function printReport(result, log, options) {
       case "markdown":
         reportFormatter = markdownFormatter;
         reportFunction = (input) => {
-          reportOutput.push(input.replaceAll("$", "")); // raw $ can break some markdown renderers occasionally
+          reportOutput.push(input);
         };
         break;
 

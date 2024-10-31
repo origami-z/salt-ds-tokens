@@ -34,47 +34,62 @@ class MarkdownFormatter extends CLIFormatter {
     };
   }
 
+  set log(fnc) {
+    this._log = (input) => {
+      input = input.replaceAll("$", "");
+      input = input.replaceAll(
+        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/",
+        "",
+      );
+      fnc(input);
+    };
+  }
+
+  get log() {
+    return this._log;
+  }
+
   printSection(
     emojiName,
     title,
     numTokens,
     result,
-    log,
     func,
     colorOrIndent,
     titleIndent = 0,
   ) {
-    log("<details open><summary>");
-    this.printTitle(emojiName, title, numTokens, log, titleIndent);
-    log("</summary>");
+    this.log("<details open><summary>");
+    this.printTitle(emojiName, title, numTokens, titleIndent);
+    this.log("</summary>");
     Object.keys(result).forEach((token) => {
       if (typeof colorOrIndent !== "number") {
-        func(token, colorOrIndent, log);
+        func(token, colorOrIndent);
       } else {
-        func(result, token, log, colorOrIndent);
+        func(result, token, colorOrIndent);
       }
     });
-    log("</details>");
+    this.log("</details>");
   }
 
   indent(text, amount) {
-    const str = `${"&ensp;&ensp;&ensp;".repeat(amount)}${text}<br />`;
+    const space = " "; // this is a unicode em-space character, "&ensp;" works but inflates the output file quite a bit
+    const str = `${(space + space).repeat(amount)}${text}<br />`;
     return str.replace(/{|}/g, "");
   }
 
-  printStyleColored(token, color, log) {
-    log(this.indent(this.hilite(token), 1));
+  printStyleColored(token, color) {
+    this.log(this.indent(this.hilite(token), 1));
   }
 
-  printStyleRenamed(result, token, log, i) {
+  printStyleRenamed(result, token, i) {
     const str =
       this.neutral(result[token]["old-name"] + " -> ") + this.hilite(token);
-    log(this.indent(str, i));
+    this.log(this.indent(str, i));
   }
 
-  printStyleDeprecated(result, token, log, i) {
+  printStyleDeprecated(result, token, i) {
     let comment = result[token]["deprecated_comment"];
-    log(
+    this.log(
       this.indent(
         this.hilite(token) +
           (typeof comment === "string" && comment.length
@@ -85,19 +100,19 @@ class MarkdownFormatter extends CLIFormatter {
     );
   }
 
-  printStyleUpdated(result, token, log, i) {
-    log(this.indent(this.hilite(token), i));
-    this.printNestedChanges(result[token], log);
+  printStyleUpdated(result, token, i) {
+    this.log(this.indent(this.hilite(token), i));
+    this.printNestedChanges(result[token]);
   }
 
-  printNewValue(path, value, log) {
-    log(
+  printNewValue(path, value) {
+    this.log(
       this.indent(this.neutral(path.replaceAll("sets.", "") + ": " + value), 3),
     );
   }
 
-  printSchemaChange(path, orginal, updated, log) {
-    log(
+  printSchemaChange(path, orginal, updated) {
+    this.log(
       this.indent(
         this.neutral(
           path.replace("sets.", "").replace("$", "") +
@@ -111,8 +126,8 @@ class MarkdownFormatter extends CLIFormatter {
     );
   }
 
-  printValueChange(path, original, updated, log) {
-    log(
+  printValueChange(path, original, updated) {
+    this.log(
       this.indent(
         this.neutral(
           path.replace("sets.", "") + ": " + original + " -> " + updated,
