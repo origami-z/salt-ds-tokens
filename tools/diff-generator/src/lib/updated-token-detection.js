@@ -9,8 +9,8 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-import { detailedDiff } from "deep-object-diff";
 
+import { detailedDiff } from "./diff.js";
 import { assert, isBoolean, isNumber, isObject, isString } from "./helpers.js";
 
 /**
@@ -216,6 +216,7 @@ function checkProperties(
         rootOriginalLevel,
         currentOriginalLevel,
         update,
+        property,
         propertyPath,
       );
     } else {
@@ -235,12 +236,14 @@ function handleLeafProperty(
 ) {
   const newValue = currentTokenLevel[property];
   if (update) {
+    // a property value is being updated
     currentTokenLevel[property] = JSON.parse(`{
       "path": "${propertyPath}",
       "new-value": "${newValue}",
       "original-value": "${currentOriginalLevel[property]}"
     }`);
   } else {
+    // a property value is either being added or removed
     currentTokenLevel[property] = JSON.parse(`{
       "path": "${propertyPath}",
       "new-value": "${newValue}"
@@ -255,22 +258,18 @@ function handleBranchProperty(
   rootOriginalLevel,
   currentOriginalLevel,
   update,
+  property,
   currentTokenPath,
 ) {
-  // starting from the root, walk down the path of the trees...
-  // !!! not sure this entirely necessary, yeah? these should already be set?
-  currentTokenLevel = rootTokenLevel;
-  currentOriginalLevel = rootOriginalLevel;
-  currentTokenPath.split(".").forEach((key) => {
-    currentTokenLevel = currentTokenLevel[key];
+  // adjust the token objects to the new depth
+  currentTokenLevel = currentTokenLevel[property];
 
-    if (currentOriginalLevel && currentOriginalLevel[key] !== undefined) {
-      currentOriginalLevel = currentOriginalLevel[key];
-    }
-  });
+  if (currentOriginalLevel && currentOriginalLevel[property] !== undefined) {
+    currentOriginalLevel = currentOriginalLevel[property];
+  }
 
   if (!update) {
-    // !!! WUT?~!?!?!?!
+    // this checks for renamed branches, by checking uuids
     Object.keys(currentOriginalLevel).forEach((originalProp) => {
       Object.keys(currentTokenLevel).forEach((curProp) => {
         if (
@@ -297,7 +296,7 @@ function handleBranchProperty(
     });
   }
 
-  // do it again!
+  // check the properties at this depth
   checkProperties(
     modifiedTokens,
     rootTokenLevel,
