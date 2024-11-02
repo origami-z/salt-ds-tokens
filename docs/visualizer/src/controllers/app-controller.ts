@@ -49,11 +49,13 @@ export class AppController {
     selectedComponents,
     selectedTokens,
     setFilters,
+    remoteJsonUrl,
   }: {
     graphController: GraphController;
     selectedComponents: string[];
     selectedTokens: string[];
     setFilters: string[];
+    remoteJsonUrl: string;
   }) {
     this._priorAppState = JSON.parse(JSON.stringify(AppModel.DEFAULT_STATE));
     this.graphController = graphController;
@@ -63,6 +65,7 @@ export class AppController {
       selectedComponents,
       selectedTokens,
       setFilters,
+      remoteJsonUrl,
     });
   }
 
@@ -70,16 +73,18 @@ export class AppController {
     selectedComponents,
     selectedTokens,
     setFilters,
+    remoteJsonUrl,
   }: {
     selectedComponents: string[];
     selectedTokens: string[];
     setFilters: string[];
+    remoteJsonUrl: string;
   }) {
     this.graphController.setAppState(this.appModel.state);
 
     this.graphController.onNewGraphState(this.handleNewGraphState.bind(this));
 
-    await this.graphController.hydrateFromJson();
+    await this.graphController.hydrateFromJson(remoteJsonUrl);
 
     this.appModel.setListOfComponents(this.graphController.listOfComponents);
 
@@ -93,6 +98,7 @@ export class AppController {
     this.appModel.setSelectedComponents(selectedComponentIds);
     this.appModel.setSelectedTokens(selectedTokens);
     this.appModel.setSetFilters(setFilters);
+    this.appModel.setRemoteJsonUrl(remoteJsonUrl);
 
     this.emitNewAppState();
   }
@@ -127,12 +133,12 @@ export class AppController {
     const ancestors = this.graphController.getAncestorNodes(...selectedTokens);
     const descendents = this.graphController.getDescendentNodes(
       ...selectedTokens,
-      ...selectedComponents,
+      ...selectedComponents
     );
     const descendentIntersect =
       this.graphController.getDescendentIntersectNodes(
         ...selectedTokens,
-        ...selectedComponents,
+        ...selectedComponents
       );
 
     this.appModel.setSelectionAncestorNodes(ancestors);
@@ -165,11 +171,11 @@ export class AppController {
         foundMinY = Math.min(foundMinY || node.y, node.y - 50);
         foundMaxX = Math.max(
           foundMaxX || node.x,
-          node.x + 50 + GRAPH_NODE_WIDTH,
+          node.x + 50 + GRAPH_NODE_WIDTH
         );
         foundMaxY = Math.max(
           foundMaxY || node.y,
-          node.y + 50 + GRAPH_NODE_HEIGHT,
+          node.y + 50 + GRAPH_NODE_HEIGHT
         );
       }
     });
@@ -194,7 +200,7 @@ export class AppController {
 
       const contentFrameRelativeScale = Math.max(
         (contentFrameWidth * zoom) / windowWidth,
-        (contentFrameHeight * zoom) / windowHeight,
+        (contentFrameHeight * zoom) / windowHeight
       );
 
       const zoomDelta = 1 / contentFrameRelativeScale;
@@ -203,7 +209,7 @@ export class AppController {
 
       newZoom = Math.min(
         MAXIMUM_CANVAS_RENDER_SCALE,
-        Math.max(MINIMUM_CANVAS_RENDER_SCALE, newZoom),
+        Math.max(MINIMUM_CANVAS_RENDER_SCALE, newZoom)
       );
 
       const scaledContentFrameWidth = contentFrameWidth * newZoom;
@@ -247,10 +253,10 @@ export class AppController {
     const currentSelectionDescendents =
       this.appModel._state.selectionDescendentNodes;
     const displayedGraphNodes = currentSelectionAncestors.concat(
-      currentSelectionDescendents,
+      currentSelectionDescendents
     );
     const result = ancestors.filter((graphNodeId) =>
-      displayedGraphNodes.includes(graphNodeId),
+      displayedGraphNodes.includes(graphNodeId)
     );
     this.appModel.setHoverId(nodeId);
     this.appModel.setHoverUpstreamNodes(result);
@@ -304,7 +310,7 @@ export class AppController {
 
     const ancestors = this.graphController.getAncestorNodes(...allSelections);
     const descendents = this.graphController.getDescendentNodes(
-      ...allSelections,
+      ...allSelections
     );
     const descendentIntersect =
       this.graphController.getDescendentIntersectNodes(...allSelections);
@@ -330,7 +336,7 @@ export class AppController {
   setZoomCenteredOnCanvas(newZoom: number) {
     newZoom = Math.min(
       MAXIMUM_CANVAS_RENDER_SCALE,
-      Math.max(MINIMUM_CANVAS_RENDER_SCALE, newZoom),
+      Math.max(MINIMUM_CANVAS_RENDER_SCALE, newZoom)
     );
     const zoomDiff = newZoom / this.appModel._state.zoom;
     const centerX = SIDEBAR_WIDTH + (window.innerWidth - SIDEBAR_WIDTH) / 2;

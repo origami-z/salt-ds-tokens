@@ -4,10 +4,7 @@
   "type": "module",
   "scripts": {
     "moon": "moon",
-    "pre-commit": "lint-staged",
-    "prepare": "husky || true",
-    "release": "changeset publish",
-    "version": "changeset version && moon run :version"
+    "release": "changeset publish"
   },
   "repository": {
     "type": "git",
@@ -36,7 +33,7 @@
     "prettier": "^3.3.3"
   },
   "engines": {
-    "node": "~20.12"
+    "node": "^20"
   },
   "packageManager": "pnpm@9.12.1"
 }
