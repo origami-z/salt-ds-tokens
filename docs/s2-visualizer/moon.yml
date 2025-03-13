@@ -32,7 +32,7 @@ tasks:
       - "config"
       - "@globs(sources)"
     outputs:
-      - "/site/visualizer"
+      - "/site/s2-visualizer"
   typescript:
     command: tsc
     platform: node
