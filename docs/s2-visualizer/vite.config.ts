@@ -20,7 +20,7 @@ export default defineConfig({
     open: true,
   },
   build: {
-    outDir: "../../site/visualizer",
+    outDir: "../../site/s2-visualizer",
     emptyOutDir: true,
     rollupOptions: {
       input: {
