@@ -7,6 +7,7 @@ projects:
   csvGenerator: tools/token-csv-generator
   transform-tokens-json: "tools/transform-tokens-json"
   root: "."
+  diff: "tools/diff-generator"
 vcs:
   manager: "git"
   defaultBranch: "main"

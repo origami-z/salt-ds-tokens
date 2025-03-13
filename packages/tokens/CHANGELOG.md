@@ -1,172 +1,90 @@
 # @adobe/spectrum-tokens
 
-## 13.0.0-beta.58
+## 12.28.0
 
 ### Minor Changes
 
-- [#470](https://github.com/adobe/spectrum-tokens/pull/470) [`8de8921`](https://github.com/adobe/spectrum-tokens/commit/8de89219fe13a2a70a20ac230e6181be916bad1f) Thanks [@larz0](https://github.com/larz0)! - Added action bar border color.
+- [#468](https://github.com/adobe/spectrum-tokens/pull/468) [`1b5b205`](https://github.com/adobe/spectrum-tokens/commit/1b5b20557d7c5d6c88209debe0d38b529679f039) Thanks [@larz0](https://github.com/larz0)! - Added static colors (for premium gradients) to light, dark, darkest, and wireframe themes.
 
   ## Design Motivation
 
-  Similar to the issues reported for popovers (SDS-14251), there isn't sufficient visual contrast of action bars on top of backgrounds in dark theme when used on background-color-layer-2.
-
-  The solution to this issue in both popovers and action bars should be the same (Popover update has been merged)
-
-  This issue was originally reported by the React team. Attached reference images from their implementation, one without border and one with border that matches the current popover border in dark.
+  The Firefly team is looking to add these for usage, and the team agreed that it would be better to have these tokens available then for the team to create their own custom tokens.
 
   ## Token Diff
 
-  _Tokens added (7):_
+  _Tokens added (10):_
 
-  - `action-bar-border-color`
+  - `static-blue-900`
+  - `static-blue-1000`
+  - `static-fuchsia-900`
+  - `static-fuchsia-1000`
+  - `static-indigo-900`
+  - `static-indigo-1000`
+  - `static-magenta-900`
+  - `static-magenta-1000`
+  - `static-red-900`
+  - `static-red-1000`
 
-## 13.0.0-beta.57
+## 12.27.0
 
 ### Minor Changes
 
-- [#466](https://github.com/adobe/spectrum-tokens/pull/466) [`53ac0c8`](https://github.com/adobe/spectrum-tokens/commit/53ac0c8ffb8836c636ca990d5802b61eb4ad7c61) Thanks [@larz0](https://github.com/larz0)! - Updated popover border colors:
+- [#409](https://github.com/adobe/spectrum-tokens/pull/409) [`a61060a`](https://github.com/adobe/spectrum-tokens/commit/a61060a164a944907f236c8df7fcab31220cdd01) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Token changes for CJK typography improvements.
 
-  popover-border-color: transparent-white-25 (light theme)
-  popover-border-color: gray-400 (dark theme)
+  Updated S1 tokens - typography, foundations
 
   ## Design Motivation
 
-  We've received feedback from Adobe Concept (Kelly Hurlburt) that `1px` `gray-200` border in dark theme doesn't provide sufficient visual contrast when used on `background-color-layer-2`.
+  The S1 type token changes fix some minor issues with CJK font-sizing, font-weight, and removes the added letter-spacing (since we got feedback this was unnecessary and both latin and CJK characters look too spaced out with the current letter-spacing applied).
 
   ## Token Diff
 
-  Updated (1)
+  _Tokens added (13):_
 
-  `popover-border-color`:
+  - `body-cjk-size-l`
+  - `body-cjk-size-m`
+  - `body-cjk-size-s`
+  - `body-cjk-size-xl`
+  - `body-cjk-size-xs`
+  - `body-cjk-size-xxl`
+  - `body-cjk-size-xxxl`
+  - `detail-cjk-size-l`
+  - `detail-cjk-size-m`
+  - `detail-cjk-size-s`
+  - `detail-cjk-size-xl`
+  - `font-size-25`
+  - `letter-spacing`
 
-  - `schema`: `alias.json` -> `color-set.json`
-  - `value`: `gray-200` ->
-    - `light.value`: `transparent-white-25`
-    - `dark.value`: `gray-400`
+  _Token values updated (14):_
 
-## 13.0.0-beta.56
+  - `body-cjk-strong-emphasized-font-weight`
+  - `body-cjk-strong-font-weight`
+  - `cjk-letter-spacing`
+  - `detail-cjk-emphasized-font-weight`
+  - `detail-cjk-strong-emphasized-font-weight`
+  - `detail-cjk-strong-font-weight`
+  - `drop-zone-cjk-title-size`
+  - `heading-cjk-heavy-font-weight`
+  - `heading-cjk-size-s`
+  - `heading-cjk-size-xs`
+  - `heading-cjk-size-xxl`
+  - `heading-cjk-size-xxs`
+  - `heading-cjk-size-xxxl`
+  - `illustrated-message-cjk-title-size`
 
-### Minor Changes
-
-- [#463](https://github.com/adobe/spectrum-tokens/pull/463) [`1ae8051`](https://github.com/adobe/spectrum-tokens/commit/1ae80516c48b70b87a8cd81cde75af8755188d45) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Added a component-size-maximum-perspective-down token, which defines that components larger than 96px would appear to scale down more.
-
-  ## Design Motivation
-
-  This token is used in larger components that support a down state that scales, like the select box.
-
-  ## Token Diff
-
-  <details open><summary>Added (1)</summary>
-
-  - `component-size-maximum-perspective-down`
-
-  </details>
-
-## 13.0.0-beta.55
-
-### Minor Changes
-
-- [#461](https://github.com/adobe/spectrum-tokens/pull/461) [`2f90bff`](https://github.com/adobe/spectrum-tokens/commit/2f90bffe5c0dc0a4cc6811eb104e0984d8714d53) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - Added two new tokens for color wheel border. One for color and one for opacity.
-
-  ## Token Diff
-
-  <details open><summary>Added (2)</summary>
-
-  - `color-wheel-border-opacity`
-  - `color-wheel-border-color`
-
-  </details>
-
-## 13.0.0-beta.54
+## 12.26.0
 
 ### Minor Changes
 
-- [#457](https://github.com/adobe/spectrum-tokens/pull/457) [`a923472`](https://github.com/adobe/spectrum-tokens/commit/a923472e8daf52e710471467131baf3b5ae4d8da) Thanks [@mrcjhicks](https://github.com/mrcjhicks)! - ## Design Motivation
+- [#345](https://github.com/adobe/spectrum-tokens/pull/345) [`fe4c707`](https://github.com/adobe/spectrum-tokens/commit/fe4c707c5ae2cc89efe6439dc775cddc94b706b3) Thanks [@GarthDB](https://github.com/GarthDB)! - Added UUIDs to the base of set tokens.
 
-  - Updated desktop and mobile values for checkbox-control-size-[size] and checkbox-top-to-control-[size] tokens
-  - Made token changes required for the S2 action bar update
-
-  ## Tokens Diff
-
-  **Tokens Changed (10)**
-
-  <details open><summary>Added (2)</summary>
-
-  - `action-bar-minimum-width`
-  - `action-bar-label-to-action-group-area`
-
-  </details>
-
-  Updated (8)
-
-  <details open><summary>Updated Properties (8)</summary>
-
-  - `checkbox-control-size-small`
-    - `desktop.value`: `12px` -> `14px`
-    - `mobile.value`: `16px` -> `18px`
-  - `checkbox-control-size-medium`
-    - `desktop.value`: `14px` -> `16px`
-    - `mobile.value`: `18px` -> `20px`
-  - `checkbox-control-size-large`
-    - `desktop.value`: `16px` -> `18px`
-    - `mobile.value`: `20px` -> `22px`
-  - `checkbox-control-size-extra-large`
-    - `desktop.value`: `18px` -> `20px`
-    - `mobile.value`: `22px` -> `26px`
-  - `checkbox-top-to-control-small`
-    - `desktop.value`: `6px` -> `5px`
-    - `mobile.value`: `7px` -> `6px`
-  - `checkbox-top-to-control-medium`
-    - `desktop.value`: `9px` -> `8px`
-    - `mobile.value`: `11px` -> `10px`
-  - `checkbox-top-to-control-large`
-    - `desktop.value`: `12px` -> `11px`
-    - `mobile.value`: `15px` -> `14px`
-  - `checkbox-top-to-control-extra-large`
-    - `desktop.value`: `15px` -> `14px`
-    - `mobile.value`: `19px` -> `17px`
-
-  </details>
-
-## 13.0.0-beta.53
+## 12.25.0
 
 ### Minor Changes
 
-- [#446](https://github.com/adobe/spectrum-tokens/pull/446) [`dbc5398`](https://github.com/adobe/spectrum-tokens/commit/dbc53986b64200e1e9a727f15a7ed5d83926eb6b) Thanks [@PaliwalSparsh](https://github.com/PaliwalSparsh)! - Added S2 Treeview tokens
+- [`413ef5a`](https://github.com/adobe/spectrum-tokens/commit/413ef5adad9083b7e133cc867e0436a879004ec8) Thanks [@GarthDB](https://github.com/GarthDB)! - Added `private` metadata to global tokens.
 
-  ## Token Diff
-
-  _Tokens added (27):_
-
-  - `tree-view-disclosure-indicator-height`
-  - `tree-view-disclosure-indicator-width`
-  - `tree-view-minimum-height`
-  - `tree-view-minimum-width`
-  - `tree-view-bottom-to-label`
-  - `tree-view-drag-handle-to-checkbox`
-  - `tree-view-edge-to-checkbox`
-  - `tree-view-edge-to-drag-handle`
-  - `tree-view-end-edge-to-action-area`
-  - `tree-view-header-to-item`
-  - `tree-view-item-to-header`
-  - `tree-view-item-to-item`
-  - `tree-view-item-to-item-detached`
-  - `tree-view-label-to-action-area`
-  - `tree-view-level-increment`
-  - `tree-view-minimum-top-to-context-area`
-  - `tree-view-top-to-action-button`
-  - `tree-view-top-to-checkbox`
-  - `tree-view-top-to-disclosure-indicator`
-  - `tree-view-top-to-drag-handle`
-  - `tree-view-top-to-label`
-  - `tree-view-selected-row-background-opacity-emphasized`
-  - `tree-view-selected-row-background-opacity-emphasized-hover`
-  - `tree-view-row-background-hover`
-  - `tree-view-selected-row-background-color-emphasized`
-  - `tree-view-selected-row-background-default`
-  - `tree-view-selected-row-background-hover`
-
-## 13.0.0-beta.52
+## 12.24.1
 
 ### Patch Changes
 
