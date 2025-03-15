@@ -3,6 +3,8 @@ Visualize Salt Design System design tokens: https://origami-z.github.io/salt-ds-
 By default, tokens are loaded from a local copy ([`salt-ds.ts`](https://github.com/origami-z/salt-ds-tokens/blob/main/docs/visualizer/src/controllers/salt-data.ts)). 
 Alternatively, different set of data can be loaded from remote URL via URL param `remoteJsonUrl`, e.g. from a PR - Sample [Salt Theme Next token structure](https://origami-z.github.io/salt-ds-tokens/?filter=light%2Cmedium&remoteJsonUrl=https%253A%252F%252Fraw.githubusercontent.com%252Fjpmorganchase%252Fsalt-ds%252Fcae97dfe8b05fb91baef578f8ca04b25315fdc5e%252Fpackages%252Ftheme%252Fjson%252Ftheme.json&token=palette%2Cneutral) from [Salt#3143](https://github.com/jpmorganchase/salt-ds/pull/3143).
 
+Sample 2: https://origami-z.github.io/salt-ds-tokens/?filter=light%2Cmedium&remoteJsonUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fjpmorganchase%2Fsalt-ds%2Frefs%2Fheads%2Ftheme-json-2%2Fpackages%2Ftheme%2Fjson%2Ftheme.json from `theme-json-2` branch
+
 ---
 
 
