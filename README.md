@@ -5,6 +5,12 @@ Alternatively, different set of data can be loaded from remote URL via URL param
 
 Sample 2: https://origami-z.github.io/salt-ds-tokens/?filter=light%2Cmedium&remoteJsonUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fjpmorganchase%2Fsalt-ds%2Frefs%2Fheads%2Ftheme-json-2%2Fpackages%2Ftheme%2Fjson%2Ftheme.json from `theme-json-2` branch
 
+TODO
+
+- [ ] Fonts control use different display name
+- [ ] Support `groupKey` shared between different `layerKey`, e.g. text
+- [ ] Check node `valueHtml` supports double condition, e.g. accent & mode
+
 ---
 
 
