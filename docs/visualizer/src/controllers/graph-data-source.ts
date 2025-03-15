@@ -14,14 +14,16 @@ import { fetchJsonAsync } from "../utilities/index.js";
 
 import {
   GraphModel,
+  GraphNode,
   GraphState,
   ValuePathSplitter,
   ValuesListSplitter,
 } from "../models/graph-model";
+import { saltData } from "./salt-data.js";
 
 export type NewGraphStateCallbackFn = (
   state: GraphState,
-  listOfComponents: string[],
+  listOfComponents: string[]
 ) => void;
 
 export type NewDictionaryCallbackFn = (dictionary: string[]) => void;
@@ -37,12 +39,16 @@ type FoundSetsTraversalItem = {
 
 type FoundValuesItem = {
   path: string[];
-  value: string;
+  value: string | Record<string, string>;
 };
 
 interface RawJsonItem {
   component?: string;
-  value?: string;
+  /** e.g., Characteristics, Palette, Foundation */
+  layer?: string;
+  /** e.g., actionable, accent, info */
+  group?: string;
+  value?: string | Record<string, string>;
   sets?: RawJsonSets;
 }
 
@@ -55,8 +61,37 @@ const SOURCE_PATH =
 
 const MANIFEST_JSON = "manifest.json";
 
+function mapToItemFormat(input: Record<string, unknown>) {
+  return Object.keys(input).reduce<Record<string, unknown>>((prev, current) => {
+    if (current.startsWith("$")) {
+      prev[current.substring(1)] = { value: input[current] };
+      return prev;
+    } else {
+      prev[current] = { value: input[current] };
+      return prev;
+    }
+  }, {});
+}
+
+function isColorTokenWithOpacity(item: any) {
+  if (typeof item.$value === "object") {
+    return (
+      item.$type === "color" &&
+      "color" in item.$value &&
+      "opacity" in item.$value
+    );
+  }
+  return false;
+}
+
+function prefixOfSaltCategory(cat: string) {
+  return cat.substring(0, cat.lastIndexOf(".") + 1);
+}
+
 export class GraphDataSource {
   listOfComponents: string[] = [];
+
+  listOfPaletteTokens: string[] = [];
 
   listOfOrphanTokens: string[] = [];
 
@@ -67,31 +102,72 @@ export class GraphDataSource {
   // - if we don't have it yet, we go and get it
   // - otherwise, we just return the previously fetched data
   //
-  async getCompleteSpectrumTokenJson(): Promise<RawSpectrumTokenJson> {
+  async getCompleteSpectrumTokenJson(
+    remoteJsonUrl: string
+  ): Promise<RawSpectrumTokenJson> {
     if (Object.keys(this._completeSpectrumTokenJson).length > 0) {
       return this._completeSpectrumTokenJson;
     }
 
-    const listOfSourceFiles = await fetchJsonAsync(SOURCE_PATH + MANIFEST_JSON);
-
     const results: RawSpectrumTokenJson = {};
 
-    for (let index = 0; index < listOfSourceFiles.length; index++) {
-      const data = (await fetchJsonAsync(
-        SOURCE_PATH + listOfSourceFiles[index],
-      )) as RawSpectrumTokenJson;
-      Object.assign(results, data);
+    if (remoteJsonUrl) {
+      console.log("Loading from remoteJsonUrl", remoteJsonUrl);
     }
+    // Turn Salt data into a flat key-value pairs
+    const data = remoteJsonUrl ? await fetchJsonAsync(remoteJsonUrl) : saltData;
+
+    for (const [layerKey, layerValue] of Object.entries(data)) {
+      if (!layerValue || Array.isArray(layerValue)) {
+        // skip for non-token definitions
+        continue;
+      }
+      if (typeof layerValue !== "object") {
+        console.warn(`${layerKey}, ${layerValue} is not object`);
+        continue;
+      }
+      for (const [groupKey, groupValue] of Object.entries(layerValue)) {
+        if (typeof groupValue !== "object") {
+          console.warn(`${groupKey}, ${groupValue} is not object`);
+          continue;
+        }
+        for (const [tokenKey, tokenItem] of Object.entries(groupValue)) {
+          const $value = (tokenItem as any)["$value"];
+          const isColorOpacity = isColorTokenWithOpacity(tokenItem);
+          const data = {
+            [`${layerKey}.${groupKey}.${tokenKey}`]: {
+              value:
+                typeof $value === "string"
+                  ? $value
+                  : isColorOpacity
+                    ? $value
+                    : undefined,
+              layer: layerKey,
+              group: groupKey,
+              // no component data yet
+              sets:
+                !isColorOpacity && typeof $value === "object"
+                  ? (mapToItemFormat($value) as RawJsonSets)
+                  : undefined,
+            },
+          } satisfies RawSpectrumTokenJson;
+          Object.assign(results, data);
+        }
+      }
+    }
+    console.log({ results });
+
+    this._completeSpectrumTokenJson = results;
 
     return results;
   }
 
-  async getAllComponentNames(): Promise<string[]> {
+  async getAllComponentNames(remoteJsonUrl: string): Promise<string[]> {
     if (this.listOfComponents.length > 0) {
       return this.listOfComponents;
     }
 
-    const allTokens = await this.getCompleteSpectrumTokenJson();
+    const allTokens = await this.getCompleteSpectrumTokenJson(remoteJsonUrl);
     const allTokenIds = Object.keys(allTokens);
     const results = allTokenIds.reduce((accumulator, currentItem) => {
       const component = allTokens[currentItem].component;
@@ -107,10 +183,15 @@ export class GraphDataSource {
   //
   // @TODO: cache layer for filtered results?
   //
-  async getFilteredGraphModel(filters: string[]): Promise<GraphModel> {
+  async getFilteredGraphModel(
+    filters: string[],
+    remoteJsonUrl: string
+  ): Promise<GraphModel> {
     const results = new GraphModel();
-    const allTokens = await this.getCompleteSpectrumTokenJson();
+    const allTokens = await this.getCompleteSpectrumTokenJson(remoteJsonUrl);
     const nodeIds = Object.keys(allTokens);
+
+    // console.log({ nodeIds });
 
     for (let index = 0; index < nodeIds.length; index++) {
       const nodeId = nodeIds[index];
@@ -152,6 +233,34 @@ export class GraphDataSource {
         results.createAdjacency(nodeData.component, nodeId);
       }
 
+      if (nodeData.layer && nodeData.group) {
+        // add the layer node only if it does not yet exist
+
+        // Create an orphan category node when not existed
+        if (results.hasNode(nodeData.layer) === false) {
+          results.createNode({
+            type: "layer",
+            id: nodeData.layer,
+            x: 0,
+            y: 0,
+          });
+        }
+
+        if (results.hasNode(nodeData.group) === false) {
+          results.createNode({
+            type: "group",
+            id: nodeData.group,
+            x: 0,
+            y: 0,
+          });
+
+          results.createAdjacency(nodeData.layer, nodeData.group);
+        }
+
+        // add the adjacency between the group and this node
+        results.createAdjacency(nodeData.group, nodeId);
+      }
+
       // use a data structure here to keep track
       // of the SET access path used to access the mapped
       // values that are ultimately found for this
@@ -185,11 +294,11 @@ export class GraphDataSource {
       }
 
       if (foundValues.length === 0) {
-        // console.warn('FAILED TO FIND VALUE FOR', nodeId, nodeData);
+        // console.warn("FAILED TO FIND VALUE FOR", nodeId, nodeData);
       }
 
       // First, we add this BARE NODE to the graph
-      // with no value or downstream adjaciencies...
+      // with no value or downstream adjacencies...
       //
       // This means the graph will ALWAYS have ALL NODES
       //
@@ -206,43 +315,57 @@ export class GraphDataSource {
       // so here we add all appropriate nodes
       // and adjacencies to the graph...
       const rawValues: string[] = [];
+      // console.log("foundValues", JSON.stringify(foundValues));
       foundValues.forEach((foundValueItem) => {
         const valuePath = foundValueItem.path;
         let foundValue = foundValueItem.value.toString();
         // is this found value a downstream adjacency?
         // if so, add it to the graph...
-        if (
-          foundValue.charAt(0) + foundValue.charAt(foundValue.length - 1) ===
-          "{}"
-        ) {
-          const referencedNodeId = foundValue.substring(
-            1,
-            foundValue.length - 1,
-          );
-          // add the adjacency
-          // DOES this adjacency ALREADY exist?  If so, merge the valuePath arrays so that
-          // we can display the full list of unique values...
-          const currentSourceNode = results._state.nodes[nodeId];
-          const adjacencyLabels = currentSourceNode.adjacencyLabels
-            ? currentSourceNode.adjacencyLabels
-            : {};
-          const currentLabel = adjacencyLabels[referencedNodeId] || "";
-          const currentLabelValues =
-            currentLabel.length > 0 ? currentLabel.split(",") : [];
-          const newUniqeValues = [
-            ...new Set([...currentLabelValues, ...valuePath]),
-          ];
-          results.createAdjacency(
-            nodeId,
-            referencedNodeId,
-            newUniqeValues.join(","),
-          );
-          // ELSE, it is an actual value...
-        } else {
-          if (valuePath.length > 0) {
-            foundValue += `${ValuePathSplitter}${valuePath.join(",")}`;
+        function addValueToGraph(foundValue: string, path: string[]) {
+          if (
+            foundValue.charAt(0) + foundValue.charAt(foundValue.length - 1) ===
+            "{}"
+          ) {
+            const referencedNodeId = foundValue.substring(
+              1,
+              foundValue.length - 1
+            );
+            // add the adjacency
+            // DOES this adjacency ALREADY exist?  If so, merge the valuePath arrays so that
+            // we can display the full list of unique values...
+            const currentSourceNode = results._state.nodes[nodeId];
+            const adjacencyLabels = currentSourceNode.adjacencyLabels
+              ? currentSourceNode.adjacencyLabels
+              : {};
+            const currentLabel = adjacencyLabels[referencedNodeId] || "";
+            const currentLabelValues =
+              currentLabel.length > 0 ? currentLabel.split(",") : [];
+            const newUniqueValues = [
+              ...new Set([...currentLabelValues, ...path]),
+            ];
+            results.createAdjacency(
+              nodeId,
+              referencedNodeId,
+              newUniqueValues.join(",")
+            );
+            // ELSE, it is an actual value...
+          } else {
+            if (path.length > 0) {
+              foundValue += `${ValuePathSplitter}${path.join(",")}`;
+            }
+            rawValues.push(foundValue);
           }
-          rawValues.push(foundValue);
+        }
+
+        if (typeof foundValue === "string") {
+          addValueToGraph(foundValue, valuePath);
+        } else {
+          for (const [key, value] of Object.entries(foundValue)) {
+            // Slight hack, mark key as path, so they will show up between parent and value nodes
+            // This may create confusion between other real paths, like light/dark modes
+            // Maybe add a toggle to UI to show this? or make the color of link different?
+            addValueToGraph(value, [...valuePath, key]);
+          }
         }
       });
 
@@ -255,18 +378,21 @@ export class GraphDataSource {
 
     let orphanNodes = results.orphanNodes();
     orphanNodes = orphanNodes.filter(
-      (nodeId) => results._state.nodes[nodeId].type !== "component",
+      (nodeId) =>
+        results._state.nodes[nodeId].type !== "component" &&
+        results._state.nodes[nodeId].type !== "layer"
     );
     const orphanCategories: string[] = [];
 
     orphanNodes.forEach((id) => {
       const parts = id.split("-");
       const orphanCategory = parts[0];
+      // Create an orphan category node when not existed
       if (!orphanCategories.includes(orphanCategory)) {
         orphanCategories.push(orphanCategory);
         results.createNode({
           type: "orphan-category",
-          id: `${orphanCategory}-*`,
+          id: `${prefixOfSaltCategory(orphanCategory)}-*`,
           x: 0,
           y: 0,
         });
@@ -276,11 +402,14 @@ export class GraphDataSource {
     // THIS IS NOT EFFICIENT...
     // CONSIDER PUSHING THIS ENTIRE METHOD TO A WORKER
     orphanCategories.forEach((orphanCategory) => {
-      const prefix = `${orphanCategory}-`;
+      const prefix = `${prefixOfSaltCategory(orphanCategory)}`;
       nodeIds.forEach((nodeId) => {
         if (nodeId.indexOf(prefix) === 0) {
           // THIS NODE IS IN THIS CATEGORY
-          results.createAdjacency(`${orphanCategory}-*`, nodeId);
+          results.createAdjacency(
+            `${prefixOfSaltCategory(orphanCategory)}-*`,
+            nodeId
+          );
         }
       });
     });

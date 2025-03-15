@@ -25,11 +25,11 @@ import { StringMatchDictionaryItem } from "../workers/string-match";
 
 export type NewGraphStateCallbackFn = (
   state: GraphState,
-  listOfComponents: string[],
+  listOfComponents: string[]
 ) => void;
 
 export type NewDictionaryCallbackFn = (
-  dictionary: StringMatchDictionaryItem[],
+  dictionary: StringMatchDictionaryItem[]
 ) => void;
 
 // type GraphTraversalNodeTuple = [id:GraphNodeId,distance:number];
@@ -120,7 +120,14 @@ export class GraphController {
         continue;
       }
       const adjacencies = completeGraph.adjacencyList[id] || [];
-      nodesToAdd.push(...adjacencies);
+      /**
+       * When selected item is
+       * - layer: only add next level group
+       * - group: add all downstream tokens
+       **/
+      if (node.type !== "group" || nodes.includes(node.id)) {
+        nodesToAdd.push(...adjacencies);
+      }
       results._state.nodes[id] = node;
       if (adjacencies.length > 0) {
         results._state.adjacencyList[id] = adjacencies;
@@ -132,7 +139,7 @@ export class GraphController {
 
   getUpstreamGraphFrom(
     nodes: GraphNodeId[],
-    sourceGraph: GraphModel = this.completeGraphModel,
+    sourceGraph: GraphModel = this.completeGraphModel
   ): GraphModel {
     const results = new GraphModel();
     const nodesToAdd: string[] = [...nodes];
@@ -177,13 +184,13 @@ export class GraphController {
 
   getDescendentIntersectNodes(...nodeIds: string[]): string[] {
     const arrayOfArraysOfNodeids = nodeIds.map((id) =>
-      Object.keys(this.getDownstreamGraphFrom(id)._state.nodes),
+      Object.keys(this.getDownstreamGraphFrom(id)._state.nodes)
     );
     if (arrayOfArraysOfNodeids.length <= 1) {
       return [];
     }
     const result = arrayOfArraysOfNodeids.reduce((a, b) =>
-      a.filter((c) => b.includes(c)),
+      a.filter((c) => b.includes(c))
     );
     return result;
   }
@@ -208,7 +215,7 @@ export class GraphController {
               ...new Set([...targetAdjacencies, ...sourceAdjacencies]),
             ];
           }
-        },
+        }
       );
     });
 
@@ -217,22 +224,24 @@ export class GraphController {
     return target;
   }
 
-  async hydrateFromJson() {
+  async hydrateFromJson(remoteJsonUrl: string) {
     const filters = this.appState.setFilters;
 
-    this.completeGraphModel =
-      await this.graphDataSource.getFilteredGraphModel(filters);
+    this.completeGraphModel = await this.graphDataSource.getFilteredGraphModel(
+      filters,
+      remoteJsonUrl
+    );
 
-    this.listOfComponents = await this.graphDataSource.getAllComponentNames();
+    this.listOfComponents =
+      await this.graphDataSource.getAllComponentNames(remoteJsonUrl);
 
     // console.info(this.completeGraphModel.orphanNodes());
 
     // what is the subgraph that should ALWAYS be displayed?
-    // ie.. the default state of the displayed graph when nothing is selected
+    // i,e,. the default state of the displayed graph when nothing is selected
     this.baseDisplayGraphModel = this.completeGraphModel.filter((node) => {
       const isComponent = node.type === "component";
-      const isOrphanCategory = node.type === "orphan-category";
-      return isComponent || isOrphanCategory;
+      return isComponent || node.type === "layer";
     });
 
     this.updateDisplayGraph();
@@ -243,7 +252,7 @@ export class GraphController {
   emitNewGraphState() {
     const newState = this.displayGraphModel.state;
     this.newGraphStateCallbacks.forEach((cb) =>
-      cb(newState, [...this.listOfComponents]),
+      cb(newState, [...this.listOfComponents])
     );
   }
 
@@ -292,7 +301,7 @@ export class GraphController {
       componentsDescendents,
       tokenAncestors,
       tokenDescendents,
-      this.baseDisplayGraphModel,
+      this.baseDisplayGraphModel
     );
   }
 
@@ -321,7 +330,7 @@ export class GraphController {
     this.appState = newAppState;
 
     if (refreshSetFilters) {
-      await this.hydrateFromJson();
+      await this.hydrateFromJson(newAppState.remoteJsonUrl);
     } else if (refreshDisplayGraph) {
       this.updateDisplayGraph();
       this.requestGraphLayout(this.displayGraphModel);
