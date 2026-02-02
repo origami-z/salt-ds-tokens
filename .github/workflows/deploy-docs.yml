@@ -39,6 +39,12 @@ jobs:
       - run: moon run site:export
       - run: moon run visualizer:build
       - run: moon run s2-visualizer:build
+      - run: moon run viewer:export
+      - run: moon run s2-tokens-viewer:export
+      - run: moon run release-timeline:build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      - run: moon run spectrum-glossary:export
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

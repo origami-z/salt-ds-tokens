@@ -14,12 +14,20 @@ import test from "ava";
 import { detailedDiff } from "../src/lib/diff.js";
 import detectDeprecatedTokens from "../src/lib/deprecated-token-detection.js";
 import detectRenamedTokens from "../src/lib/renamed-token-detection.js";
-import original from "./test-schemas/basic-original-token.json" with { type: "json" };
-import deprecatedToken from "./test-schemas/deprecated-token.json" with { type: "json" };
-import severalOriginalTokens from "./test-schemas/several-original-tokens.json" with { type: "json" };
-import severalDeprecatedTokens from "./test-schemas/several-deprecated-tokens.json" with { type: "json" };
-import severalRenamedDeprecatedTokens from "./test-schemas/several-renamed-deprecated-tokens.json" with { type: "json" };
-import severalAddedDeprecatedTokens from "./test-schemas/added-deprecated-token.json" with { type: "json" };
+import { loadTestSchema } from "./utils/json-loader.js";
+
+const original = loadTestSchema("basic-original-token.json");
+const deprecatedToken = loadTestSchema("deprecated-token.json");
+const severalOriginalTokens = loadTestSchema("several-original-tokens.json");
+const severalDeprecatedTokens = loadTestSchema(
+  "several-deprecated-tokens.json",
+);
+const severalRenamedDeprecatedTokens = loadTestSchema(
+  "several-renamed-deprecated-tokens.json",
+);
+const severalAddedDeprecatedTokens = loadTestSchema(
+  "added-deprecated-token.json",
+);
 
 const expected = {
   deprecated: {
@@ -41,7 +49,7 @@ const expectedSeveralDeprecated = {
       deprecated: true,
       deprecated_comment: "insert random deprecated comment",
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
       value: "{blue-800}",
       uuid: "fe914904-a368-414b-a4ac-21c0b0340d05",
     },
@@ -60,7 +68,7 @@ const expectedAddedDeprecated = {
       deprecated: true,
       deprecated_comment: "insert random deprecated comment",
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
       value: "{blue-800}",
       uuid: "4567",
     },
@@ -68,7 +76,7 @@ const expectedAddedDeprecated = {
       deprecated: true,
       deprecated_comment: "insert random deprecated comment",
       $schema:
-        "https://opensource.adobe.com/spectrum-tokens/schemas/token-types/alias.json",
+        "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
       value: "{blue-800}",
       uuid: "1234",
     },

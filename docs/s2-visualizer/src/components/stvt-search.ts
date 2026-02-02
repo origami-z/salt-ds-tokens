@@ -70,8 +70,9 @@ export class StvtSearch extends LitElement {
       box-shadow:
         inset 0 0 0 1px var(--spectrum-gray-200),
         0px 3px 6px rgba(0, 0, 0, 0.1);
-      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco,
-        Consolas, "Liberation Mono", "Courier New", monospace;
+      font-family:
+        ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas,
+        "Liberation Mono", "Courier New", monospace;
       border-radius: 5px;
     }
 
