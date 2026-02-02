@@ -24,19 +24,45 @@ export const HEADER_HEIGHT = 55;
 export const SIDEBAR_WIDTH = 250;
 
 export const ORDERED_TOKEN_FILTER_CATEGORIES: string[] = [
-  "theme",
+  // "theme",
   "color",
-  "scale",
+  "density",
+  "corners",
+  // 'actionFont',
+  // 'headingFont'
+  'fonts'
 ];
 
 export const CATEGORIZED_TOKEN_FILTERS: { [category: string]: string[] } = {
-  theme: ["spectrum", "express"],
-  color: ["light", "dark", "darkest", "wireframe"],
-  scale: ["desktop", "mobile"],
+  // theme: ["spectrum", "express"],
+  color: ["light", "dark"],
+  density: ["high", "medium", "low", "touch"],
+  "corners": [
+    "rounded",
+    "sharp"
+  ],
+  // "actionFont": [
+  //   "amplitude",
+  //   "openSans"
+  // ],
+  // "headingFont": [
+  //   "amplitude",
+  //   "openSans"
+  // ],
+  "fonts": [
+    "amplitudeHeading",
+    "openSansHeading",
+    "amplitudeAction",
+    "openSansAction"
+  ],
 };
 
 export const CATEGORIZED_TOKEN_FILTER_LABELS: { [category: string]: string } = {
-  theme: "Theme",
-  color: "Color Theme",
-  scale: "Scale",
+  // theme: "Theme",
+  color: "Mode",
+  density: "Density",
+  corners: "Corner",
+  // actionFont: 'Action Font',
+  // headingFont: "Heading Font"
+  fonts:'Fonts'
 };

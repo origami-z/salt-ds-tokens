@@ -8,6 +8,7 @@
 # OF ANY KIND, either express or implied. See the License for the specific language
 # governing permissions and limitations under the License.
 $schema: "https://moonrepo.dev/schemas/project.json"
+layer: library
 fileGroups:
   sources:
     - "src/**/*"
@@ -45,13 +46,6 @@ tasks:
       - dist
     local: true
     platform: system
-  generateDiffResult:
-    command:
-      - node
-      - tasks/diff.js
-    deps:
-      - ~:buildTokens
-    platform: node
   test:
     command:
       - pnpm

@@ -3,7 +3,9 @@ name: Deploy Docs
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: [$default-branch]
+    branches:
+      - $default-branch
+
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -37,12 +39,18 @@ jobs:
       - run: moon run site:export
       - run: moon run visualizer:build
       - run: moon run s2-visualizer:build
+      - run: moon run viewer:export
+      - run: moon run s2-tokens-viewer:export
+      - run: moon run release-timeline:build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      - run: moon run spectrum-glossary:export
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "./site"
+          path: "./site/visualizer"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

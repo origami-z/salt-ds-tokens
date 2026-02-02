@@ -229,8 +229,14 @@ export class TokenGraphNode extends LitElement {
           fillValue = 300;
         }
         // orphan category colors...
-      } else if (this.type === "orphan-category") {
+      } else if (this.type === "orphan-category" || this.type === "group") {
         hue = "cyan";
+        // highlighted if has downstream graph
+        if (this.hasDownstream) {
+          fillValue = 300;
+        }
+      } else if (this.type === "layer") {
+        hue = "indigo";
         // highlighted if has downstream graph
         if (this.hasDownstream) {
           fillValue = 300;
@@ -239,6 +245,7 @@ export class TokenGraphNode extends LitElement {
       // DARKEN the values if the node
       // is 'faded' relative to the
       // currently configured value...
+      // e.g. selected a specific token from the graph
       if (this.isFaded) {
         fillValue -= 100;
         textValue -= 400;
@@ -383,7 +390,7 @@ export class TokenGraphNode extends LitElement {
       },
       () => {
         console.info("FAILED TO COPY TO CLIPBOARD");
-      },
+      }
     );
     e.preventDefault();
     e.stopPropagation();
@@ -398,7 +405,7 @@ export class TokenGraphNode extends LitElement {
     return html`
       <ol>
         ${this.decomposedValues.map(
-          (v) => html`<li><b>${v[1] || `*`}</b><i>${v[0]}</i></li>`,
+          (v) => html`<li><b>${v[1] || `*`}</b><i>${v[0]}</i></li>`
         )}
       </ol>
     `;

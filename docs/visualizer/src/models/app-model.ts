@@ -31,7 +31,7 @@ export interface AppState {
   isDragging: boolean;
   fullscreenMode: boolean;
   hoverNodeId: string;
-  setFilters: string[];
+  setFilters: string[]; // Filters set on the left panel, e.g. light/dark
   listOfComponents: string[]; // what are the spectrum component names?
   selectedTokens: string[]; // which tokens in the graph are 'selected'?
   selectionAncestorNodes: string[]; // what nodes are ancestors of 'selected' nodes?
@@ -40,6 +40,8 @@ export interface AppState {
   componentDescendentNodes: string[]; // what nodes are descendents of the the selected 'component' nodes?
   selectedComponents: string[]; // what are the selected component nodes?
   hoverUpstreamNodes: string[]; // what selectionDescendentNodes OR selectionAncestorNodes nodes are in the hovered nodes upstream tree?
+
+  remoteJsonUrl: string;
 }
 
 export class AppModel {
@@ -51,7 +53,7 @@ export class AppModel {
     isDragging: false,
     fullscreenMode: false,
     hoverNodeId: "",
-    setFilters: ["spectrum", "light", "desktop"],
+    setFilters: ["light", "medium"],
     listOfComponents: [],
     selectedTokens: [],
     selectionAncestorNodes: [],
@@ -60,6 +62,8 @@ export class AppModel {
     componentDescendentNodes: [],
     selectedComponents: [],
     hoverUpstreamNodes: [],
+
+    remoteJsonUrl: "",
   };
 
   _state: AppState;
@@ -151,6 +155,15 @@ export class AppModel {
 
   setSelectedTokens(value: string[]) {
     this._state.selectedTokens = value;
+    this.dirtyState();
+  }
+
+  getRemoteJsonUrl() {
+    return this._state.remoteJsonUrl;
+  }
+
+  setRemoteJsonUrl(value: string) {
+    this._state.remoteJsonUrl = value;
     this.dirtyState();
   }
 

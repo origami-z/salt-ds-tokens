@@ -112,6 +112,7 @@ export class StvtApp extends LitElement {
   urlParamComponent = "";
   urlParamToken = "";
   urlParamFilter = "";
+  urlParamRemoteJsonUrl = "";
   urlParams: URLSearchParams;
 
   static styles = css`
@@ -185,11 +186,14 @@ export class StvtApp extends LitElement {
     this.urlParamComponent = this.urlParams.get("component") || "";
     this.urlParamToken = this.urlParams.get("token") || "";
     this.urlParamFilter = this.urlParams.get("filter") || "";
+    this.urlParamRemoteJsonUrl = this.urlParams.get("remoteJsonUrl") || "";
+
     // this.urlParamExpand = this.urlParams.get('expand') || '';
     this.graphController = new GraphController();
     const initialTokens = this.urlParamToken.split(",");
     const initialComponents = this.urlParamComponent.split(",");
     const initialFilters = this.urlParamFilter.split(",");
+    const initialRemoteJsonUrl = decodeURIComponent(this.urlParamRemoteJsonUrl);
 
     if (initialTokens.length === 1 && initialTokens[0] === "") {
       initialTokens.pop();
@@ -205,7 +209,7 @@ export class StvtApp extends LitElement {
     // this allows us to persist the 'no filters' state via
     // a url like this... http://stvt.adobe.com/?filter=
     if (!this.urlParams.has("filter")) {
-      initialFilters.push("spectrum", "light", "desktop");
+      initialFilters.push("light", "medium");
     }
 
     this.appController = new AppController({
@@ -213,14 +217,15 @@ export class StvtApp extends LitElement {
       selectedComponents: initialComponents,
       selectedTokens: initialTokens,
       setFilters: initialFilters,
+      remoteJsonUrl: initialRemoteJsonUrl,
     });
 
     this.graphController.onDictionaryAvailable(
       (newDictionary: StringMatchDictionaryItem[]) =>
-        (this.dictionary = newDictionary),
+        (this.dictionary = newDictionary)
     );
     this.graphController.onNewGraphState(
-      (newGraphState: GraphState) => (this.graphState = newGraphState),
+      (newGraphState: GraphState) => (this.graphState = newGraphState)
     );
     this.appController.onNewAppState((newAppState: AppState) => {
       this.appState = newAppState;
@@ -236,6 +241,7 @@ export class StvtApp extends LitElement {
         this.urlParamComponent = this.urlParams.get("component") || "";
         this.urlParamToken = this.urlParams.get("token") || "";
         this.urlParamFilter = this.urlParams.get("filter") || "";
+        // TODO: need urlParamRemoteJsonUrl here?
         const newTokens = this.urlParamToken.split(",");
         const newComponents = this.urlParamComponent.split(",");
         const newFilters = this.urlParamFilter.split(",");
@@ -253,7 +259,7 @@ export class StvtApp extends LitElement {
         this.appController.appModel.setSetFilters(newFilters);
         this.appController.emitNewAppState();
       },
-      false,
+      false
     );
 
     window.addEventListener("keydown", (e: KeyboardEvent) => {
@@ -292,16 +298,16 @@ export class StvtApp extends LitElement {
             e.preventDefault();
             try {
               const sidebarEl = this.shadowRoot?.getElementById(
-                "stvt-sidebar",
+                "stvt-sidebar"
               ) as HTMLElement;
               const searchEl = sidebarEl.shadowRoot?.getElementById(
-                "stvt-search",
+                "stvt-search"
               ) as HTMLElement;
               const inputEl = searchEl.shadowRoot?.getElementById("search");
               inputEl?.focus();
             } catch (e) {
               console.info(
-                "failed to traverse shadow dom looking for search input to focus",
+                "failed to traverse shadow dom looking for search input to focus"
               );
             }
           }
@@ -317,6 +323,9 @@ export class StvtApp extends LitElement {
       const encodedComponents = this.appState.selectedComponents.join(",");
       const encodedTokens = this.appState.selectedTokens.join(",");
       const encodedFilters = this.appState.setFilters.join(",");
+      const encodedRemoteJsonUrl = encodeURIComponent(
+        this.appState.remoteJsonUrl
+      );
 
       if (encodedComponents !== this.urlParamComponent) {
         this.urlParamComponent = encodedComponents;
@@ -349,12 +358,23 @@ export class StvtApp extends LitElement {
         didUrlParamsChange = true;
       }
 
+      if (encodedRemoteJsonUrl !== this.urlParamRemoteJsonUrl) {
+        this.urlParamRemoteJsonUrl = encodedRemoteJsonUrl;
+        if (encodedRemoteJsonUrl === "") {
+          // this.urlParams.delete('filter');
+          this.urlParams.set("remoteJsonUrl", encodedRemoteJsonUrl);
+        } else {
+          this.urlParams.set("remoteJsonUrl", encodedRemoteJsonUrl);
+        }
+        didUrlParamsChange = true;
+      }
+
       if (didUrlParamsChange) {
         // window.history.replaceState({}, '', `${location.pathname}?${this.urlParams}`);
         window.history.pushState(
           {},
           "",
-          `${location.pathname}?${this.urlParams}`,
+          `${location.pathname}?${this.urlParams}`
         );
       }
     }
@@ -387,7 +407,7 @@ export class StvtApp extends LitElement {
           @set-spectrum-color-theme=${(e: CustomEvent) =>
             this.appController.handleEvent(
               "set-spectrum-color-theme",
-              e.detail,
+              e.detail
             )}
           @filters-selected=${(e: CustomEvent) =>
             this.appController.handleEvent("filters-selected", e.detail)}
@@ -440,7 +460,7 @@ export class StvtApp extends LitElement {
           @set-zoom-centered-on-canvas=${(e: CustomEvent) =>
             this.appController.handleEvent(
               "set-zoom-centered-on-canvas",
-              e.detail,
+              e.detail
             )}
           @set-fullscreen-mode=${(e: CustomEvent) =>
             this.appController.handleEvent("set-fullscreen-mode", e.detail)}

@@ -116,8 +116,9 @@ export class StvtApp extends LitElement {
 
   static styles = css`
     :host {
-      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco,
-        Consolas, "Liberation Mono", "Courier New", monospace;
+      font-family:
+        ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas,
+        "Liberation Mono", "Courier New", monospace;
       position: absolute;
       display: block;
       top: 0;
